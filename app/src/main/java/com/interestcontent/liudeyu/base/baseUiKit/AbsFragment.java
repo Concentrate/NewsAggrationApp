@@ -1,18 +1,21 @@
-package com.interestcontent.liudeyu.base;
+package com.interestcontent.liudeyu.base.baseUiKit;
 
 /**
  * Created by liudeyu on 2017/12/23.
  */
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.zhouwei.rvadapterlib.fragment.AbsBaseFragment;
+import com.interestcontent.liudeyu.base.IComponent;
+import com.interestcontent.liudeyu.base.LifeCycleMonitor;
+import com.interestcontent.liudeyu.base.WeakContainer;
 
 /**
  * Base class of fragment.
  */
-public abstract class AbsFragment extends AbsBaseFragment implements IComponent {
+public abstract class AbsFragment extends Fragment implements IComponent {
 
     protected boolean mStatusActive;
     protected boolean mStatusViewValid;
