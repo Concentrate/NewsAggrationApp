@@ -15,7 +15,7 @@ import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.news.NewsMainFragment;
 import com.interestcontent.liudeyu.settings.SettingFragment;
-import com.interestcontent.liudeyu.weibo.WeiboLoginManager;
+import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.weibo.WeiboMainFragment;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initOtherData() {
-        AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL
+        AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY,Constants.REDIRECT_URL
                 , Constants.SCOPE);
         WbSdk.install(this, authInfo);
     }

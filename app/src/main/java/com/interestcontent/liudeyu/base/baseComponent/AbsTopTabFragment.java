@@ -23,8 +23,10 @@ public abstract class AbsTopTabFragment extends AbsFragment {
 
     TabLayout mTabLayout;
     AdvanceViewPager mViewPager;
+    protected ViewGroup mEmptyContainer;
     private List<Fragment> mFragments;
     private List<String> mtitles;
+
 
     @Nullable
     @Override
@@ -43,14 +45,26 @@ public abstract class AbsTopTabFragment extends AbsFragment {
     protected void initView(View view1) {
         mTabLayout = view1.findViewById(R.id.tab_layout);
         mViewPager = view1.findViewById(R.id.viewpager);
+        mEmptyContainer = view1.findViewById(R.id.empty_view);
     }
 
+    protected void hideContentAndShowEmptyView() {
+        mTabLayout.setVisibility(View.GONE);
+        mViewPager.setVisibility(View.GONE);
+        mEmptyContainer.setVisibility(View.VISIBLE);
+    }
+
+    protected void showContentHideEmptyView() {
+        mEmptyContainer.setVisibility(View.GONE);
+        mTabLayout.setVisibility(View.VISIBLE);
+        mViewPager.setVisibility(View.VISIBLE);
+    }
 
 
     protected void initData() {
         mFragments = provideContents();
         mtitles = provideTitles();
-        if(mFragments==null||mtitles==null){
+        if (mFragments == null || mtitles == null) {
             return;
         }
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
@@ -77,8 +91,8 @@ public abstract class AbsTopTabFragment extends AbsFragment {
         mTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mTabLayout.setBackgroundColor(getActivity().getResources().getColor(R.color.md_red_A100));
-        mTabLayout.setTabTextColors(getActivity().getResources().getColor(R.color.md_white_1000),getActivity()
-        .getResources().getColor(R.color.md_yellow_100));
+        mTabLayout.setTabTextColors(getActivity().getResources().getColor(R.color.md_white_1000), getActivity()
+                .getResources().getColor(R.color.md_yellow_100));
     }
 
 
@@ -97,5 +111,4 @@ public abstract class AbsTopTabFragment extends AbsFragment {
     protected int setTabSelectedColor() {
         return getActivity().getResources().getColor(R.color.md_deep_orange_200);
     }
-
 }
