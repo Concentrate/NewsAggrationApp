@@ -1,4 +1,4 @@
-package com.interestcontent.liudeyu.base.baseUiKit;
+package com.interestcontent.liudeyu.base.baseComponent;
 
 /**
  * Created by liudeyu on 2017/12/23.

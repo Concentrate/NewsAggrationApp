@@ -4,7 +4,7 @@ package com.interestcontent.liudeyu.weibo;
 import android.support.v4.app.Fragment;
 
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.baseUiKit.AbsTopTabFragment;
+import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;

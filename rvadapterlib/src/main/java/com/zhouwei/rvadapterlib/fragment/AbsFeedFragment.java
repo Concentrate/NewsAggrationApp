@@ -30,7 +30,7 @@ public abstract class AbsFeedFragment<T> extends Fragment {
     public static final String TAG = "AbsFeedFragment";
     protected RecyclerView mRecyclerView;
     protected RVSimpleAdapter mBaseAdapter;
-    private FrameLayout mToolbarContainer;
+    protected FrameLayout mToolbarContainer;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     /**
      * RecyclerView 最后可见Item在Adapter中的位置
@@ -40,7 +40,7 @@ public abstract class AbsFeedFragment<T> extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.rv_base_fragment_layout,null);
+        View view = inflater.inflate(R.layout.rv_base_fragment_layout, null);
         return view;
     }
 
@@ -65,13 +65,13 @@ public abstract class AbsFeedFragment<T> extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                if(layoutManager instanceof LinearLayoutManager){
-                    mLastVisiblePosition = ((LinearLayoutManager)layoutManager).findLastVisibleItemPosition();
-                }else if(layoutManager instanceof GridLayoutManager){
-                    mLastVisiblePosition = ((GridLayoutManager)layoutManager).findLastVisibleItemPosition();
-                }else if(layoutManager instanceof StaggeredGridLayoutManager){
+                if (layoutManager instanceof LinearLayoutManager) {
+                    mLastVisiblePosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                } else if (layoutManager instanceof GridLayoutManager) {
+                    mLastVisiblePosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
+                } else if (layoutManager instanceof StaggeredGridLayoutManager) {
                     StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
-                    int []lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                    int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
                     staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
                     mLastVisiblePosition = findMax(lastPositions);
                 }
@@ -80,7 +80,7 @@ public abstract class AbsFeedFragment<T> extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 View firstView = recyclerView.getChildAt(0);
-                if(firstView==null){
+                if (firstView == null) {
                     return;
                 }
                 int top = firstView.getTop();
@@ -92,29 +92,37 @@ public abstract class AbsFeedFragment<T> extends Fragment {
                 int itemCount = manager.getItemCount();
                 //因为LoadMore View  是Adapter的一个Item,显示LoadMore 的时候，Item数量＋1了，导致 mLastVisibalePosition == itemCount-1
                 // 判断两次都成立，因此必须加一个判断条件 !mBaseAdapter.isShowLoadMore()
-                if(newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisiblePosition == itemCount-1 && isFullScreen && canShowLoadMore()){
-                   //最后一个Item了
-                   showLoadMore();
-                   onLoadMore();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisiblePosition == itemCount - 1 && isFullScreen && canShowLoadMore()) {
+                    //最后一个Item了
+                    showLoadMore();
+                    onLoadMore();
                 }
             }
         });
         View toolbarView = addToolbar();
-        if(toolbarView!=null && mToolbarContainer!=null
-                ){
+        if (toolbarView != null && mToolbarContainer != null
+                ) {
             mToolbarContainer.addView(toolbarView);
         }
-        onRecyclerViewInitialized();
-
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getUserVisibleHint()) {
+            onRecyclerViewInitialized();
+        }
+    }
+
 
     /**
      * 判断是否可以显示LoadMore
+     *
      * @return
      */
-    private boolean canShowLoadMore(){
-        if(mBaseAdapter.isShowEmpty() || mBaseAdapter.isShowLoadMore()|| mBaseAdapter.isShowError() || mBaseAdapter.isShowLoading()){
-            Log.i(TAG,"can not show loadMore");
+    private boolean canShowLoadMore() {
+        if (mBaseAdapter.isShowEmpty() || mBaseAdapter.isShowLoadMore() || mBaseAdapter.isShowError() || mBaseAdapter.isShowLoading()) {
+            Log.i(TAG, "can not show loadMore");
             return false;
         }
         return true;
@@ -123,8 +131,8 @@ public abstract class AbsFeedFragment<T> extends Fragment {
     /**
      * hide load more progress
      */
-    public void hideLoadMore(){
-        if(mBaseAdapter!=null){
+    public void hideLoadMore() {
+        if (mBaseAdapter != null) {
             mBaseAdapter.hideLoadMore();
         }
     }
@@ -132,23 +140,24 @@ public abstract class AbsFeedFragment<T> extends Fragment {
     /**
      * show load more progress
      */
-    private void showLoadMore(){
-       View loadMoreView = customLoadMoreView();
-       if(loadMoreView == null){
-           mBaseAdapter.showLoadMore();
-       }else{
-           mBaseAdapter.showLoadMore(loadMoreView);
-       }
+    private void showLoadMore() {
+        View loadMoreView = customLoadMoreView();
+        if (loadMoreView == null) {
+            mBaseAdapter.showLoadMore();
+        } else {
+            mBaseAdapter.showLoadMore(loadMoreView);
+        }
 
     }
 
-    protected View customLoadMoreView(){
+    protected View customLoadMoreView() {
         //如果需要自定义LoadMore View,子类实现这个方法
         return null;
     }
 
     /**
      * 获取组数最大值
+     *
      * @param lastPositions
      * @return
      */
@@ -165,10 +174,11 @@ public abstract class AbsFeedFragment<T> extends Fragment {
     /**
      * 设置刷新进度条的颜色
      * see{@link SwipeRefreshLayout#setColorSchemeResources(int...)}
+     *
      * @param colorResIds
      */
-    public void setColorSchemeResources(@ColorRes int... colorResIds){
-        if(mSwipeRefreshLayout!=null){
+    public void setColorSchemeResources(@ColorRes int... colorResIds) {
+        if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setColorSchemeResources(colorResIds);
         }
     }
@@ -176,34 +186,37 @@ public abstract class AbsFeedFragment<T> extends Fragment {
     /**
      * 设置刷新进度条的颜色
      * see{@link SwipeRefreshLayout#setColorSchemeColors(int...)}
+     *
      * @param colors
      */
-    public void setColorSchemeColors(int... colors){
-        if(mSwipeRefreshLayout!=null){
+    public void setColorSchemeColors(int... colors) {
+        if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setColorSchemeColors(colors);
         }
     }
 
     /**
      * 设置刷新进度条背景色
-     *  see{@link SwipeRefreshLayout#setProgressBackgroundColorSchemeResource(int)} (int)}
+     * see{@link SwipeRefreshLayout#setProgressBackgroundColorSchemeResource(int)} (int)}
+     *
      * @param colorRes
      */
     public void setProgressBackgroundColorSchemeResource(@ColorRes int colorRes) {
-         if(mSwipeRefreshLayout!=null){
-             mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(colorRes);
-         }
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(colorRes);
+        }
     }
 
     /**
      * 设置刷新进度条背景色
-     *  see{@link SwipeRefreshLayout#setProgressBackgroundColorSchemeColor(int)}
+     * see{@link SwipeRefreshLayout#setProgressBackgroundColorSchemeColor(int)}
+     *
      * @param color
      */
     public void setProgressBackgroundColorSchemeColor(@ColorInt int color) {
-       if(mSwipeRefreshLayout!=null){
-           mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(color);
-       }
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(color);
+        }
     }
 
     /**
@@ -212,8 +225,8 @@ public abstract class AbsFeedFragment<T> extends Fragment {
      *
      * @param refreshing Whether or not the view should show refresh progress.
      */
-    public void setRefreshing(boolean refreshing){
-        if(mSwipeRefreshLayout== null){
+    public void setRefreshing(boolean refreshing) {
+        if (mSwipeRefreshLayout == null) {
             return;
         }
         mSwipeRefreshLayout.setRefreshing(refreshing);
@@ -221,17 +234,19 @@ public abstract class AbsFeedFragment<T> extends Fragment {
 
     /**
      * 子类可以自己指定Adapter,如果不指定默认RVSimpleAdapter
+     *
      * @return
      */
-    protected RVSimpleAdapter initAdapter(){
+    protected RVSimpleAdapter initAdapter() {
         return new RVSimpleAdapter();
     }
 
     /**
      * 子类自己指定RecyclerView的LayoutManager,如果不指定，默认为LinearLayoutManager,VERTICAL 方向
+     *
      * @return
      */
-    protected RecyclerView.LayoutManager initLayoutManger(){
+    protected RecyclerView.LayoutManager initLayoutManger() {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         return manager;
@@ -239,15 +254,16 @@ public abstract class AbsFeedFragment<T> extends Fragment {
 
     /**
      * 添加TitleBar
+     *
      * @param
      */
-    public View addToolbar(){
-      //如果需要Toolbar,子类返回Toolbar View
-      return null;
+    public View addToolbar() {
+        //如果需要Toolbar,子类返回Toolbar View
+        return null;
     }
 
     /**
-     *RecyclerView 初始化完毕，可以在这个方法里绑定数据
+     * RecyclerView 初始化完毕，可以在这个方法里绑定数据
      */
     public abstract void onRecyclerViewInitialized();
 
@@ -262,10 +278,11 @@ public abstract class AbsFeedFragment<T> extends Fragment {
     public abstract void onLoadMore();
 
     /**
-     *  根据实体生成对应的Cell
-     * @param list  实体列表
+     * 根据实体生成对应的Cell
+     *
+     * @param list 实体列表
      * @return cell列表
      */
-    protected abstract  List<Cell> getCells(List<T> list);
+    protected abstract List<Cell> getCells(List<T> list);
 
 }

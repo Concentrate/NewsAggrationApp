@@ -1,4 +1,4 @@
-package com.interestcontent.liudeyu.base.baseUiKit;
+package com.interestcontent.liudeyu.base.baseComponent;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
 package com.interestcontent.liudeyu;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,9 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
+import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.news.NewsMainFragment;
 import com.interestcontent.liudeyu.settings.SettingFragment;
+import com.interestcontent.liudeyu.weibo.WeiboLoginManager;
 import com.interestcontent.liudeyu.weibo.WeiboMainFragment;
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.auth.AuthInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initData();
+        initUiData();
+        initOtherData();
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -66,11 +72,17 @@ public class MainActivity extends AppCompatActivity {
         });
         mViewPager.setCurrentItem(0);
         mViewPager.setCanScroll(false);
+
+    }
+
+    private void initOtherData() {
+        AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL
+                , Constants.SCOPE);
+        WbSdk.install(this, authInfo);
     }
 
 
-
-    private void initData() {
+    private void initUiData() {
         List<Fragment> fragments = mFragments;
         fragments.add(new WeiboMainFragment());
         fragments.add(new NewsMainFragment());
@@ -98,5 +110,17 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.getTabAt(2).setIcon(R.drawable.tab_setting_selector)
                 .setText(R.string.tab_settings);
 
+    }
+
+
+    /**
+     * 这里跟验证登录接入第三方sdk密切相关
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (WeiboLoginManager.getInstance().getSsoHandler() != null) {
+            WeiboLoginManager.getInstance().getSsoHandler().authorizeCallBack(requestCode, resultCode, data);
+        }
     }
 }

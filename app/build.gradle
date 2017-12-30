@@ -4,7 +4,24 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+
+// Initialize a new Properties() object called keystoreProperties.
+def keystoreProperties = new Properties()
+
+// Load your keystore.properties file into the keystoreProperties object.
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+print "my keystore property is "+keystoreProperties.toString()+"...\n"
+
 android {
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile new File(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.interestcontent.liudeyu"
@@ -13,6 +30,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
@@ -22,6 +40,8 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+    productFlavors {
     }
 }
 
@@ -38,5 +58,12 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation project(':rvadapterlib')
-
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    // https://mvnrepository.com/artifact/org.greenrobot/eventbus
+    compile 'org.greenrobot:eventbus:3.1.1'
+    // https://mvnrepository.com/artifact/com.facebook.fresco/fresco
+    compile 'com.facebook.fresco:fresco:1.7.1'
+    compile 'com.just.agentweb:agentweb:3.0.0-rc'
+    compile 'com.sina.weibo.sdk:core:4.1.4:openDefaultRelease@aar'
 }

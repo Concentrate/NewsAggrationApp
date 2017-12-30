@@ -2,7 +2,7 @@ package com.interestcontent.liudeyu.news;
 
 import android.support.v4.app.Fragment;
 
-import com.interestcontent.liudeyu.base.baseUiKit.AbsTopTabFragment;
+import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
 
 import java.util.List;
 
