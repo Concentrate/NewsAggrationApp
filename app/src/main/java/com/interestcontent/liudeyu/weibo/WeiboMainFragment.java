@@ -1,10 +1,10 @@
 package com.interestcontent.liudeyu.weibo;
 
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,19 +26,16 @@ public class WeiboMainFragment extends AbsTopTabFragment {
     private MyClickListener mMyClickListener;
     private View mloginView;
 
+
     @Override
-    public void onResume() {
-        super.onResume();
-        if (!WeiboLoginManager.getInstance().isLogin) {
-            hideContentAndShowLoginTip();
-        } else {
-            showContentHideEmptyView();
-        }
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initLoginState();
     }
 
-    private void hideContentAndShowLoginTip() {
+    private void initLoginState() {
         if (mLoginView == null) {
-            mloginView = LayoutInflater.from(getContext()).inflate(R.layout.weibo_login_layout, null);
+            mloginView = LayoutInflater.from(getContext()).inflate(R.layout.weibo_login_layout, mEmptyContainer);
             mLoginText = mloginView.findViewById(R.id.login_button_tv);
             mLoginView = mloginView.findViewById(R.id.login_button);
             if (mMyClickListener == null) {
@@ -47,14 +44,17 @@ public class WeiboMainFragment extends AbsTopTabFragment {
             mLoginView.setOnClickListener(mMyClickListener);
             mLoginText.setOnClickListener(mMyClickListener);
         }
-//        奇葩的解决办法,The specified child already has a parent. You must call removeView() on the child's parent first.解决这个的
-        if (mEmptyContainer.getChildCount() <= 0) {
-            if (mLoginView.getParent() != null) {
-                ((ViewGroup) mLoginView.getParent()).removeView(mLoginView);
-            }
-            mEmptyContainer.addView(mLoginView);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!WeiboLoginManager.getInstance().isLogin) {
+            hideContentAndShowEmptyView();
+        } else {
+            showContentHideEmptyView();
         }
-        hideContentAndShowEmptyView();
     }
 
 

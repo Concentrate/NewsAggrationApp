@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 return mFragments.size();
             }
         });
+        mViewPager.setOffscreenPageLimit(3);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabTextColors(getResources().getColor(R.color.md_blue_grey_200), getResources().getColor(R.color
                 .md_black_1000));
