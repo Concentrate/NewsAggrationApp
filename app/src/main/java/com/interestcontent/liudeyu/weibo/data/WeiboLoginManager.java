@@ -61,7 +61,7 @@ public class WeiboLoginManager {
                 return;
             }
             if (oauth2AccessToken.isSessionValid()) {
-                // TODO: 2017/12/30 存储一些必要信息
+
             }
         }
 
