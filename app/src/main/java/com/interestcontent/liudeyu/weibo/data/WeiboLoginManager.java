@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
+import com.interestcontent.liudeyu.base.utils.Logger;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbAuthListener;
@@ -16,6 +17,7 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 
 public class WeiboLoginManager {
 
+    private static final String LOG_TAG = WeiboLoginManager.class.getSimpleName();
     private static WeiboLoginManager sWeiboLoginManager;
     private SsoHandler mSsoHandler;
     public boolean isLogin;
@@ -61,7 +63,7 @@ public class WeiboLoginManager {
                 return;
             }
             if (oauth2AccessToken.isSessionValid()) {
-
+                Logger.d(LOG_TAG,oauth2AccessToken.getToken());
             }
         }
 
