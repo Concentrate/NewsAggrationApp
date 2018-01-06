@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/avater_iv"
+        android:layout_width="@dimen/feed_header_icon_size"
+        android:layout_height="@dimen/feed_header_icon_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:placeholderImage="@drawable/header_place_holder" />
+
+    <TextView
+        android:id="@+id/author_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="user"
+        android:textSize="@dimen/author_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/avater_iv"
+        app:layout_constraintLeft_toRightOf="@id/avater_iv"
+        app:layout_constraintTop_toTopOf="@id/avater_iv"
+        tools:text="test" />
+
+    <TextView
+        android:id="@+id/create_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="time"
+        android:textSize="@dimen/wb_create_time_size"
+        app:layout_constraintLeft_toRightOf="@id/avater_iv"
+        app:layout_constraintTop_toBottomOf="@id/author_tv" />
+</android.support.constraint.ConstraintLayout>

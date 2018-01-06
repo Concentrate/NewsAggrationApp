@@ -7,4 +7,6 @@ package com.interestcontent.liudeyu.base.constants;
 public class SpConstants {
     public static final String WEIBO_LOGIN="WEIBO_LOGIN".toLowerCase();
     public static final String WEIBO_AUTHEN_TOKEN="WEIBO_AUTHEN_TOKEN".toLowerCase();
+    public static final String WEIBO_USER_ID="WEIBO_USER_ID".toLowerCase();
+    public static final String WEIBO_TOKEN_EXPIRED_TIME="WEIBO_TOKEN_EXPIRED_TIME".toLowerCase();
 }

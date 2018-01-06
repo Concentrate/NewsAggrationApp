@@ -1,4 +1,4 @@
-package com.interestcontent.liudeyu.weibo.data;
+package com.interestcontent.liudeyu.weibo.data.bean;
 
 import com.google.gson.annotations.SerializedName;
 

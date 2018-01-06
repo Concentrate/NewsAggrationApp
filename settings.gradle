@@ -1,1 +1,1 @@
-include ':app', ':rvadapterlib'
+include ':app', ':rvadapterlib', ':sample-okhttp', ':okhttputils'
