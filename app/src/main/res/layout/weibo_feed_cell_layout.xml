@@ -10,7 +10,9 @@
         android:id="@+id/avater_iv"
         android:layout_width="@dimen/feed_header_icon_size"
         android:layout_height="@dimen/feed_header_icon_size"
+        app:layout_constraintBottom_toTopOf="@id/guild_line_header"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         fresco:actualImageScaleType="centerCrop"
         fresco:placeholderImage="@drawable/header_place_holder" />
 
@@ -18,8 +20,10 @@
         android:id="@+id/author_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:gravity="center"
         android:text="user"
+        android:textColor="@color/md_black_1000"
         android:textSize="@dimen/author_text_size"
         app:layout_constraintBottom_toBottomOf="@id/avater_iv"
         app:layout_constraintLeft_toRightOf="@id/avater_iv"
@@ -32,7 +36,38 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="time"
+        android:textColor="@color/md_grey_700"
         android:textSize="@dimen/wb_create_time_size"
-        app:layout_constraintLeft_toRightOf="@id/avater_iv"
+        app:layout_constraintLeft_toLeftOf="@id/author_tv"
         app:layout_constraintTop_toBottomOf="@id/author_tv" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guild_line_header"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/wb_header_guide_line_begin"
+        app:layout_constraintLeft_toLeftOf="parent "
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/wb_content_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guild_line_header" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/wb_image_recyle_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wb_content_tv"></android.support.v7.widget.RecyclerView>
+
+
 </android.support.constraint.ConstraintLayout>

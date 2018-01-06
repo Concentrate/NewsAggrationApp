@@ -29,7 +29,7 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
 
 
     protected int mCurrentPage = 1;
-    protected int mEveryPageDataNum = 5;
+    protected int mEveryPageDataNum = 10;
 
 
     protected abstract String providedRequestDataUrl();
@@ -37,11 +37,11 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
 
     protected void requestPageData(int page) {
         mCurrentPage = page;
-        startRequestWeiboFeed();
+        startRequestWeiboFeed(page > 1);
 
     }
 
-    protected void startRequestWeiboFeed() {
+    protected void startRequestWeiboFeed(boolean showLoadMore) {
         String url = providedRequestDataUrl();
         OkHttpUtils.get().url(url)
                 .params(provideRequestParameter())
@@ -55,20 +55,23 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
             @Override
             public void onError(Call call, Exception e, int id) {
                 mBaseAdapter.hideLoading();
+                setRefreshing(false);
                 mBaseAdapter.showError();
             }
 
             @Override
             public void onResponse(WeiboBeanTestRequest response, int id) {
                 mBaseAdapter.hideLoading();
-                if (response == null) {
+                setRefreshing(false);
+                if (response == null || response.getStatuses() == null) {
                     return;
                 }
                 getResponseData(response.getStatuses());
             }
         });
-        mBaseAdapter.showLoading();
-
+        if (showLoadMore) {
+            mBaseAdapter.showLoading();
+        }
     }
 
     protected abstract void getResponseData(List<WeiboBeanTestRequest.StatusesBean> statuses);

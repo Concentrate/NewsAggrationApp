@@ -7,4 +7,5 @@
     <item name="feed_header_icon_size" type="dimen">50dp</item>
     <item name="author_text_size" type="dimen">20sp</item>
     <item name="wb_create_time_size" type="dimen">10sp</item>
+    <item name="wb_header_guide_line_begin" type="dimen">70dp</item>
 </resources>

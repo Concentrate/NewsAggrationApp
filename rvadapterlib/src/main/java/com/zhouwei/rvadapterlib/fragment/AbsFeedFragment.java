@@ -36,6 +36,7 @@ public abstract class AbsFeedFragment<T> extends Fragment {
      * RecyclerView 最后可见Item在Adapter中的位置
      */
     private int mLastVisiblePosition = -1;
+    private boolean isFirstInitial = true;
 
     @Nullable
     @Override
@@ -110,10 +111,23 @@ public abstract class AbsFeedFragment<T> extends Fragment {
     public void onResume() {
         super.onResume();
         if (getUserVisibleHint()) {
-            onRecyclerViewInitialized();
+            if(isFirstInitial){
+                isFirstInitial=false;
+                onRecyclerViewInitialized();
+            }
         }
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isResumed()){
+            if(isFirstInitial){
+                isFirstInitial=false;
+                onRecyclerViewInitialized();
+            }
+        }
+    }
 
     /**
      * 判断是否可以显示LoadMore
