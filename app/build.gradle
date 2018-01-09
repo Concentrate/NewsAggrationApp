@@ -11,7 +11,7 @@ def keystoreProperties = new Properties()
 
 // Load your keystore.properties file into the keystoreProperties object.
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-print "my keystore property is "+keystoreProperties.toString()+"...\n"
+print "my keystore property is " + keystoreProperties.toString() + "...\n"
 
 android {
     signingConfigs {
@@ -62,18 +62,14 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
     // https://mvnrepository.com/artifact/org.greenrobot/eventbus
     compile 'org.greenrobot:eventbus:3.1.1'
-    // https://mvnrepository.com/artifact/com.facebook.fresco/fresco
-    compile 'com.facebook.fresco:fresco:1.7.1'
     compile 'com.just.agentweb:agentweb:3.0.0-rc'
     compile 'com.sina.weibo.sdk:core:4.1.4:openDefaultRelease@aar'
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     compile 'com.google.code.gson:gson:2.8.2'
-    // https://mvnrepository.com/artifact/com.facebook.fresco/fresco
-    compile 'com.facebook.fresco:fresco:1.7.1'
-    // For animated GIF support
-    compile 'com.facebook.fresco:animated-gif:1.7.1'
-    // For WebP support, including animated WebP
-    compile 'com.facebook.fresco:animated-webp:1.7.1'
-    compile 'com.facebook.fresco:webpsupport:1.7.1'
+    // https://mvnrepository.com/artifact/com.github.bumptech.glide/glide
+    compile group: 'com.github.bumptech.glide', name: 'glide', version: '3.7.0'
     compile 'com.zhy:okhttputils:2.6.2'
+    compile 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.github.armcha:AutoLinkTextView:0.3.0'
+
 }

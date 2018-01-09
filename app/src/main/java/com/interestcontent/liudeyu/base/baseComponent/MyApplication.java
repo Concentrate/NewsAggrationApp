@@ -3,7 +3,6 @@ package com.interestcontent.liudeyu.base.baseComponent;
 import android.app.Application;
 import android.util.Log;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.interestcontent.liudeyu.BuildConfig;
 import com.interestcontent.liudeyu.base.utils.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -27,7 +26,6 @@ public class MyApplication extends Application {
         if(!BuildConfig.DEBUG){
             Logger.setLogLevel(Log.ASSERT+1);
         }
-        Fresco.initialize(this);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10*1000L, TimeUnit.MILLISECONDS)
                 .readTimeout(60*1000L, TimeUnit.MILLISECONDS)

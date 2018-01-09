@@ -5,7 +5,7 @@ import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
-import com.interestcontent.liudeyu.weibo.data.bean.WeiboBeanTestRequest;
+import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -45,11 +45,11 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
         String url = providedRequestDataUrl();
         OkHttpUtils.get().url(url)
                 .params(provideRequestParameter())
-                .build().execute(new Callback<WeiboBeanTestRequest>() {
+                .build().execute(new Callback<WeiboRequest>() {
             @Override
-            public WeiboBeanTestRequest parseNetworkResponse(Response response, int id) throws Exception {
+            public WeiboRequest parseNetworkResponse(Response response, int id) throws Exception {
                 ResponseBody responseBodyCopy = response.peekBody(Long.MAX_VALUE);
-                return new Gson().fromJson(responseBodyCopy.string(), WeiboBeanTestRequest.class);
+                return new Gson().fromJson(responseBodyCopy.string(), WeiboRequest.class);
             }
 
             @Override
@@ -60,7 +60,7 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
             }
 
             @Override
-            public void onResponse(WeiboBeanTestRequest response, int id) {
+            public void onResponse(WeiboRequest response, int id) {
                 mBaseAdapter.hideLoading();
                 setRefreshing(false);
                 if (response == null || response.getStatuses() == null) {
@@ -74,7 +74,7 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
         }
     }
 
-    protected abstract void getResponseData(List<WeiboBeanTestRequest.StatusesBean> statuses);
+    protected abstract void getResponseData(List<WeiboRequest.StatusesBean> statuses);
 
     protected Map<String, String> provideRequestParameter() {
         Map<String, String> map = new HashMap<>();
@@ -82,7 +82,7 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
                 MyApplication.sApplication, SpConstants.WEIBO_AUTHEN_TOKEN));
         map.put(Constants.WB_REQUEST_PARAMETER.PAGE, mCurrentPage + "");
         map.put(Constants.WB_REQUEST_PARAMETER.SINGLE_PAGE_COUNT, mEveryPageDataNum + "");
-        map.put(Constants.WB_REQUEST_PARAMETER.TRIM_USER, 1 + "");
+        map.put(Constants.WB_REQUEST_PARAMETER.TRIM_USER, 0 + "");
         return map;
     }
 

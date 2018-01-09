@@ -1,7 +1,7 @@
 package com.interestcontent.liudeyu.weibo;
 
 import com.interestcontent.liudeyu.base.constants.Constants;
-import com.interestcontent.liudeyu.weibo.data.bean.WeiboBeanTestRequest;
+import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
 import com.interestcontent.liudeyu.weibo.feeds.WeiboCell;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
@@ -55,7 +55,7 @@ public class WeiboFollowFragment extends WeiboBaseTabFragment {
     }
 
     @Override
-    protected void getResponseData(List<WeiboBeanTestRequest.StatusesBean> statuses) {
+    protected void getResponseData(List<WeiboRequest.StatusesBean> statuses) {
         mBaseAdapter.addAll(getCells(statuses));
     }
 

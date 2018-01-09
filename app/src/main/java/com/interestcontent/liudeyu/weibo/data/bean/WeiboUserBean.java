@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by liudeyu on 2018/1/2.
  */
 
-class WeiboUserBean {
+public class WeiboUserBean {
 
     /*
     返回值字段	字段类型	字段说明

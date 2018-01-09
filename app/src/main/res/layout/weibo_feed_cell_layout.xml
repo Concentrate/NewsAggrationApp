@@ -6,15 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.facebook.drawee.view.SimpleDraweeView
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avater_iv"
-        android:layout_width="@dimen/feed_header_icon_size"
-        android:layout_height="@dimen/feed_header_icon_size"
+        android:layout_width="@dimen/wb_avater_size"
+        android:layout_height="@dimen/wb_avater_size"
+        android:src="@drawable/header_place_holder"
+        app:civ_border_width="0.5dp"
+        app:civ_border_color="@color/md_white_1000"
         app:layout_constraintBottom_toTopOf="@id/guild_line_header"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        fresco:actualImageScaleType="centerCrop"
-        fresco:placeholderImage="@drawable/header_place_holder" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/author_tv"
@@ -50,7 +52,7 @@
         app:layout_constraintLeft_toLeftOf="parent "
         app:layout_constraintRight_toRightOf="parent" />
 
-    <TextView
+    <com.luseen.autolinklibrary.AutoLinkTextView
         android:id="@+id/wb_content_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
