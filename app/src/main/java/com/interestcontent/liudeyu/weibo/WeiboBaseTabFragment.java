@@ -29,7 +29,7 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
 
 
     protected int mCurrentPage = 1;
-    protected int mEveryPageDataNum = 10;
+    protected int mEveryPageDataNum = 20;
 
 
     protected abstract String providedRequestDataUrl();

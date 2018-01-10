@@ -4,7 +4,10 @@
     xmlns:fresco="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    >
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -64,9 +67,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/wb_image_recyle_view"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/wb_browse_image_garally_height_size"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/wb_content_tv"></android.support.v7.widget.RecyclerView>
