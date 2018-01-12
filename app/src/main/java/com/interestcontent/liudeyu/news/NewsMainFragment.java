@@ -1,9 +1,9 @@
 package com.interestcontent.liudeyu.news;
 
-import android.support.v4.app.Fragment;
-
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
+import com.interestcontent.liudeyu.base.tabs.ItemTab;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,13 +12,9 @@ import java.util.List;
 
 public class NewsMainFragment extends AbsTopTabFragment {
 
-    @Override
-    protected List<Fragment> provideContents() {
-        return null;
-    }
 
     @Override
-    protected List<String> provideTitles() {
-        return null;
+    protected List<ItemTab> provideItemTabs() {
+        return new ArrayList<>();
     }
 }

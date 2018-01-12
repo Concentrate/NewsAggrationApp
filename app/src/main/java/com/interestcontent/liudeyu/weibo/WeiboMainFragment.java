@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
+import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,6 +31,17 @@ public class WeiboMainFragment extends AbsTopTabFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initLoginState();
+    }
+
+    @Override
+    protected List<ItemTab> provideItemTabs() {
+        List<ItemTab> itemTabs = new ArrayList<>();
+        String[] weiboTabName = getResources().getStringArray(R.array.weibo_top_tab);
+        int[] tabKey = new int[]{ItemTab.WEIBO_SUB_FOLLOW, ItemTab.WEIBO_SUB_HOT, ItemTab.WEIBO_SUB_MESSAGE, ItemTab.WEIBO_SUB_PROFILE};
+        for (int i = 0; i < weiboTabName.length; i++) {
+            itemTabs.add(new ItemTab(tabKey[i], weiboTabName[i]));
+        }
+        return itemTabs;
     }
 
     private void initLoginState() {
@@ -62,21 +73,6 @@ public class WeiboMainFragment extends AbsTopTabFragment {
         return 3;
     }
 
-    @Override
-    protected List<Fragment> provideContents() {
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new WeiboFollowFragment());
-        fragments.add(new WeiboFollowFragment());
-        fragments.add(new WeiboFollowFragment());
-        fragments.add(new WeiboFollowFragment());
-        return fragments;
-    }
-
-    @Override
-    protected List<String> provideTitles() {
-        String[] tabName = getActivity().getResources().getStringArray(R.array.weibo_top_tab);
-        return Arrays.asList(tabName);
-    }
 
     private static class MyClickListener implements View.OnClickListener {
         private Fragment mFragment;

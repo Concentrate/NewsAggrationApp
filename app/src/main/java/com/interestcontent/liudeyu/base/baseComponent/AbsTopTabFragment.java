@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
+import com.interestcontent.liudeyu.base.tabs.BasePageAdapter;
+import com.interestcontent.liudeyu.base.tabs.ItemTab;
 
 import java.util.List;
 
@@ -24,9 +24,6 @@ public abstract class AbsTopTabFragment extends AbsFragment {
     TabLayout mTabLayout;
     AdvanceViewPager mViewPager;
     protected ViewGroup mEmptyContainer;
-    private List<Fragment> mFragments;
-    private List<String> mtitles;
-
 
     @Nullable
     @Override
@@ -61,29 +58,9 @@ public abstract class AbsTopTabFragment extends AbsFragment {
     }
 
 
+    protected abstract List<ItemTab> provideItemTabs();
     protected void initData() {
-        mFragments = provideContents();
-        mtitles = provideTitles();
-        if (mFragments == null || mtitles == null) {
-            return;
-        }
-        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return mFragments.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return mFragments.size();
-            }
-
-            @Nullable
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return mtitles.get(position);
-            }
-        });
+        mViewPager.setAdapter(new BasePageAdapter(getChildFragmentManager(),provideItemTabs()));
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setOffscreenPageLimit(viewpagerLimitNum());
         mTabLayout.setSelectedTabIndicatorColor(setTabSelectedColor());
@@ -100,9 +77,7 @@ public abstract class AbsTopTabFragment extends AbsFragment {
         return R.layout.fragment_top_tab_main_layout;
     }
 
-    abstract protected List<Fragment> provideContents();
 
-    abstract protected List<String> provideTitles();
 
     protected int viewpagerLimitNum() {
         return 1;
