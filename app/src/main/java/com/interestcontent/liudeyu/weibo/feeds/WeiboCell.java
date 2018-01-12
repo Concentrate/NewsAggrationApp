@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
+import com.interestcontent.liudeyu.base.utils.Logger;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboUserBean;
 import com.luseen.autolinklibrary.AutoLinkMode;
@@ -24,6 +26,8 @@ import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +36,7 @@ import java.util.List;
  */
 
 public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
+    private static final String TAG = WeiboCell.class.getSimpleName();
 
     private Context mContext;
 
@@ -108,6 +113,15 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
             }
             List<WeiboRequest.StatusesBean.PicUrlsBean> picUrlsBeans = mData.get(position).getPic_urls();
             RecyclerView recyclerView = (RecyclerView) holder.getView(R.id.wb_image_recyle_view);
+            String originPicDomen = "";
+            if (!TextUtils.isEmpty(mData.get(position).getOriginal_pic())) {
+                try {
+                    URL url = new URL(mData.get(position).getOriginal_pic());
+                    originPicDomen = url.getProtocol() + "://" + url.getHost();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
             if (picUrlsBeans != null && !picUrlsBeans.isEmpty()) {
                 int limitPreivewSize = picUrlsBeans.size();
                 if (limitPreivewSize > 3) {
@@ -121,7 +135,19 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
                 WeiboImageRecycleViewAdapter adapter = (WeiboImageRecycleViewAdapter) recyclerView.getAdapter();
                 List<String> urls = new ArrayList<>();
                 for (int i = 0; i < limitPreivewSize; i++) {
-                    urls.add(picUrlsBeans.get(i).getThumbnail_pic());
+                    String picRequestUrl = "";
+                    if (!TextUtils.isEmpty(originPicDomen)) {
+                        try {
+//                            通过观察链接得到的原图链接，官方api没提供
+                            URL url = new URL(picUrlsBeans.get(i).getThumbnail_pic());
+                            String jpgName = url.getFile().substring(url.getFile().indexOf("thumbnail/") + "thumbnail/".length());
+                            picRequestUrl = originPicDomen + "/large/" + jpgName;
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Logger.d(TAG, "request origin pic url is " + picRequestUrl);
+                    urls.add(!TextUtils.isEmpty(picRequestUrl) ? picRequestUrl : mData.get(i).getThumbnail_pic());
                 }
                 adapter.setImageUrls(urls);
             } else {
@@ -146,7 +172,6 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
 
         private Context mContext;
         private List<String> mUrls;
-        private static final int CLICK_ITEM_TAG = 99;
 
         public WeiboImageRecycleViewAdapter(Context context, List<String> data) {
             mContext = context;
@@ -176,8 +201,8 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
             if (position >= mUrls.size()) {
                 return;
             }
+            holder.mImageView.setTag(R.id.image_iv, position);
             Glide.with(mContext).load(mUrls.get(position)).into(holder.mImageView);
-            holder.mImageView.setTag(position);
         }
 
         @Override
@@ -190,7 +215,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
 
         @Override
         public void onClick(View view) {
-            onItemClick(view, (Integer) view.getTag(CLICK_ITEM_TAG));
+            onItemClick(view, (Integer) view.getTag(R.id.image_iv));
         }
 
         @Override
