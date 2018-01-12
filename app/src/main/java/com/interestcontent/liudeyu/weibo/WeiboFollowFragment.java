@@ -1,8 +1,11 @@
 package com.interestcontent.liudeyu.weibo;
 
+import com.blankj.utilcode.util.SizeUtils;
+import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
 import com.interestcontent.liudeyu.weibo.feeds.WeiboCell;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 
@@ -22,6 +25,10 @@ public class WeiboFollowFragment extends WeiboBaseTabFragment {
 
     @Override
     public void onRecyclerViewInitialized() {
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+                .color(getActivity().getResources().getColor(R.color.md_white_1000))
+                .size(SizeUtils.dp2px(1.0f))
+                .build());
         startRequestWeiboFeed(true);
     }
 

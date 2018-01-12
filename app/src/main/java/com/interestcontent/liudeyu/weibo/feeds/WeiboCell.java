@@ -2,10 +2,16 @@ package com.interestcontent.liudeyu.weibo.feeds;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
@@ -14,9 +20,11 @@ import com.interestcontent.liudeyu.weibo.data.bean.WeiboUserBean;
 import com.luseen.autolinklibrary.AutoLinkMode;
 import com.luseen.autolinklibrary.AutoLinkOnClickListener;
 import com.luseen.autolinklibrary.AutoLinkTextView;
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,19 +85,128 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
                 }
             }
         });
+        RecyclerView recyclerView = view.findViewById(R.id.wb_image_recyle_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new VerticalDividerItemDecoration.Builder(mContext)
+                .color(mContext.getResources().getColor(R.color.md_red_100)).size(SizeUtils.dp2px(1.0f))
+                .build());
+        recyclerView.setAdapter(new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>()));
     }
 
 
     @Override
     public void onBindViewHolder(RVBaseViewHolder holder, int position) {
-        AutoLinkTextView autoLinkTextView = (AutoLinkTextView) holder.getTextView(R.id.wb_content_tv);
-        autoLinkTextView.setAutoLinkText(mData.get(position).getText());
-        holder.getTextView(R.id.create_time_tv).setText(mData.get(position).getCreated_at());
-        WeiboUserBean userBean = mData.get(position).getUser();
-        if (userBean != null) {
-            holder.getTextView(R.id.author_tv).setText(userBean.getName());
-            Glide.with(mContext).load(userBean.getProfile_image_url()).into(holder.getImageView(R.id.avater_iv));
+        if (holder.getItemViewType() == FeedConstants.FEED_NORMAL_WEIBO_TYPE) {
+            AutoLinkTextView autoLinkTextView = (AutoLinkTextView) holder.getTextView(R.id.wb_content_tv);
+            autoLinkTextView.setAutoLinkText(mData.get(position).getText());
+            holder.getTextView(R.id.create_time_tv).setText(mData.get(position).getCreated_at());
+            WeiboUserBean userBean = mData.get(position).getUser();
+            if (userBean != null) {
+                holder.getTextView(R.id.author_tv).setText(userBean.getName());
+                Glide.with(mContext).load(userBean.getProfile_image_url()).into(holder.getImageView(R.id.avater_iv));
+            }
+            List<WeiboRequest.StatusesBean.PicUrlsBean> picUrlsBeans = mData.get(position).getPic_urls();
+            RecyclerView recyclerView = (RecyclerView) holder.getView(R.id.wb_image_recyle_view);
+            if (picUrlsBeans != null && !picUrlsBeans.isEmpty()) {
+                int limitPreivewSize = picUrlsBeans.size();
+                if (limitPreivewSize > 3) {
+                    limitPreivewSize = 3;
+                    recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+                } else {
+                    limitPreivewSize = 1;
+                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+                }
+                recyclerView.setVisibility(View.VISIBLE);
+                WeiboImageRecycleViewAdapter adapter = (WeiboImageRecycleViewAdapter) recyclerView.getAdapter();
+                List<String> urls = new ArrayList<>();
+                for (int i = 0; i < limitPreivewSize; i++) {
+                    urls.add(picUrlsBeans.get(i).getThumbnail_pic());
+                }
+                adapter.setImageUrls(urls);
+            } else {
+                recyclerView.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
+    private static class WeiboImageRecycleViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView mImageView;
+
+        public WeiboImageRecycleViewHolder(View itemView) {
+            super(itemView);
+            mImageView = itemView.findViewById(R.id.image_iv);
+        }
+
+    }
+
+    private static class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImageRecycleViewHolder> implements View.OnClickListener, OnRecycleViewItemClickListener {
+
+        private Context mContext;
+        private List<String> mUrls;
+        private static final int CLICK_ITEM_TAG = 99;
+
+        public WeiboImageRecycleViewAdapter(Context context, List<String> data) {
+            mContext = context;
+            mUrls = data;
+        }
+
+        public void addImagesUrls(List<String> data) {
+            mUrls.addAll(data);
+            notifyItemChanged(mUrls.size());
+        }
+
+        public void setImageUrls(List<String> data) {
+            mUrls = data;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public WeiboImageRecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.weibo_images_gallery, parent, false);
+            ImageView imageView = view.findViewById(R.id.image_iv);
+            imageView.setOnClickListener(this);
+            return new WeiboImageRecycleViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(WeiboImageRecycleViewHolder holder, int position) {
+            if (position >= mUrls.size()) {
+                return;
+            }
+            Glide.with(mContext).load(mUrls.get(position)).into(holder.mImageView);
+            holder.mImageView.setTag(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            if (mUrls != null) {
+                return mUrls.size();
+            }
+            return 0;
+        }
+
+        @Override
+        public void onClick(View view) {
+            onItemClick(view, (Integer) view.getTag(CLICK_ITEM_TAG));
+        }
+
+        @Override
+        public void onItemClick(View view, int position) {
+            switch (view.getId()) {
+                case R.id.image_iv:
+                    // TODO: 2018/1/12  image gallery
+            }
+
+        }
+
+        @Override
+        public void onItemLongClick(View view, int postion) {
+
         }
     }
+
 
 }
