@@ -74,4 +74,5 @@ dependencies {
     compile 'com.github.ronghao:CacheManage:1.1.0'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.blankj:utilcode:1.11.1'
+    compile 'cn.gavinliu.android.lib:ShapedImageView:0.8.4'
 }
