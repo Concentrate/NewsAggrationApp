@@ -16,10 +16,10 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.baseUiKit.aboutGlide.GlideRoundTransform;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.SpaceItemDecoration;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.base.utils.Logger;
+import com.interestcontent.liudeyu.weibo.component.PictureBrowseActivity;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboUserBean;
 import com.luseen.autolinklibrary.AutoLinkMode;
@@ -38,9 +38,11 @@ import java.util.List;
  */
 
 public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
-    private static final String TAG = WeiboCell.class.getSimpleName();
     private static final String MIDDLE = "bmiddle";
     private static final String ORIGIN = "large";
+    private static final String SMALL = "thumbnail";
+
+    private static final String TAG = WeiboCell.class.getSimpleName();
 
     private Context mContext;
 
@@ -98,7 +100,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         int itemDecortWidth = (int) ((ScreenUtils.getScreenWidth() - mContext.getResources().
-                getDimension(R.dimen.wb_cell_image_size)*3) / 6);
+                getDimension(R.dimen.wb_cell_image_size) * 3) / 6);
         recyclerView.addItemDecoration(new SpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
         recyclerView.setAdapter(new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>()));
     }
@@ -122,7 +124,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
                 int limitPreivewSize = getLimitPreivewSize(picUrlsBeans);
                 recyclerView.setVisibility(View.VISIBLE);
                 WeiboImageRecycleViewAdapter adapter = (WeiboImageRecycleViewAdapter) recyclerView.getAdapter();
-                List<String> urls = getOriginPicUrls(picUrlsBeans, originPicDomen, limitPreivewSize,MIDDLE);
+                List<String> urls = getOriginPicUrls(picUrlsBeans, originPicDomen, limitPreivewSize, MIDDLE);
                 adapter.setImageUrls(urls);
             } else {
                 recyclerView.setVisibility(View.GONE);
@@ -147,7 +149,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
 
     @NonNull
     private List<String> getOriginPicUrls(List<WeiboRequest.StatusesBean.PicUrlsBean> picUrlsBeans, String originPicDomen, int limitPreivewSize
-    ,String imageScaleTag) {
+            , String imageScaleTag) {
         List<String> urls = new ArrayList<>();
         for (int i = 0; i < limitPreivewSize; i++) {
             String picRequestUrl = "";
@@ -156,7 +158,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
 //                            通过观察链接得到的原图链接，官方api没提供
                     URL url = new URL(picUrlsBeans.get(i).getThumbnail_pic());
                     String jpgName = url.getFile().substring(url.getFile().indexOf("thumbnail/") + "thumbnail/".length());
-                    picRequestUrl = originPicDomen + "/"+imageScaleTag+"/" + jpgName;
+                    picRequestUrl = originPicDomen + "/" + imageScaleTag + "/" + jpgName;
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -218,9 +220,9 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
                 return;
             }
             holder.mImageView.setTag(R.id.image_iv, position);
-            int width= (int) mContext.getResources().getDimension(R.dimen.wb_cell_image_size);
-            Glide.with(mContext).load(mUrls.get(position)).override(width,width)
-            .centerCrop().transform(new GlideRoundTransform(mContext,20)).into(holder.mImageView);
+            int width = (int) mContext.getResources().getDimension(R.dimen.wb_cell_image_size);
+            Glide.with(mContext).load(mUrls.get(position)).override(width, width)
+                    .centerCrop().into(holder.mImageView);
         }
 
         @Override
@@ -240,7 +242,10 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> {
         public void onItemClick(View view, int position) {
             switch (view.getId()) {
                 case R.id.image_iv:
-                    // TODO: 2018/1/12  image gallery
+                    if (mUrls.get(position).contains(MIDDLE)) {
+                        PictureBrowseActivity.start(mContext, mUrls.get(position).replace(MIDDLE, ORIGIN));
+                    }
+                    break;
             }
 
         }

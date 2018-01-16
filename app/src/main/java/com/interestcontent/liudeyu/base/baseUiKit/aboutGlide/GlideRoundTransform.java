@@ -18,6 +18,8 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 public class GlideRoundTransform extends BitmapTransformation {
 
     private static float radius = 0f;
+    private int width;
+    private int height;
 
     public GlideRoundTransform(Context context) {
         this(context, 4);
@@ -25,6 +27,13 @@ public class GlideRoundTransform extends BitmapTransformation {
 
     public GlideRoundTransform(Context context, int dp) {
         super(context);
+        this.radius = Resources.getSystem().getDisplayMetrics().density * dp;
+    }
+
+    public GlideRoundTransform(Context context, int width, int height,int dp) {
+        super(context);
+        this.width = width;
+        this.height = height;
         this.radius = Resources.getSystem().getDisplayMetrics().density * dp;
     }
 
