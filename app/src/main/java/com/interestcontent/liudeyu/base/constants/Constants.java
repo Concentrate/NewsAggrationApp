@@ -36,6 +36,8 @@ public class Constants {
         public static final String PAGE = "page";
         public static final String FEATURE = "feature"; //过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。
         public static final String TRIM_USER = "trim_user"; //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回user_id，默认为0。
+        public static final String UID="uid";
+        public static final String ID="id";
     }
 }
 

@@ -22,10 +22,11 @@ import butterknife.ButterKnife;
 
 public class PictureBrowseActivity extends AbsActivity {
 
-    private static final String TAG = "PictureBrowseActivity";
+    private static final String TAG = "record_pic_size";
     static final String IMAGE_URL_TAG = "IMAGE_URL_TAG".toLowerCase();
     @BindView(R.id.imagebrowseView)
     SubsamplingScaleImageView mImageView;
+    public static final int SCALE_SIZE = (int) (1.2f * 1000 * 1000);
 
 
     public static void start(Context context, String loadImageUrl) {
@@ -53,13 +54,7 @@ public class PictureBrowseActivity extends AbsActivity {
                     File file = new File(path);
                     if (file.isFile() && file.exists()) {
                         long length = file.length();
-                        Logger.d(TAG, FileUtils.getFileSize(path));
-                        if (length > 2 * 1000 * 1000) {
-                            mImageView.setScaleX(mImageView.getMaxScale() - 0.1f);
-                            mImageView.setScaleY(mImageView.getMaxScale() - 0.1f);
-                        } else {
-                            mImageView.resetScaleAndCenter();
-                        }
+                        Logger.d(TAG, "the file size is " + FileUtils.getFileSize(path));
                         mImageView.setImage(ImageSource.uri(path));
                     }
                 }
