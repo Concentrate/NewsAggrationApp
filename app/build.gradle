@@ -78,4 +78,5 @@ dependencies {
 //    compile 'com.github.armcha:AutoLinkTextView:0.3.0'
 
     compile project(path: ':autolinklibrary')
+    compile 'com.wang.avi:library:2.1.3'
 }

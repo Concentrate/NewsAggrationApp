@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avater_iv"
+        android:layout_width="@dimen/wb_avater_size"
+        android:layout_height="@dimen/wb_avater_size"
+        app:layout_constraintBottom_toBottomOf="@id/guild_line_header"
+        app:layout_constraintLeft_toLeftOf="@id/guild_line_header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/comment_author_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/avater_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="author" />
+
+    <TextView
+        android:id="@+id/comment_create_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/md_grey_400"
+        app:layout_constraintLeft_toLeftOf="@id/comment_author_name_tv"
+        app:layout_constraintRight_toRightOf="@id/comment_author_name_tv"
+        app:layout_constraintTop_toBottomOf="@id/comment_author_name_tv"
+        tools:text="10:00" />
+
+    <ImageView
+        android:layout_width="@dimen/comment_and_digger_resend_size"
+        android:layout_height="@dimen/comment_and_digger_resend_size"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/good_finger_selector"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guild_line_header"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/wb_comment_base_operate_height_size" />
+
+    <com.luseen.autolinklibrary.AutoLinkTextView
+        android:id="@+id/comment_content_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/guild_line_header"
+        tools:text="hello" />
+
+
+</android.support.constraint.ConstraintLayout>
