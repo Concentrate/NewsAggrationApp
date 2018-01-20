@@ -11,7 +11,10 @@ import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.weibo.component.PictureBrowseActivity;
 
+import java.lang.ref.WeakReference;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by liudeyu on 2018/1/17.
@@ -20,6 +23,7 @@ class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImageRecycl
 
     private Context mContext;
     private List<String> mUrls;
+    private Set<WeakReference<OnRecycleViewItemClickListener>> mImagesSetClickObserverSet;
 
     public WeiboImageRecycleViewAdapter(Context context, List<String> data) {
         mContext = context;
@@ -36,11 +40,19 @@ class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImageRecycl
         notifyItemChanged(0);
     }
 
+    public void addItemClickListener(OnRecycleViewItemClickListener listener) {
+        if (mImagesSetClickObserverSet == null) {
+            mImagesSetClickObserverSet = new HashSet<>();
+        }
+        mImagesSetClickObserverSet.add(new WeakReference<OnRecycleViewItemClickListener>(listener));
+    }
+
     @Override
     public WeiboImageRecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.weibo_images_gallery, parent, false);
         ImageView imageView = view.findViewById(R.id.image_iv);
         imageView.setOnClickListener(this);
+        view.setOnClickListener(this);
         return new WeiboImageRecycleViewHolder(view);
     }
 
@@ -49,7 +61,8 @@ class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImageRecycl
         if (position >= mUrls.size()) {
             return;
         }
-        holder.mImageView.setTag(R.id.image_iv, position);
+        holder.mImageView.setTag(R.layout.weibo_images_gallery, position);
+        holder.itemView.setTag(R.layout.weibo_images_gallery);
         int width = (int) mContext.getResources().getDimension(R.dimen.wb_cell_image_size);
         Glide.with(mContext).load(mUrls.get(position)).override(width, width)
                 .centerCrop().into(holder.mImageView);
@@ -65,7 +78,7 @@ class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImageRecycl
 
     @Override
     public void onClick(View view) {
-        onItemClick(view, (Integer) view.getTag(R.id.image_iv));
+        onItemClick(view, (Integer) view.getTag(R.layout.weibo_images_gallery));
     }
 
     @Override
@@ -78,7 +91,20 @@ class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImageRecycl
                 break;
 
         }
+        notifyRecycleItemClickObservers(view, position);
+    }
 
+    private void notifyRecycleItemClickObservers(View view, int position) {
+        if (mImagesSetClickObserverSet == null) {
+            return;
+        }
+        for (WeakReference<OnRecycleViewItemClickListener> listenerWeakReference : mImagesSetClickObserverSet) {
+            if (listenerWeakReference.get() != null) {
+                listenerWeakReference.get().onItemClick(view, position);
+            } else {
+                mImagesSetClickObserverSet.remove(listenerWeakReference);
+            }
+        }
     }
 
     @Override

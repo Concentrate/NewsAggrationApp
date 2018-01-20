@@ -17,10 +17,8 @@ import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.SpaceItemDecoration;
 import com.interestcontent.liudeyu.base.constants.Constants;
-import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.base.utils.Logger;
-import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboUserBean;
 import com.luseen.autolinklibrary.AutoLinkMode;
@@ -28,10 +26,6 @@ import com.luseen.autolinklibrary.AutoLinkOnClickListener;
 import com.luseen.autolinklibrary.AutoLinkTextView;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -95,7 +89,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
             public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
                 switch (autoLinkMode) {
                     case MODE_URL:
-                        BrowseActivity.start(mContext, matchedText);
+                        BrowseActivity.start(mContext, matchedText,true);
                         break;
 
                 }
@@ -105,7 +99,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         int itemDecortWidth = (int) ((ScreenUtils.getScreenWidth() - mContext.getResources().
-                getDimension(R.dimen.wb_cell_image_size) * 3) / 6);
+                getDimension(R.dimen.wb_cell_image_size) * 3) / 2);
         recyclerView.addItemDecoration(new SpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
         recyclerView.setAdapter(new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>()));
     }
@@ -114,7 +108,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
     @Override
     public void onBindViewHolder(RVBaseViewHolder holder, int position) {
         if (holder.getItemViewType() == FeedConstants.FEED_NORMAL_WEIBO_TYPE) {
-            holder.getView(R.id.root_container).setTag(R.id.root_container, position);
+            holder.getView(R.id.root_container).setTag(R.layout.weibo_feed_cell_layout, position);
             holder.getView(R.id.root_container).setOnClickListener(this);
             AutoLinkTextView autoLinkTextView = (AutoLinkTextView) holder.getTextView(R.id.wb_content_tv);
             autoLinkTextView.setAutoLinkText(mData.get(position).getText());
@@ -184,7 +178,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
 
     @Override
     public void onClick(View view) {
-
+        onItemClick(view, (Integer) view.getTag(R.layout.weibo_feed_cell_layout));
 
     }
 
@@ -200,18 +194,15 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
 
     private void dealWithGoToSourceWeibo(int position) {
         if (!TextUtils.isEmpty(mData.get(position).getSource())) {
-            Document document = Jsoup.parse(mData.get(position).getSource());
-            Elements elements = document.getElementsByAttribute("a");
-            if (elements != null && !elements.isEmpty()) {
-                String originUrl = elements.get(0).attr("href");
-                Logger.d(TAG, "origin url is " + originUrl);
-                String requestUrl = originUrl + "?" + Constants.WB_REQUEST_PARAMETER.ACCESS_TOKEN + SharePreferenceUtil.getStringPreference(mContext,
-                        SpConstants.WEIBO_AUTHEN_TOKEN) + "&" + Constants.WB_REQUEST_PARAMETER.UID + mData.get(position).getUser().getIdstr()
-                        + "&" + Constants.WB_REQUEST_PARAMETER.ID + mData.get(position).getIdstr();
-                Logger.d(TAG, "rquest url is " + requestUrl);
-                BrowseActivity.start(mContext, requestUrl);
-            }
+            String originUrl = Constants.WEIBO_GO_WEB_ORIGIN;
+            Logger.d(TAG, "origin url is " + originUrl);
+            String requestUrl = originUrl + "?" + Constants.WB_REQUEST_PARAMETER.UID + "=" + mData.get(position).getUser().getIdstr()
+                    + "&" + Constants.WB_REQUEST_PARAMETER.ID + "=" + mData.get(position).getIdstr();
+            Logger.d(TAG, "rquest url is " + requestUrl);
+            BrowseActivity.start(mContext, requestUrl,false);
+
         }
+
     }
 
     @Override

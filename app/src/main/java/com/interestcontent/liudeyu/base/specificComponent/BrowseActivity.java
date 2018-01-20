@@ -22,16 +22,20 @@ import butterknife.ButterKnife;
 public class BrowseActivity extends BaseActivity implements ChromeClientCallbackManager.ReceivedTitleCallback {
 
     public static final String LOAD_URL = "LOAD_URL".toLowerCase();
+    public static final String USE_TOOL_BAR = "USE_TOOL_BAR";//是否使用状态栏
 
     @BindView(R.id.parent_container)
     RelativeLayout mRelativeLayout;
     private AgentWeb mAgentWeb;
 
-    public static void start(Context context, String loadurl) {
+
+    public static void start(Context context, String loadurl, boolean useToolbar) {
         Intent starter = new Intent(context, BrowseActivity.class);
         starter.putExtra(LOAD_URL, loadurl);
+        starter.putExtra(USE_TOOL_BAR, useToolbar);
         context.startActivity(starter);
     }
+
 
     @Override
     protected boolean isUseToolBar() {
@@ -43,14 +47,20 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
         return LayoutInflater.from(this).inflate(R.layout.activity_browse, null);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         Intent intent = getIntent();
         String url = "";
+        boolean useToolbar = true;
         if (intent != null) {
             url = intent.getStringExtra(LOAD_URL);
+            useToolbar = intent.getBooleanExtra(USE_TOOL_BAR, false);
+            if (!useToolbar) {
+                mToolbar.setVisibility(View.GONE);
+            }
         }
         if (mAgentWeb == null && !TextUtils.isEmpty(url)) {
             mAgentWeb = AgentWeb.with(this)//传入Activity or Fragment

@@ -61,7 +61,6 @@ dependencies {
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
     // https://mvnrepository.com/artifact/org.greenrobot/eventbus
-    compile 'org.greenrobot:eventbus:3.1.1'
     compile 'com.just.agentweb:agentweb:3.0.0-rc'
     compile 'com.sina.weibo.sdk:core:4.1.4:openDefaultRelease@aar'
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
@@ -70,11 +69,13 @@ dependencies {
     compile group: 'com.github.bumptech.glide', name: 'glide', version: '3.7.0'
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'de.hdodenhof:circleimageview:2.2.0'
-    compile 'com.github.armcha:AutoLinkTextView:0.3.0'
     compile 'com.github.ronghao:CacheManage:1.1.0'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.blankj:utilcode:1.11.1'
     compile 'cn.gavinliu.android.lib:ShapedImageView:0.8.4'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.9.0'
     compile 'org.jsoup:jsoup:1.11.2'
+//    compile 'com.github.armcha:AutoLinkTextView:0.3.0'
+
+    compile project(path: ':autolinklibrary')
 }

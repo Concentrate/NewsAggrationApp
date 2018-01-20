@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/comment_and_digger_height_size">
+
+
+    <LinearLayout
+        android:id="@+id/resend_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/comment_layout"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/resend_iv"
+            android:layout_width="@dimen/comment_and_digger_resend_size"
+            android:layout_height="@dimen/comment_and_digger_resend_size"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/resend_to_other_icon_selector" />
+
+        <TextView
+            android:id="@+id/resend_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_grey_400"
+            android:textSize="23sp"
+            tools:text="11" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/comment_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/resend_layout"
+        app:layout_constraintRight_toLeftOf="@id/good_fingger_layout"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/comment_iv"
+            android:layout_width="@dimen/comment_and_digger_resend_size"
+            android:layout_height="@dimen/comment_and_digger_resend_size"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/comment_icon_selector" />
+
+        <TextView
+            android:id="@+id/comment_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_grey_400"
+            android:textSize="23sp"
+            tools:text="11" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/good_fingger_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/comment_layout"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/good_finger_iv"
+            android:layout_width="@dimen/comment_and_digger_resend_size"
+            android:layout_height="@dimen/comment_and_digger_resend_size"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/good_finger_selector" />
+
+        <TextView
+            android:id="@+id/good_fingger_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_grey_400"
+            android:textSize="23sp"
+            tools:text="11" />
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

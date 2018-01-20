@@ -29,6 +29,7 @@ public class Constants {
 
     public static final String WEIBO_DOMAIN = "https://api.weibo.com/2";
     public static final String HOME_WEIBO_FOLLOW = WEIBO_DOMAIN + "/statuses/home_timeline.json";
+    public static final String WEIBO_GO_WEB_ORIGIN="http://api.weibo.com/2/statuses/go";
 
     public static class WB_REQUEST_PARAMETER {
         public static final String ACCESS_TOKEN = "access_token";
