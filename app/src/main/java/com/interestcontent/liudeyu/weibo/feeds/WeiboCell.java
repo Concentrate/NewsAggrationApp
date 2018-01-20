@@ -15,6 +15,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.BaseRecyclerView;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.SpaceItemDecoration;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
@@ -36,10 +37,11 @@ import java.util.List;
  * Created by liudeyu on 2018/1/2.
  */
 
-public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> implements View.OnClickListener, OnRecycleViewItemClickListener {
+public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> implements View.OnClickListener, OnRecycleViewItemClickListener, BaseRecyclerView.BlankListener {
     public static final String MIDDLE = "bmiddle";
     public static final String ORIGIN = "large";
     public static final String SMALL = "thumbnail";
+    private int mCurrentPosition;
 
     private static final String TAG = WeiboCell.class.getSimpleName();
 
@@ -89,27 +91,32 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
             public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
                 switch (autoLinkMode) {
                     case MODE_URL:
-                        BrowseActivity.start(mContext, matchedText,true);
+                        BrowseActivity.start(mContext, matchedText, true);
                         break;
 
                 }
             }
         });
-        RecyclerView recyclerView = view.findViewById(R.id.wb_image_recyle_view);
+        BaseRecyclerView recyclerView = view.findViewById(R.id.wb_image_recyle_view);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         int itemDecortWidth = (int) ((ScreenUtils.getScreenWidth() - mContext.getResources().
                 getDimension(R.dimen.wb_cell_image_size) * 3) / 2);
         recyclerView.addItemDecoration(new SpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
         recyclerView.setAdapter(new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>()));
+        recyclerView.setBlankListener(this);
+        // TODO: 2018/1/20 这里是需要监听点击的，同时设置下tag,好分辨position
+        view.setOnClickListener(this);
+        recyclerView.setOnClickListener(this);
     }
 
 
     @Override
     public void onBindViewHolder(RVBaseViewHolder holder, int position) {
         if (holder.getItemViewType() == FeedConstants.FEED_NORMAL_WEIBO_TYPE) {
+//            设置下tag,为相同点击处理
             holder.getView(R.id.root_container).setTag(R.layout.weibo_feed_cell_layout, position);
-            holder.getView(R.id.root_container).setOnClickListener(this);
+            holder.getView(R.id.wb_image_recyle_view).setTag(R.layout.weibo_feed_cell_layout, position);
             AutoLinkTextView autoLinkTextView = (AutoLinkTextView) holder.getTextView(R.id.wb_content_tv);
             autoLinkTextView.setAutoLinkText(mData.get(position).getText());
             holder.getTextView(R.id.create_time_tv).setText(mData.get(position).getCreated_at());
@@ -199,7 +206,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
             String requestUrl = originUrl + "?" + Constants.WB_REQUEST_PARAMETER.UID + "=" + mData.get(position).getUser().getIdstr()
                     + "&" + Constants.WB_REQUEST_PARAMETER.ID + "=" + mData.get(position).getIdstr();
             Logger.d(TAG, "rquest url is " + requestUrl);
-            BrowseActivity.start(mContext, requestUrl,false);
+            BrowseActivity.start(mContext, requestUrl, false);
 
         }
 
@@ -208,5 +215,13 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
     @Override
     public void onItemLongClick(View view, int postion) {
 
+    }
+
+//    搞定了点击ImageRecycle画廊浏览时候，不知道上一级RecycleView Item 位置的问题，牛批!
+    @Override
+    public void onBlankClick(RecyclerView recyclerView) {
+        if (recyclerView.getTag(R.layout.weibo_feed_cell_layout) != null) {
+            dealWithGoToSourceWeibo((Integer) recyclerView.getTag(R.layout.weibo_feed_cell_layout));
+        }
     }
 }

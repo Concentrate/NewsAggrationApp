@@ -111,8 +111,8 @@ public abstract class AbsFeedFragment<T> extends Fragment {
     public void onResume() {
         super.onResume();
         if (getUserVisibleHint()) {
-            if(isFirstInitial){
-                isFirstInitial=false;
+            if (isFirstInitial) {
+                isFirstInitial = false;
                 onRecyclerViewInitialized();
             }
         }
@@ -121,9 +121,9 @@ public abstract class AbsFeedFragment<T> extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isResumed()){
-            if(isFirstInitial){
-                isFirstInitial=false;
+        if (isResumed()) {
+            if (isFirstInitial) {
+                isFirstInitial = false;
                 onRecyclerViewInitialized();
             }
         }
@@ -298,5 +298,20 @@ public abstract class AbsFeedFragment<T> extends Fragment {
      * @return cell列表
      */
     protected abstract List<Cell> getCells(List<T> list);
+
+    protected int getLastCompleteVisiblePosition() {
+        if (mRecyclerView.getLayoutManager() != null) {
+            RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
+            if (layoutManager instanceof LinearLayoutManager) {
+                return ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
+            } else if (layoutManager instanceof GridLayoutManager) {
+                return ((GridLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                int[] array = new int[10];
+                return findMax(((StaggeredGridLayoutManager) layoutManager).findLastCompletelyVisibleItemPositions(array));
+            }
+        }
+        return 0;
+    }
 
 }
