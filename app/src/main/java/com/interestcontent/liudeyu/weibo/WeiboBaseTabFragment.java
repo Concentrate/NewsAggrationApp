@@ -1,24 +1,14 @@
 package com.interestcontent.liudeyu.weibo;
 
-import com.google.gson.Gson;
-import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
-import com.interestcontent.liudeyu.base.constants.Constants;
-import com.interestcontent.liudeyu.base.constants.SpConstants;
-import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
+import com.blankj.utilcode.util.SizeUtils;
+import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.base.mvp.IMvpView;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
-import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
 import com.interestcontent.liudeyu.weibo.feeds.presents.WeiboFeedPresenter;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.Callback;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 /**
  * Created by liudeyu on 2017/12/30.
@@ -27,7 +17,7 @@ import okhttp3.ResponseBody;
 /**
  * 检测是否登录微博，并且给予一定操作
  */
-public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
+public abstract class WeiboBaseTabFragment extends AbsFeedFragment implements IMvpView<List<WeiboBean>>{
 
 
     protected int mCurrentPage = 1;
@@ -38,56 +28,54 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
 
     protected abstract String providedRequestDataUrl();
 
-
-    protected void requestPageData(int page) {
-        mCurrentPage = page;
-        startRequestWeiboFeed(page > 1);
-
+    @Override
+    public void onPullRefresh() {
+        startRequestWeiboFeed(false, WeiboFeedPresenter.FEED_QUEST_TYPE.REFLASH);
     }
 
-    protected void startRequestWeiboFeed(boolean showLoadMore) {
+    @Override
+    public void onLoadMore() {
+        startRequestWeiboFeed(true, WeiboFeedPresenter.FEED_QUEST_TYPE.NORMAL_BY_NET);
+    }
+
+    @Override
+    public void onRecyclerViewInitialized() {
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+                .color(getActivity().getResources().getColor(R.color.md_white_1000))
+                .size(SizeUtils.dp2px(1.0f))
+                .build());
+        startRequestWeiboFeed(true, WeiboFeedPresenter.FEED_QUEST_TYPE.FIRST_FLUSH);
+    }
+
+
+    protected abstract int  provideItemTabKey();
+
+    protected void startRequestWeiboFeed(boolean showLoadMore, WeiboFeedPresenter.FEED_QUEST_TYPE type) {
+        if(mFeedPresenter==null){
+            mFeedPresenter=new WeiboFeedPresenter();
+            mFeedPresenter.attachView(this);
+        }
         String url = providedRequestDataUrl();
-        OkHttpUtils.get().url(url)
-                .params(provideRequestParameter())
-                .build().execute(new Callback<WeiboRequest>() {
-            @Override
-            public WeiboRequest parseNetworkResponse(Response response, int id) throws Exception {
-                ResponseBody responseBodyCopy = response.peekBody(Long.MAX_VALUE);
-                return new Gson().fromJson(responseBodyCopy.string(), WeiboRequest.class);
-            }
-
-            @Override
-            public void onError(Call call, Exception e, int id) {
-                mBaseAdapter.hideLoading();
-                setRefreshing(false);
-                mBaseAdapter.showError();
-            }
-
-            @Override
-            public void onResponse(WeiboRequest response, int id) {
-                mBaseAdapter.hideLoading();
-                setRefreshing(false);
-                if (response == null || response.getWeiboLists() == null) {
-                    return;
-                }
-                getResponseData(response.getWeiboLists());
-            }
-        });
+        int itemTabkey=provideItemTabKey();
+        mFeedPresenter.execute(url,itemTabkey,type);
         if (showLoadMore) {
             mBaseAdapter.showLoading();
         }
     }
 
-    protected abstract void getResponseData(List<WeiboBean> statuses);
-
-    protected Map<String, String> provideRequestParameter() {
-        Map<String, String> map = new HashMap<>();
-        map.put(Constants.WB_REQUEST_PARAMETER.ACCESS_TOKEN, SharePreferenceUtil.getStringPreference(
-                MyApplication.sApplication, SpConstants.WEIBO_AUTHEN_TOKEN));
-        map.put(Constants.WB_REQUEST_PARAMETER.PAGE, mCurrentPage + "");
-        map.put(Constants.WB_REQUEST_PARAMETER.SINGLE_PAGE_COUNT, mEveryPageDataNum + "");
-        map.put(Constants.WB_REQUEST_PARAMETER.TRIM_USER, 0 + "");
-        return map;
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if(mFeedPresenter!=null){
+            mFeedPresenter.detachView();
+        }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(mFeedPresenter!=null){
+            mFeedPresenter.detachView();
+        }
+    }
 }

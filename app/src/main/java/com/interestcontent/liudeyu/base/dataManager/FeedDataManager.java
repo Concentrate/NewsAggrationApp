@@ -5,6 +5,8 @@ import android.util.SparseArray;
 import com.google.gson.Gson;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
+import com.interestcontent.liudeyu.base.constants.SpConstants;
+import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -39,6 +41,14 @@ public class FeedDataManager {
         return FeedDataManagerHolder.sFeedDataManager;
     }
 
+    private Map<String, String> provideBasicRequestParameter() {
+        Map<String, String> map = new HashMap<>();
+        map.put(Constants.WB_REQUEST_PARAMETER.ACCESS_TOKEN, SharePreferenceUtil.getStringPreference(
+                MyApplication.sApplication, SpConstants.WEIBO_AUTHEN_TOKEN));
+        map.put(Constants.WB_REQUEST_PARAMETER.TRIM_USER, 0 + "");
+        map.put(Constants.WB_REQUEST_PARAMETER.SINGLE_PAGE_COUNT,WB_REQUEST_EVERY_PAGE_NUM+"");
+        return map;
+    }
     public List<WeiboBean> getWeiboListAtFirstFlush(int itemTabKey, String url) throws  Exception{
         if (wbRamCache.get(itemTabKey) != null && !wbRamCache.get(itemTabKey).isEmpty()) {
             return wbRamCache.get(itemTabKey);
@@ -52,27 +62,24 @@ public class FeedDataManager {
             requestPage=weiboTabCurrentPageMap.get(itemTabKey)+1;
         }
         weiboTabCurrentPageMap.put(itemTabKey,requestPage);
-        Map<String,String>map = new HashMap<>();
-        map.put(Constants.WB_REQUEST_PARAMETER.SINGLE_PAGE_COUNT,WB_REQUEST_EVERY_PAGE_NUM+"");
+        Map<String,String>map = provideBasicRequestParameter();
         map.put(Constants.WB_REQUEST_PARAMETER.PAGE,requestPage+"");
         String response=OkHttpUtils.get().url(url).params(map).build().execute().body().string();
         Gson gson=new Gson();
         WeiboRequest request= gson.fromJson(response, WeiboRequest.class);
-        saveToCache(itemTabKey,request.getWeiboLists(),reflash);
-        return  request.getWeiboLists();
+        return   saveToCache(itemTabKey,request.getWeiboLists(),reflash);
     }
 
-    private void saveToCache(int itemTabKey, List<WeiboBean> weiboLists,boolean isReflash) {
+    private List<WeiboBean> saveToCache(int itemTabKey, List<WeiboBean> weiboLists,boolean isReflash) {
         if(isReflash){
             wbRamCache.put(itemTabKey,weiboLists);
-            return;
         }
         if(wbRamCache.get(itemTabKey)==null){
             wbRamCache.put(itemTabKey,weiboLists);
         }else{
             wbRamCache.get(itemTabKey).addAll(weiboLists);
         }
-
+        return wbRamCache.get(itemTabKey);
     }
 
     public List<WeiboBean> reflashWeiboListByNet(int itemTabKey,String url) throws Exception{

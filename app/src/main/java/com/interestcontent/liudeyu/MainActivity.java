@@ -11,14 +11,16 @@ import android.view.View;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
 import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
 import com.interestcontent.liudeyu.base.constants.Constants;
-import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.base.tabs.BasePageAdapter;
+import com.interestcontent.liudeyu.base.tabs.ItemTab;
+import com.interestcontent.liudeyu.base.thread.TaskManager;
 import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,6 +85,7 @@ public class MainActivity extends BaseActivity {
         AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL
                 , Constants.SCOPE);
         WbSdk.install(this, authInfo);
+        TaskManager.inst().init(new TaskManager.TaskManagerConfig().setExecutor(Executors.newFixedThreadPool(4)));
     }
 
 

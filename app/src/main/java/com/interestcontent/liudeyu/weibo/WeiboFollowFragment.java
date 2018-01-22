@@ -1,11 +1,11 @@
 package com.interestcontent.liudeyu.weibo;
 
-import com.blankj.utilcode.util.SizeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.Constants;
+import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.feeds.WeiboCell;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 
@@ -23,24 +23,7 @@ public class WeiboFollowFragment extends WeiboBaseTabFragment {
 
     private RVBaseCell mCell;
 
-    @Override
-    public void onRecyclerViewInitialized() {
-        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
-                .color(getActivity().getResources().getColor(R.color.md_white_1000))
-                .size(SizeUtils.dp2px(1.0f))
-                .build());
-        startRequestWeiboFeed(true);
-    }
 
-    @Override
-    public void onPullRefresh() {
-        requestPageData(1);
-    }
-
-    @Override
-    public void onLoadMore() {
-        requestPageData(mCurrentPage + 1);
-    }
 
     @Override
     protected List<Cell> getCells(@NotNull List list) {
@@ -62,8 +45,22 @@ public class WeiboFollowFragment extends WeiboBaseTabFragment {
     }
 
     @Override
-    protected void getResponseData(List<WeiboBean> statuses) {
-        mBaseAdapter.addAll(getCells(statuses));
+    protected int provideItemTabKey() {
+        return ItemTab.WEIBO_SUB_FOLLOW;
     }
 
+
+    @Override
+    public void onQueryResult(List<WeiboBean> result) {
+        mBaseAdapter.setData(getCells(result));
+        mBaseAdapter.hideLoading();
+    }
+
+    @Override
+    public void onQueryError(Exception e) {
+        ToastUtils.setBgResource(R.color.md_deep_orange_300);
+        ToastUtils.showShort("网络错误");
+        mBaseAdapter.hideLoading();
+
+    }
 }
