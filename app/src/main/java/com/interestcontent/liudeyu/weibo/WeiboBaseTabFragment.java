@@ -5,7 +5,9 @@ import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
+import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
+import com.interestcontent.liudeyu.weibo.feeds.presents.WeiboFeedPresenter;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -30,6 +32,8 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
 
     protected int mCurrentPage = 1;
     protected int mEveryPageDataNum = 20;
+
+    private WeiboFeedPresenter mFeedPresenter;
 
 
     protected abstract String providedRequestDataUrl();
@@ -63,10 +67,10 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
             public void onResponse(WeiboRequest response, int id) {
                 mBaseAdapter.hideLoading();
                 setRefreshing(false);
-                if (response == null || response.getStatuses() == null) {
+                if (response == null || response.getWeiboLists() == null) {
                     return;
                 }
-                getResponseData(response.getStatuses());
+                getResponseData(response.getWeiboLists());
             }
         });
         if (showLoadMore) {
@@ -74,7 +78,7 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment {
         }
     }
 
-    protected abstract void getResponseData(List<WeiboRequest.StatusesBean> statuses);
+    protected abstract void getResponseData(List<WeiboBean> statuses);
 
     protected Map<String, String> provideRequestParameter() {
         Map<String, String> map = new HashMap<>();

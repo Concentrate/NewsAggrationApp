@@ -20,7 +20,7 @@ import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.SpaceItemDeco
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.base.utils.Logger;
-import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
+import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboUserBean;
 import com.luseen.autolinklibrary.AutoLinkMode;
 import com.luseen.autolinklibrary.AutoLinkOnClickListener;
@@ -37,7 +37,7 @@ import java.util.List;
  * Created by liudeyu on 2018/1/2.
  */
 
-public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> implements View.OnClickListener, OnRecycleViewItemClickListener, BaseRecyclerView.BlankListener {
+public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnClickListener, OnRecycleViewItemClickListener, BaseRecyclerView.BlankListener {
     public static final String MIDDLE = "bmiddle";
     public static final String ORIGIN = "large";
     public static final String SMALL = "thumbnail";
@@ -47,11 +47,11 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
 
     private Context mContext;
 
-    public WeiboCell(List<WeiboRequest.StatusesBean> data) {
+    public WeiboCell(List<WeiboBean> data) {
         super(data);
     }
 
-    public WeiboCell(List<WeiboRequest.StatusesBean> data, Context context) {
+    public WeiboCell(List<WeiboBean> data, Context context) {
         super(data);
         mContext = context;
     }
@@ -125,7 +125,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
                 holder.getTextView(R.id.author_tv).setText(userBean.getName());
                 Glide.with(mContext).load(userBean.getProfile_image_url()).into(holder.getImageView(R.id.avater_iv));
             }
-            List<WeiboRequest.StatusesBean.PicUrlsBean> picUrlsBeans = mData.get(position).getPic_urls();
+            List<WeiboBean.PicUrlsBean> picUrlsBeans = mData.get(position).getPic_urls();
             RecyclerView recyclerView = (RecyclerView) holder.getView(R.id.wb_image_recyle_view);
             String originPicDomen = getOriginPicHost(position);
             if (picUrlsBeans != null && !picUrlsBeans.isEmpty()) {
@@ -156,7 +156,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
     }
 
     @NonNull
-    private List<String> getOriginPicUrls(List<WeiboRequest.StatusesBean.PicUrlsBean> picUrlsBeans, String originPicDomen, int limitPreivewSize
+    private List<String> getOriginPicUrls(List<WeiboBean.PicUrlsBean> picUrlsBeans, String originPicDomen, int limitPreivewSize
             , String imageScaleTag) {
         List<String> urls = new ArrayList<>();
         for (int i = 0; i < limitPreivewSize; i++) {
@@ -178,7 +178,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboRequest.StatusesBean>> imple
         return urls;
     }
 
-    private int getLimitPreivewSize(List<WeiboRequest.StatusesBean.PicUrlsBean> picUrlsBeans) {
+    private int getLimitPreivewSize(List<WeiboBean.PicUrlsBean> picUrlsBeans) {
         int limitPreivewSize = picUrlsBeans.size();
         return limitPreivewSize > 6 ? 6 : limitPreivewSize;
     }

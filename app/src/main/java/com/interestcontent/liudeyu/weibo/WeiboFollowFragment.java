@@ -3,7 +3,7 @@ package com.interestcontent.liudeyu.weibo;
 import com.blankj.utilcode.util.SizeUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.Constants;
-import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
+import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.feeds.WeiboCell;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
@@ -62,7 +62,7 @@ public class WeiboFollowFragment extends WeiboBaseTabFragment {
     }
 
     @Override
-    protected void getResponseData(List<WeiboRequest.StatusesBean> statuses) {
+    protected void getResponseData(List<WeiboBean> statuses) {
         mBaseAdapter.addAll(getCells(statuses));
     }
 
