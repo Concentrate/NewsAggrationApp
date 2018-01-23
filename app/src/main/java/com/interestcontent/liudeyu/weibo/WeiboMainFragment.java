@@ -70,7 +70,7 @@ public class WeiboMainFragment extends AbsTopTabFragment {
 
     @Override
     protected int viewpagerLimitNum() {
-        return 3;
+        return 2;
     }
 
 

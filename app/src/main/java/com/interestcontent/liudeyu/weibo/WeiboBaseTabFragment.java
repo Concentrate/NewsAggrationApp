@@ -2,6 +2,7 @@ package com.interestcontent.liudeyu.weibo;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.mvp.IMvpView;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.feeds.presents.WeiboFeedPresenter;
@@ -22,6 +23,7 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment implements IM
 
     protected int mCurrentPage = 1;
     protected int mEveryPageDataNum = 20;
+    private boolean isResumeLoadData;
 
     private WeiboFeedPresenter mFeedPresenter;
 
@@ -40,11 +42,12 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment implements IM
 
     @Override
     public void onRecyclerViewInitialized() {
-        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
-                .color(getActivity().getResources().getColor(R.color.md_white_1000))
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(MyApplication.sApplication)
+                .color(MyApplication.sApplication.getResources().getColor(R.color.md_white_1000))
                 .size(SizeUtils.dp2px(1.0f))
                 .build());
         startRequestWeiboFeed(true, WeiboFeedPresenter.FEED_QUEST_TYPE.FIRST_FLUSH);
+
     }
 
 
@@ -53,8 +56,8 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment implements IM
     protected void startRequestWeiboFeed(boolean showLoadMore, WeiboFeedPresenter.FEED_QUEST_TYPE type) {
         if(mFeedPresenter==null){
             mFeedPresenter=new WeiboFeedPresenter();
-            mFeedPresenter.attachView(this);
         }
+        mFeedPresenter.attachView(this);
         String url = providedRequestDataUrl();
         int itemTabkey=provideItemTabKey();
         mFeedPresenter.execute(url,itemTabkey,type);
@@ -75,4 +78,5 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment implements IM
             mFeedPresenter.detachView();
         }
     }
+
 }

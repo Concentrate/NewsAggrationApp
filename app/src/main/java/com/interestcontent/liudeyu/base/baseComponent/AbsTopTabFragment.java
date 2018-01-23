@@ -70,6 +70,7 @@ public abstract class AbsTopTabFragment extends AbsFragment {
         mTabLayout.setBackgroundColor(getActivity().getResources().getColor(R.color.md_red_A100));
         mTabLayout.setTabTextColors(getActivity().getResources().getColor(R.color.md_white_1000), getActivity()
                 .getResources().getColor(R.color.md_yellow_100));
+
     }
 
 
