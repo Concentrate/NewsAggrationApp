@@ -116,4 +116,9 @@ public class MainActivity extends BaseActivity {
             WeiboLoginManager.getInstance().getSsoHandler().authorizeCallBack(requestCode, resultCode, data);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        return;
+    }
 }

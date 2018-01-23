@@ -113,6 +113,9 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
 
     @Override
     public void onBindViewHolder(RVBaseViewHolder holder, int position) {
+        if(position>=mData.size()){
+            return;
+        }
         if (holder.getItemViewType() == FeedConstants.FEED_NORMAL_WEIBO_TYPE) {
 //            设置下tag,为相同点击处理
             holder.getView(R.id.root_container).setTag(R.layout.weibo_feed_cell_layout, position);

@@ -21,6 +21,7 @@ public   abstract class RVBaseAdapter<C extends RVBaseCell>  extends RecyclerVie
     }
 
     public void setData(List<C> data) {
+        mData.clear();
         addAll(data);
         notifyDataSetChanged();
     }

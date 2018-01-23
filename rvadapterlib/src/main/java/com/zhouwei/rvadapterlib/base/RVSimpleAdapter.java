@@ -314,8 +314,8 @@ public class RVSimpleAdapter extends RVBaseAdapter{
     public void hideLoadMore(){
        if(mData.contains(mLoadMoreCell)){
            remove(mLoadMoreCell);
-           mIsShowLoadMore = false;
        }
+        mIsShowLoadMore = false;
     }
 
     /**

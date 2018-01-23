@@ -53,14 +53,16 @@ public class WeiboFollowFragment extends WeiboBaseTabFragment {
     @Override
     public void onQueryResult(List<WeiboBean> result) {
         mBaseAdapter.setData(getCells(result));
-        mBaseAdapter.hideLoading();
+        hideLoadMore();
+        setRefreshing(false);
     }
 
     @Override
     public void onQueryError(Exception e) {
         ToastUtils.setBgResource(R.color.md_deep_orange_300);
         ToastUtils.showShort("网络错误");
-        mBaseAdapter.hideLoading();
+        hideLoadMore();
+        setRefreshing(false);
 
     }
 }

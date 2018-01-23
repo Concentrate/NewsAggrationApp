@@ -58,9 +58,6 @@ public abstract class WeiboBaseTabFragment extends AbsFeedFragment implements IM
         String url = providedRequestDataUrl();
         int itemTabkey=provideItemTabKey();
         mFeedPresenter.execute(url,itemTabkey,type);
-        if (showLoadMore) {
-            mBaseAdapter.showLoading();
-        }
     }
 
     @Override

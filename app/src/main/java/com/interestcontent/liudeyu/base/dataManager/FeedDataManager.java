@@ -24,13 +24,10 @@ public class FeedDataManager {
     private static int WB_REQUEST_EVERY_PAGE_NUM = 15;
     private static int WB_MEMORY_STORGE_SAVE_TIME = 60 * 60 * 1000;
     private SparseArray<List<WeiboBean>> wbRamCache = new SparseArray<>();
-    private volatile int secondCounter;
     private ACache mACache;
     private SparseArray<Integer> weiboTabCurrentPageMap=new SparseArray<>();
+    private volatile  boolean isLoadingWeiboData;
 
-    private synchronized void resetCounter() {
-        secondCounter = 0;
-    }
 
     private FeedDataManager() {
         mACache = ACache.get(MyApplication.sApplication);
@@ -56,7 +53,7 @@ public class FeedDataManager {
        return  getWeiboListMoreByNet(itemTabKey,url,false);
     }
 
-    public List<WeiboBean> getWeiboListMoreByNet(int itemTabKey,String url,boolean reflash) throws Exception{
+    public synchronized List<WeiboBean> getWeiboListMoreByNet(int itemTabKey,String url,boolean reflash) throws Exception{
         int requestPage=1;
         if(weiboTabCurrentPageMap.get(itemTabKey)!=null){
             requestPage=weiboTabCurrentPageMap.get(itemTabKey)+1;
@@ -70,7 +67,7 @@ public class FeedDataManager {
         return   saveToCache(itemTabKey,request.getWeiboLists(),reflash);
     }
 
-    private List<WeiboBean> saveToCache(int itemTabKey, List<WeiboBean> weiboLists,boolean isReflash) {
+    private synchronized List<WeiboBean> saveToCache(int itemTabKey, List<WeiboBean> weiboLists,boolean isReflash) {
         if(isReflash){
             wbRamCache.put(itemTabKey,weiboLists);
         }
