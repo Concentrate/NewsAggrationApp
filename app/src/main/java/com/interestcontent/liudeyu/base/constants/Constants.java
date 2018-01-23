@@ -30,6 +30,9 @@ public class Constants {
     public static final String WEIBO_DOMAIN = "https://api.weibo.com/2";
     public static final String HOME_WEIBO_FOLLOW = WEIBO_DOMAIN + "/statuses/home_timeline.json";
     public static final String WEIBO_GO_WEB_ORIGIN="http://api.weibo.com/2/statuses/go";
+    public static final String WEIBO_GOOD_ATTITUDE = "https://api.weibo.com/2/attitudes/create.json"; // 点赞 api post
+    public static final String WEIBO_NEGETIVE_ATTITUDE = "https://api.weibo.com/2/attitudes/destroy.json"; // 取消点赞 post
+    public static final String WEIBO_SINGLE_CONTENT= WEIBO_DOMAIN+"/statuses/show.json";
 
     public static class WB_REQUEST_PARAMETER {
         public static final String ACCESS_TOKEN = "access_token";
@@ -39,6 +42,7 @@ public class Constants {
         public static final String TRIM_USER = "trim_user"; //返回值中user字段开关，0：返回完整user字段、1：user字段仅返回user_id，默认为0。
         public static final String UID="uid";
         public static final String ID="id";
+        public static final String ATTITUDE ="attitude"; // 点赞相关参数
     }
 }
 

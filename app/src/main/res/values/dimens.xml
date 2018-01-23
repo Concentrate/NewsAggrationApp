@@ -16,4 +16,5 @@
     <item name="comment_and_digger_resend_size" type="dimen">20dp</item>
     <item name="comment_and_digger_height_size" type="dimen">40dp</item>
     <item name="wb_comment_base_operate_height_size" type="dimen">50dp</item>
+    <dimen name="wb_operation_tip_text_size">16sp</dimen>
 </resources>

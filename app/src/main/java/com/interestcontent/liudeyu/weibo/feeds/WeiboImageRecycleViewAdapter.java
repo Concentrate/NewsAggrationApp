@@ -9,7 +9,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.weibo.component.PictureBrowseActivity;
+import com.interestcontent.liudeyu.weibo.contents.PictureBrowseActivity;
+import com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
@@ -19,7 +20,7 @@ import java.util.Set;
 /**
  * Created by liudeyu on 2018/1/17.
  */
-class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImageRecycleViewHolder> implements View.OnClickListener, OnRecycleViewItemClickListener {
+public class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImageRecycleViewHolder> implements View.OnClickListener, OnRecycleViewItemClickListener {
 
     private Context mContext;
     private List<String> mUrls;
@@ -85,8 +86,8 @@ class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImageRecycl
     public void onItemClick(View view, int position) {
         switch (view.getId()) {
             case R.id.image_iv:
-                if (mUrls.get(position).contains(WeiboCell.MIDDLE)) {
-                    PictureBrowseActivity.start(mContext, mUrls.get(position).replace(WeiboCell.MIDDLE, WeiboCell.ORIGIN));
+                if (mUrls.get(position).contains(WeiboUrlsUtils.MIDDLE)) {
+                    PictureBrowseActivity.start(mContext, mUrls.get(position).replace(WeiboUrlsUtils.MIDDLE, WeiboUrlsUtils.ORIGIN));
                 }
                 break;
 

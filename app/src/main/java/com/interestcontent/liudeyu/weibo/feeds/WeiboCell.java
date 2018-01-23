@@ -1,7 +1,6 @@
 package com.interestcontent.liudeyu.weibo.feeds;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
@@ -22,25 +22,24 @@ import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.base.utils.Logger;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboUserBean;
+import com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils;
 import com.luseen.autolinklibrary.AutoLinkMode;
 import com.luseen.autolinklibrary.AutoLinkOnClickListener;
 import com.luseen.autolinklibrary.AutoLinkTextView;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils.MIDDLE;
 
 /**
  * Created by liudeyu on 2018/1/2.
  */
 
 public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnClickListener, OnRecycleViewItemClickListener, BaseRecyclerView.BlankListener {
-    public static final String MIDDLE = "bmiddle";
-    public static final String ORIGIN = "large";
-    public static final String SMALL = "thumbnail";
+
     private int mCurrentPosition;
 
     private static final String TAG = WeiboCell.class.getSimpleName();
@@ -105,6 +104,11 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
         recyclerView.addItemDecoration(new SpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
         recyclerView.setAdapter(new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>()));
         recyclerView.setBlankListener(this);
+        LinearLayout goodFinger = view.findViewById(R.id.good_fingger_layout);
+        LinearLayout resendLayout = view.findViewById(R.id.resend_layout);
+        OnWeiboOperationBottomClickListener bottomClickListener = new OnWeiboOperationBottomClickListener();
+        goodFinger.setOnClickListener(bottomClickListener);
+        resendLayout.setOnClickListener(bottomClickListener);
         // TODO: 2018/1/20 这里是需要监听点击的，同时设置下tag,好分辨position
         view.setOnClickListener(this);
         recyclerView.setOnClickListener(this);
@@ -113,13 +117,21 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
 
     @Override
     public void onBindViewHolder(RVBaseViewHolder holder, int position) {
-        if(position>=mData.size()){
+        if (position >= mData.size()) {
             return;
         }
         if (holder.getItemViewType() == FeedConstants.FEED_NORMAL_WEIBO_TYPE) {
 //            设置下tag,为相同点击处理
             holder.getView(R.id.root_container).setTag(R.layout.weibo_feed_cell_layout, position);
             holder.getView(R.id.wb_image_recyle_view).setTag(R.layout.weibo_feed_cell_layout, position);
+            holder.getView(R.id.good_fingger_layout).setTag(R.layout.weibo_feed_cell_layout,mData.get(position).getIdstr());
+
+/*todo  以上setTag地方要改，这样容易遗忘，出问题，写法不好，为了快*/
+
+            holder.getTextView(R.id.resend_count_tv).setText(mData.get(position).getReposts_count() + "");
+            holder.getTextView(R.id.comment_count_tv).setText(mData.get(position).getComments_count() + "");
+            holder.getTextView(R.id.good_fingger_count_tv).setText(mData.get(position).getAttitudes_count() + "");
+
             AutoLinkTextView autoLinkTextView = (AutoLinkTextView) holder.getTextView(R.id.wb_content_tv);
             autoLinkTextView.setAutoLinkText(mData.get(position).getText());
             holder.getTextView(R.id.create_time_tv).setText(mData.get(position).getCreated_at());
@@ -130,12 +142,12 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
             }
             List<WeiboBean.PicUrlsBean> picUrlsBeans = mData.get(position).getPic_urls();
             RecyclerView recyclerView = (RecyclerView) holder.getView(R.id.wb_image_recyle_view);
-            String originPicDomen = getOriginPicHost(position);
+            String originPicDomen = WeiboUrlsUtils.getOriginPicHost(mData.get(position).getOriginal_pic());
             if (picUrlsBeans != null && !picUrlsBeans.isEmpty()) {
-                int limitPreivewSize = getLimitPreivewSize(picUrlsBeans);
+                int limitPreivewSize = WeiboUrlsUtils.getLimitPreivewSize(picUrlsBeans);
                 recyclerView.setVisibility(View.VISIBLE);
                 WeiboImageRecycleViewAdapter adapter = (WeiboImageRecycleViewAdapter) recyclerView.getAdapter();
-                List<String> urls = getOriginPicUrls(picUrlsBeans, originPicDomen, limitPreivewSize, MIDDLE);
+                List<String> urls = WeiboUrlsUtils.getOriginPicUrls(picUrlsBeans, originPicDomen, limitPreivewSize, MIDDLE);
                 adapter.setImageUrls(urls);
             } else {
                 recyclerView.setVisibility(View.GONE);
@@ -144,52 +156,9 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
 
     }
 
-    @NonNull
-    private String getOriginPicHost(int position) {
-        String originPicDomen = "";
-        if (!TextUtils.isEmpty(mData.get(position).getOriginal_pic())) {
-            try {
-                URL url = new URL(mData.get(position).getOriginal_pic());
-                originPicDomen = url.getProtocol() + "://" + url.getHost();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-        return originPicDomen;
-    }
-
-    @NonNull
-    private List<String> getOriginPicUrls(List<WeiboBean.PicUrlsBean> picUrlsBeans, String originPicDomen, int limitPreivewSize
-            , String imageScaleTag) {
-        List<String> urls = new ArrayList<>();
-        for (int i = 0; i < limitPreivewSize; i++) {
-            String picRequestUrl = "";
-            if (!TextUtils.isEmpty(originPicDomen)) {
-                try {
-//                            通过观察链接得到的原图链接，官方api没提供
-                    URL url = new URL(picUrlsBeans.get(i).getThumbnail_pic());
-                    String jpgName = url.getFile().substring(url.getFile().indexOf("thumbnail/") + "thumbnail/".length());
-                    picRequestUrl = originPicDomen + "/" + imageScaleTag + "/" + jpgName;
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
-            Logger.d(TAG, "request origin pic url is " + picRequestUrl);
-            urls.add(!TextUtils.isEmpty(picRequestUrl) ? picRequestUrl : mData.get(i).getThumbnail_pic());
-
-        }
-        return urls;
-    }
-
-    private int getLimitPreivewSize(List<WeiboBean.PicUrlsBean> picUrlsBeans) {
-        int limitPreivewSize = picUrlsBeans.size();
-        return limitPreivewSize > 6 ? 6 : limitPreivewSize;
-    }
-
     @Override
     public void onClick(View view) {
         onItemClick(view, (Integer) view.getTag(R.layout.weibo_feed_cell_layout));
-
     }
 
 
@@ -220,11 +189,13 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
 
     }
 
-//    搞定了点击ImageRecycle画廊浏览时候，不知道上一级RecycleView Item 位置的问题，牛批!
+    //    搞定了点击ImageRecycle画廊浏览时候，不知道上一级RecycleView Item 位置的问题，牛批!
     @Override
     public void onBlankClick(RecyclerView recyclerView) {
         if (recyclerView.getTag(R.layout.weibo_feed_cell_layout) != null) {
             dealWithGoToSourceWeibo((Integer) recyclerView.getTag(R.layout.weibo_feed_cell_layout));
         }
     }
+
+
 }

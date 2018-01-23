@@ -49,7 +49,6 @@ public class WeiboFollowFragment extends WeiboBaseTabFragment {
         return ItemTab.WEIBO_SUB_FOLLOW;
     }
 
-
     @Override
     public void onQueryResult(List<WeiboBean> result) {
         mBaseAdapter.setData(getCells(result));

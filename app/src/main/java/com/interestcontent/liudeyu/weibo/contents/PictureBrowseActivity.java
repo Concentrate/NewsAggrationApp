@@ -1,4 +1,4 @@
-package com.interestcontent.liudeyu.weibo.component;
+package com.interestcontent.liudeyu.weibo.contents;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.AbsActivity;
 import com.interestcontent.liudeyu.base.utils.Logger;
+import com.interestcontent.liudeyu.weibo.component.GetImageCacheTask;
 
 import java.io.File;
 

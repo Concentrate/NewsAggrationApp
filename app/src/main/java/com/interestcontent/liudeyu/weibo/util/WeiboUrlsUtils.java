@@ -1,6 +1,15 @@
 package com.interestcontent.liudeyu.weibo.util;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+
+import com.interestcontent.liudeyu.base.utils.Logger;
+import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by liudeyu on 2018/1/16.
@@ -8,38 +17,56 @@ import android.support.annotation.NonNull;
 
 public class WeiboUrlsUtils {
 
-    // TODO: 2018/1/16 还没弄好，先不使用
-    private static final String MIDDLE = "bmiddle";
-    private static final String ORIGIN = "large";
-    private static final String SMALL = "thumbnail";
+
+    public static final String MIDDLE = "bmiddle";
+    public static final String ORIGIN = "large";
+    public static final String SMALL = "thumbnail";
+    public static String TAG=WeiboUrlsUtils.class.getSimpleName();
+
+    public static int getLimitPreivewSize(List<WeiboBean.PicUrlsBean> picUrlsBeans) {
+        int limitPreivewSize = picUrlsBeans.size();
+        return limitPreivewSize > 6 ? 6 : limitPreivewSize;
+    }
+
+    @NonNull
+    public static List<String> getOriginPicUrls(List<WeiboBean.PicUrlsBean> picUrlsBeans, String originPicDomen, int limitPreivewSize
+            , String imageScaleTag) {
+        List<String> urls = new ArrayList<>();
+        for (int i = 0; i < limitPreivewSize; i++) {
+            String picRequestUrl = "";
+            if (!TextUtils.isEmpty(originPicDomen)) {
+                try {
+//                            通过观察链接得到的原图链接，官方api没提供
+                    URL url = new URL(picUrlsBeans.get(i).getThumbnail_pic());
+                    String jpgName = url.getFile().substring(url.getFile().indexOf("thumbnail/") + "thumbnail/".length());
+                    picRequestUrl = originPicDomen + "/" + imageScaleTag + "/" + jpgName;
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+            Logger.d(TAG, "request origin pic url is " + picRequestUrl);
+
+        }
+        return urls;
+    }
+
+    @NonNull
+    public static String getOriginPicHost(String tmpUrl) {
+        String originPicDomen = "";
+        if (!TextUtils.isEmpty(tmpUrl)) {
+            try {
+                URL url = new URL(tmpUrl);
+                originPicDomen = url.getProtocol() + "://" + url.getHost();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        return originPicDomen;
+    }
 
     public static enum ImageUrlTag {
         BIG, MIDDLE, SMALL
     }
 
-    /**
-     * 转换微博url的链接清晰度
-     */
-    private static String transformWeiboImageUrlToOthers(@NonNull ImageUrlTag originImageType, ImageUrlTag toImageUrlType, @NonNull String imageUrl) {
-        String oriTag, toTag;
-        oriTag = mapTagAndString(originImageType);
-        toTag = mapTagAndString(toImageUrlType);
-        return "";
-    }
 
-    private static String mapTagAndString(@NonNull ImageUrlTag originImageType) {
-        String oriTag = null;
-        switch (originImageType) {
-            case SMALL:
-                oriTag = SMALL;
-                break;
-            case BIG:
-                oriTag = ORIGIN;
-                break;
-            case MIDDLE:
-                oriTag = MIDDLE;
-                break;
-        }
-        return oriTag;
-    }
 }
