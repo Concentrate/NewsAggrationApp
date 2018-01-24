@@ -48,6 +48,8 @@ import static com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils.MIDDLE;
  * Created by liudeyu on 2018/1/20.
  */
 
+/**因为api 缘故，根本拿不到数据，本地的展示由此先不用，废弃了*/
+@Deprecated
 public class WeiboContentActivity extends BaseActivity implements IMvpView<WeiboBean> {
 
     private static final String WEIBO_ID = "WEIBO_ID";
@@ -128,9 +130,10 @@ public class WeiboContentActivity extends BaseActivity implements IMvpView<Weibo
                 @Override
                 public Object call() throws Exception {
 
-
+                    // TODO: 2018/1/23   comment api
+                    return "";
                 }
-            },mHandler,1);
+            });
 
         }
 
@@ -173,7 +176,6 @@ public class WeiboContentActivity extends BaseActivity implements IMvpView<Weibo
         mGoodAttitudeLayout.setOnClickListener(bottomClickListener);
         mCommentLayout.setOnClickListener(bottomClickListener);
         bottomClickListener.setNecesseryViewTag(mWeiboId, mResendLayout, mGoodAttitudeLayout, mCommentLayout);
-
     }
 
     @Override
@@ -182,8 +184,13 @@ public class WeiboContentActivity extends BaseActivity implements IMvpView<Weibo
     }
 
     @Override
+    protected int getStatusBarColor() {
+        return getResources().getColor(R.color.md_blue_grey_300);
+    }
+
+    @Override
     protected int setToolbarColor() {
-        return getResources().getColor(R.color.md_blue_300);
+        return getResources().getColor(R.color.md_pink_200);
     }
 
     @Override
@@ -206,9 +213,10 @@ public class WeiboContentActivity extends BaseActivity implements IMvpView<Weibo
         if (res.getUser() != null) {
             Glide.with(this).load(res.getUser().getProfile_image_url()).into(mAvater);
             mAuthor.setText(res.getUser().getName());
+            mToolbarTitle.setText(res.getUser().getName());
         }
         mCreateTime.setText(res.getCreated_at());
-        mContentView.setAutoLinkText(res.getText());
+        mContentView.setAutoLinkText(TextUtils.isEmpty(res.getText()) ? "" : res.getText());
         mResendTv.setText(res.getReposts_count() + "");
         mCommentCountTv.setText(res.getComments_count() + "");
         mGooAttitudeTv.setText(res.getAttitudes_count() + "");

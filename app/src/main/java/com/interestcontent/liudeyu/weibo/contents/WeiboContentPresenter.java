@@ -18,7 +18,7 @@ public class WeiboContentPresenter extends MvpPresenter<WeiboBean,IMvpView<Weibo
     @Override
     public WeiboBean doWork(Object... params) throws Exception {
         String weiboId= (String) params[0];
-        String res= OkHttpUtils.get().addParams(Constants.WB_REQUEST_PARAMETER.ACCESS_TOKEN, SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.WEIBO_AUTHEN_TOKEN))
+        String res= OkHttpUtils.get().url(Constants.WEIBO_SINGLE_CONTENT).addParams(Constants.WB_REQUEST_PARAMETER.ACCESS_TOKEN, SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.WEIBO_AUTHEN_TOKEN))
                 .addParams(Constants.WB_REQUEST_PARAMETER.ID,weiboId).build().execute().body().string();
         return new Gson().fromJson(res, WeiboBean.class);
     }

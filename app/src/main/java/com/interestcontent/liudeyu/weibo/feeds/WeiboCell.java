@@ -9,7 +9,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
@@ -17,11 +19,11 @@ import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.BaseRecyclerView;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.SpaceItemDecoration;
-import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
-import com.interestcontent.liudeyu.base.utils.Logger;
+import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboUserBean;
+import com.interestcontent.liudeyu.weibo.util.MyWeiboPageUtils;
 import com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils;
 import com.luseen.autolinklibrary.AutoLinkMode;
 import com.luseen.autolinklibrary.AutoLinkOnClickListener;
@@ -109,9 +111,15 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
         OnWeiboOperationBottomClickListener bottomClickListener = new OnWeiboOperationBottomClickListener();
         goodFinger.setOnClickListener(bottomClickListener);
         resendLayout.setOnClickListener(bottomClickListener);
+        ImageView avaterIv = view.findViewById(R.id.avater_iv);
+        TextView authorTv = view.findViewById(R.id.author_tv);
+
         // TODO: 2018/1/20 这里是需要监听点击的，同时设置下tag,好分辨position
         view.setOnClickListener(this);
         recyclerView.setOnClickListener(this);
+        avaterIv.setOnClickListener(this);
+        authorTv.setOnClickListener(this);
+
     }
 
 
@@ -124,7 +132,9 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
 //            设置下tag,为相同点击处理
             holder.getView(R.id.root_container).setTag(R.layout.weibo_feed_cell_layout, position);
             holder.getView(R.id.wb_image_recyle_view).setTag(R.layout.weibo_feed_cell_layout, position);
-            holder.getView(R.id.good_fingger_layout).setTag(R.layout.weibo_feed_cell_layout,mData.get(position).getIdstr());
+            holder.getView(R.id.good_fingger_layout).setTag(R.layout.weibo_feed_cell_layout, mData.get(position).getIdstr());
+            holder.getImageView(R.id.avater_iv).setTag(R.layout.weibo_feed_cell_layout, position);
+            holder.getTextView(R.id.author_tv).setTag(R.layout.weibo_feed_cell_layout, position);
 
 /*todo  以上setTag地方要改，这样容易遗忘，出问题，写法不好，为了快*/
 
@@ -168,20 +178,29 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
             case R.id.root_container:
                 dealWithGoToSourceWeibo(position);
                 break;
+            case R.id.avater_iv:
+            case R.id.author_tv:
+                dealWithGoToAuthorPage(position);
+                break;
+
+        }
+    }
+
+    private void dealWithGoToAuthorPage(int position) {
+        if (mData.get(position).getUser() == null) {
+            return;
+        }
+        String profile = mData.get(position).getUser().getProfile_url();
+        if (!TextUtils.isEmpty(profile)) {
+            MyWeiboPageUtils.getInstance(mContext, WeiboLoginManager.getInstance().getAuthInfo())
+                    .startOtherPage(WeiboUrlsUtils.getPersonalProfileUrl(profile));
         }
     }
 
     private void dealWithGoToSourceWeibo(int position) {
-        if (!TextUtils.isEmpty(mData.get(position).getSource())) {
-            String originUrl = Constants.WEIBO_GO_WEB_ORIGIN;
-            Logger.d(TAG, "origin url is " + originUrl);
-            String requestUrl = originUrl + "?" + Constants.WB_REQUEST_PARAMETER.UID + "=" + mData.get(position).getUser().getIdstr()
-                    + "&" + Constants.WB_REQUEST_PARAMETER.ID + "=" + mData.get(position).getIdstr();
-            Logger.d(TAG, "rquest url is " + requestUrl);
-            BrowseActivity.start(mContext, requestUrl, false);
-
-        }
-
+        MyWeiboPageUtils.getInstance(mContext, WeiboLoginManager.getInstance()
+                .getAuthInfo()).startWeiboDetailPage(mData.get(position).getMid(),
+                mData.get(position).getUser().getIdstr(), true);
     }
 
     @Override

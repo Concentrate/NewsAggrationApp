@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
 import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
-import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.tabs.BasePageAdapter;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
@@ -82,8 +81,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initOtherData() {
-        AuthInfo authInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL
-                , Constants.SCOPE);
+        AuthInfo authInfo =WeiboLoginManager.getInstance().getAuthInfo();
         WbSdk.install(this, authInfo);
         TaskManager.inst().init(new TaskManager.TaskManagerConfig().setExecutor(Executors.newFixedThreadPool(4)));
     }

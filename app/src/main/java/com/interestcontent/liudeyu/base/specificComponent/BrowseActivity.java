@@ -26,7 +26,7 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
 
     @BindView(R.id.parent_container)
     RelativeLayout mRelativeLayout;
-    private AgentWeb mAgentWeb;
+    protected AgentWeb mAgentWeb;
 
 
     public static void start(Context context, String loadurl, boolean useToolbar) {
@@ -62,14 +62,14 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
                 mToolbar.setVisibility(View.GONE);
             }
         }
-        if (mAgentWeb == null && !TextUtils.isEmpty(url)) {
-            mAgentWeb = AgentWeb.with(this)//传入Activity or Fragment
-                    .setAgentWebParent(mRelativeLayout, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))//传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
-                    .useDefaultIndicator()// 使用默认进度条
-                    .defaultProgressBarColor() // 使用默认进度条颜色
-                    .setReceivedTitleCallback(this) //设置 Web 页面的 title 回调
-                    .createAgentWeb().ready()
-                    .go(url);
+        AgentWeb.AgentBuilder builder = AgentWeb.with(this);//传入Activity or Fragment
+        mAgentWeb = builder.setAgentWebParent(mRelativeLayout, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))//传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
+                .useDefaultIndicator()// 使用默认进度条
+                .defaultProgressBarColor() // 使用默认进度条颜色
+                .setReceivedTitleCallback(this)//设置 Web 页面的 title 回调
+                .createAgentWeb().ready().go(null);
+        if (!TextUtils.isEmpty(url)) {
+            mAgentWeb.getLoader().loadUrl(url);
         }
 
     }
@@ -81,7 +81,9 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
 
     @Override
     public void onReceivedTitle(WebView view, String title) {
-        mToolbarTitle.setText(title);
+        if (mToolbar.getVisibility() != View.GONE) {
+            mToolbarTitle.setText(title);
+        }
     }
 
     @Override

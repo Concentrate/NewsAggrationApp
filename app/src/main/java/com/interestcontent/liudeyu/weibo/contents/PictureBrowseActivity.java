@@ -3,13 +3,15 @@ package com.interestcontent.liudeyu.weibo.contents;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
-import com.blankj.utilcode.util.FileUtils;
+import com.bumptech.glide.Glide;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.AbsActivity;
-import com.interestcontent.liudeyu.base.utils.Logger;
+import com.interestcontent.liudeyu.util.FileTypeUtils;
 import com.interestcontent.liudeyu.weibo.component.GetImageCacheTask;
 
 import java.io.File;
@@ -27,6 +29,8 @@ public class PictureBrowseActivity extends AbsActivity {
     static final String IMAGE_URL_TAG = "IMAGE_URL_TAG".toLowerCase();
     @BindView(R.id.imagebrowseView)
     SubsamplingScaleImageView mImageView;
+    @BindView(R.id.gif_image_view)
+    ImageView mGifImageView;
     public static final int SCALE_SIZE = (int) (1.2f * 1000 * 1000);
 
 
@@ -54,9 +58,15 @@ public class PictureBrowseActivity extends AbsActivity {
                 public void fileCachePath(String path) {
                     File file = new File(path);
                     if (file.isFile() && file.exists()) {
-                        long length = file.length();
-                        Logger.d(TAG, "the file size is " + FileUtils.getFileSize(path));
-                        mImageView.setImage(ImageSource.uri(path));
+                        if ("gif".equals(FileTypeUtils.getFileType(file.getAbsolutePath()))) {
+                            mImageView.setVisibility(View.GONE);
+                            mGifImageView.setVisibility(View.VISIBLE);
+                            Glide.with(PictureBrowseActivity.this).load(file).asGif().into(mGifImageView);
+                        } else {
+                            mGifImageView.setVisibility(View.GONE);
+                            mImageView.setVisibility(View.VISIBLE);
+                            mImageView.setImage(ImageSource.uri(path));
+                        }
                     }
                 }
             }).execute(url);

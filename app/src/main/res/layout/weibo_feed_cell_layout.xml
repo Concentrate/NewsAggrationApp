@@ -61,7 +61,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:lineSpacingExtra="1dp"
+        android:lineSpacingExtra="2dp"
+        android:textColor="@color/md_grey_900"
         app:layout_constraintTop_toBottomOf="@id/guild_line_header" />
 
     <com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.BaseRecyclerView

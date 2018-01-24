@@ -3,6 +3,7 @@ package com.interestcontent.liudeyu.weibo.util;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.utils.Logger;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 
@@ -21,7 +22,7 @@ public class WeiboUrlsUtils {
     public static final String MIDDLE = "bmiddle";
     public static final String ORIGIN = "large";
     public static final String SMALL = "thumbnail";
-    public static String TAG=WeiboUrlsUtils.class.getSimpleName();
+    public static String TAG = WeiboUrlsUtils.class.getSimpleName();
 
     public static int getLimitPreivewSize(List<WeiboBean.PicUrlsBean> picUrlsBeans) {
         int limitPreivewSize = picUrlsBeans.size();
@@ -45,7 +46,7 @@ public class WeiboUrlsUtils {
                 }
             }
             Logger.d(TAG, "request origin pic url is " + picRequestUrl);
-
+            urls.add(picRequestUrl);
         }
         return urls;
     }
@@ -64,9 +65,9 @@ public class WeiboUrlsUtils {
         return originPicDomen;
     }
 
-    public static enum ImageUrlTag {
-        BIG, MIDDLE, SMALL
+
+
+    public static String getPersonalProfileUrl(String profileName) {
+        return Constants.WEIBO_PERSONNAL_PROFILE + profileName+"?";
     }
-
-
 }

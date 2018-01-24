@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
+import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.Logger;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
+import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbAuthListener;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
@@ -24,6 +26,7 @@ public class WeiboLoginManager {
     private static WeiboLoginManager sWeiboLoginManager;
     private SsoHandler mSsoHandler;
     public boolean isLogin;
+    private AuthInfo mAuthInfo;
 
     private WeiboLoginManager() {
         resetLoginState();
@@ -63,6 +66,13 @@ public class WeiboLoginManager {
         }
     }
 
+    public AuthInfo getAuthInfo() {
+        if (mAuthInfo == null) {
+            mAuthInfo = new AuthInfo(MyApplication.sApplication, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+        }
+        return mAuthInfo;
+    }
+
     private class MyWeiboAuthenLitener implements WbAuthListener {
         @Override
         public void onSuccess(Oauth2AccessToken oauth2AccessToken) {
@@ -77,7 +87,7 @@ public class WeiboLoginManager {
                 SharePreferenceUtil.setLongPreference(MyApplication.sApplication, SpConstants.WEIBO_TOKEN_EXPIRED_TIME,
                         oauth2AccessToken.getExpiresTime());
                 WeiboLoginManager.getInstance().resetLoginState();
-                Logger.d(LOG_TAG,oauth2AccessToken.getToken());
+                Logger.d(LOG_TAG, oauth2AccessToken.getToken());
             }
         }
 

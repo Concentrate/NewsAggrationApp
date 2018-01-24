@@ -36,6 +36,9 @@
         <activity android:name=".weibo.contents.PictureBrowseActivity"
             android:launchMode="singleInstance"
             />
+        <activity android:name=".weibo.contents.WeiboContentActivity"
+            />
+        <activity android:name=".weibo.contents.WeiboContentBrowseActivity"/>
     </application>
 
 </manifest>

@@ -33,6 +33,7 @@ public class Constants {
     public static final String WEIBO_GOOD_ATTITUDE = "https://api.weibo.com/2/attitudes/create.json"; // 点赞 api post
     public static final String WEIBO_NEGETIVE_ATTITUDE = "https://api.weibo.com/2/attitudes/destroy.json"; // 取消点赞 post
     public static final String WEIBO_SINGLE_CONTENT= WEIBO_DOMAIN+"/statuses/show.json";
+    public static final String WEIBO_PERSONNAL_PROFILE ="https://www.weibo.com/";
 
     public static class WB_REQUEST_PARAMETER {
         public static final String ACCESS_TOKEN = "access_token";
