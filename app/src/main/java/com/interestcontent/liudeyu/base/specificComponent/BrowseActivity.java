@@ -4,23 +4,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
+import com.interestcontent.liudeyu.base.constants.FileConstants;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.ChromeClientCallbackManager;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class BrowseActivity extends BaseActivity implements ChromeClientCallbackManager.ReceivedTitleCallback {
 
+    private static final String TAG = "webview_cache";
     public static final String LOAD_URL = "LOAD_URL".toLowerCase();
     public static final String USE_TOOL_BAR = "USE_TOOL_BAR";//是否使用状态栏
 
@@ -68,8 +74,22 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
                 .defaultProgressBarColor() // 使用默认进度条颜色
                 .setReceivedTitleCallback(this)//设置 Web 页面的 title 回调
                 .createAgentWeb().ready().go(null);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setDomStorageEnabled(true);
+        //开启 database storage API 功能
+        mAgentWeb.getAgentWebSettings().getWebSettings().setDatabaseEnabled(true);
+
+        String cacheDirPath = getFilesDir().getAbsolutePath() + File.separator + FileConstants.WEB_CACHE_DIR;
+        Log.d(TAG, "web view cache path is " + cacheDirPath);
+        //设置数据库缓存路径
+        //设置  Application Caches 缓存目录
+        mAgentWeb.getAgentWebSettings().getWebSettings().setAppCachePath(cacheDirPath);
+        //开启 Application Caches 功能
+        mAgentWeb.getAgentWebSettings().getWebSettings().setAppCacheEnabled(true);
+
         if (!TextUtils.isEmpty(url)) {
             mAgentWeb.getLoader().loadUrl(url);
+
         }
 
     }

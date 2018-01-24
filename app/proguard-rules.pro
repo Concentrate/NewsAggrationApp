@@ -21,3 +21,8 @@
 #-renamesourcefileattribute SourceFile
 -keep class com.wang.avi.** { *; }
 -keep class com.wang.avi.indicators.** { *; }
+-keep class com.just.agentweb.** {
+    *;
+}
+-dontwarn com.just.agentweb.**
+-keepclassmembers class com.just.library.agentweb.AndroidInterface{ *; }

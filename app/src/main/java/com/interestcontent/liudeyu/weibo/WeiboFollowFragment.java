@@ -51,6 +51,9 @@ public class WeiboFollowFragment extends WeiboBaseTabFragment {
 
     @Override
     public void onQueryResult(List<WeiboBean> result) {
+        if(result==null||result.isEmpty()){
+            return;
+        }
         mBaseAdapter.setData(getCells(result));
         hideLoadMore();
         setRefreshing(false);
