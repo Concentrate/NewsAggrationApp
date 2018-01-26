@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.commonlib.components.AbsActivity;
 import com.interestcontent.liudeyu.R;
 
 /**

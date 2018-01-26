@@ -1,4 +1,4 @@
-package com.interestcontent.liudeyu.base.baseComponent;
+package com.example.commonlib.components;
 
 /**
  * Created by liudeyu on 2018/1/9.
@@ -15,11 +15,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.IComponent;
-import com.interestcontent.liudeyu.base.LifeCycleMonitor;
-import com.interestcontent.liudeyu.base.WeakContainer;
-import com.interestcontent.liudeyu.base.utils.Logger;
+import com.example.commonlib.R;
+import com.example.commonlib.utils.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -304,5 +301,19 @@ public abstract class AbsActivity extends AppCompatActivity implements IComponen
         return !mStatusDestroyed;
     }
 
-
+    @Override
+    public void onBackPressed() {
+        boolean isHandle = false;
+        if (!mMonitors.isEmpty()) {
+            for (LifeCycleMonitor m : mMonitors) {
+                if (m != null) {
+                    isHandle = m.onBackPressed();
+                }
+                if (isHandle) {
+                    return;
+                }
+            }
+        }
+        super.onBackPressed();
+    }
 }

@@ -1,4 +1,4 @@
-package com.interestcontent.liudeyu.base;
+package com.example.commonlib.components;
 
 /**
  * Created by liudeyu on 2017/12/23.
@@ -12,6 +12,8 @@ public interface LifeCycleMonitor {
     public void onStop();
 
     public void onDestroy();
+
+    public boolean onBackPressed();
 
     class Stub implements LifeCycleMonitor {
 
@@ -30,5 +32,10 @@ public interface LifeCycleMonitor {
         @Override
         public void onDestroy() {
         }
+
+        public boolean onBackPressed() {
+            return false;
+        }
+
     }
 }

@@ -28,7 +28,7 @@
             android:id="@+id/resend_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/md_grey_400"
+            android:textColor="@color/md_grey_700"
             android:textSize="@dimen/wb_operation_tip_text_size"
             android:text="0"
             tools:text="11" />
@@ -57,7 +57,7 @@
             android:id="@+id/comment_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/md_grey_400"
+            android:textColor="@color/md_grey_700"
             android:textSize="@dimen/wb_operation_tip_text_size"
             android:text="0"
             tools:text="11" />
@@ -85,7 +85,7 @@
             android:id="@+id/good_fingger_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/md_grey_400"
+            android:textColor="@color/md_grey_700"
             android:text="0"
             android:textSize="@dimen/wb_operation_tip_text_size"
             tools:text="11" />

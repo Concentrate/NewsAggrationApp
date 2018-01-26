@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.baseComponent.AbsActivity;
+import com.example.commonlib.components.AbsActivity;
 import com.interestcontent.liudeyu.util.FileTypeUtils;
 import com.interestcontent.liudeyu.weibo.component.GetImageCacheTask;
 

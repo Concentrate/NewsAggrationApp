@@ -1,11 +1,9 @@
-package com.interestcontent.liudeyu.weibo;
+package com.interestcontent.liudeyu.weibo.feeds;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.constants.Constants;
-import com.interestcontent.liudeyu.base.tabs.ItemTab;
+import com.interestcontent.liudeyu.weibo.WeiboBaseTabFragment;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
-import com.interestcontent.liudeyu.weibo.feeds.WeiboCell;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 
@@ -18,11 +16,13 @@ import java.util.List;
  * Created by liudeyu on 2017/12/26.
  */
 
-public class WeiboFollowFragment extends WeiboBaseTabFragment {
+public abstract class WeiboBaseFeedFragment extends WeiboBaseTabFragment {
 
 
     private RVBaseCell mCell;
 
+    private String loadUrl;
+    private int itemTabKey;
 
 
     @Override
@@ -40,18 +40,8 @@ public class WeiboFollowFragment extends WeiboBaseTabFragment {
 
 
     @Override
-    protected String providedRequestDataUrl() {
-        return Constants.HOME_WEIBO_FOLLOW;
-    }
-
-    @Override
-    protected int provideItemTabKey() {
-        return ItemTab.WEIBO_SUB_FOLLOW;
-    }
-
-    @Override
     public void onQueryResult(List<WeiboBean> result) {
-        if(result==null||result.isEmpty()){
+        if (result == null || result.isEmpty()) {
             return;
         }
         mBaseAdapter.setData(getCells(result));

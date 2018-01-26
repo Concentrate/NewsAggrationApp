@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.commonlib.components.AbsFragment;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
 import com.interestcontent.liudeyu.base.tabs.BasePageAdapter;
@@ -74,6 +75,7 @@ public abstract class AbsTopTabFragment extends AbsFragment {
     }
 
 
+
     protected int getFragmentResourseLayout() {
         return R.layout.fragment_top_tab_main_layout;
     }
@@ -87,4 +89,6 @@ public abstract class AbsTopTabFragment extends AbsFragment {
     protected int setTabSelectedColor() {
         return getActivity().getResources().getColor(R.color.md_deep_orange_200);
     }
+
+
 }

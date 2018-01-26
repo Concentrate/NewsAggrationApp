@@ -13,8 +13,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.interestcontent.liudeyu.base.LifeCycleMonitor;
-import com.interestcontent.liudeyu.base.WeakContainer;
+import com.example.commonlib.components.LifeCycleMonitor;
+import com.example.commonlib.components.WeakContainer;
 
 public class BaseDialogFragment extends DialogFragment {
 

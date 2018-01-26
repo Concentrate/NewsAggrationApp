@@ -1,4 +1,4 @@
-package com.interestcontent.liudeyu.base.utils;
+package com.example.commonlib.utils;
 
 /**
  * Created by liudeyu on 2018/1/2.

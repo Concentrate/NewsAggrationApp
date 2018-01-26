@@ -1,21 +1,18 @@
-package com.interestcontent.liudeyu.base.baseComponent;
+package com.example.commonlib.components;
 
 /**
  * Created by liudeyu on 2017/12/23.
  */
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.interestcontent.liudeyu.base.IComponent;
-import com.interestcontent.liudeyu.base.LifeCycleMonitor;
-import com.interestcontent.liudeyu.base.WeakContainer;
-
 /**
  * Base class of fragment.
  */
-public abstract class AbsFragment extends Fragment implements IComponent {
+public abstract class AbsFragment extends Fragment implements IComponent, LifeCycleMonitor {
 
     protected boolean mStatusActive;
     protected boolean mStatusViewValid;
@@ -43,6 +40,10 @@ public abstract class AbsFragment extends Fragment implements IComponent {
         mStatusActive = false;
         mStatusViewValid = false;
         mStatusDestroyed = false;
+        Activity activity = getActivity();
+        if (activity instanceof AbsActivity) {
+            ((AbsActivity) activity).registerLifeCycleMonitor(this);
+        }
     }
 
     @Override
@@ -50,7 +51,6 @@ public abstract class AbsFragment extends Fragment implements IComponent {
         super.onViewCreated(view, savedInstanceState);
         mStatusViewValid = true;
     }
-
 
 
     @Override
@@ -105,7 +105,12 @@ public abstract class AbsFragment extends Fragment implements IComponent {
             }
             mMonitors.clear();
         }
+        Activity activity = getActivity();
+        if (activity instanceof AbsActivity) {
+            ((AbsActivity) activity).unregisterLifeCycleMonitor(this);
+        }
     }
+
 
     @Override
     public boolean isActive() {
@@ -121,5 +126,8 @@ public abstract class AbsFragment extends Fragment implements IComponent {
         return mStatusDestroyed;
     }
 
-
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
 }

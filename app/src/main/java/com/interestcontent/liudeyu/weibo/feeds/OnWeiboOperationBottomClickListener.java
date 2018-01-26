@@ -11,7 +11,11 @@ import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
+import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
+import com.interestcontent.liudeyu.weibo.util.MyWeiboPageUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.Callable;
 
@@ -47,6 +51,7 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
             case R.id.comment_layout:
                 needAnimationView = view.findViewById(R.id.comment_iv);
                 viewCountTv = view.findViewById(R.id.comment_count_tv);
+                dealWithGotoComment((String) view.getTag(R.layout.weibo_feed_cell_layout));
                 break;
         }
         if (needAnimationView == null) {
@@ -63,6 +68,11 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
             showEnlargeAnimation(needAnimationView);
         }
 
+    }
+
+    private void dealWithGotoComment(@NotNull String id) {
+        MyWeiboPageUtils.getInstance(MyApplication.sApplication, WeiboLoginManager.getInstance().getAuthInfo())
+                .commentWeibo(id,true);
     }
 
     private void dealWithAttitudeUpload(boolean b, final String id) {

@@ -133,6 +133,8 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
             holder.getView(R.id.root_container).setTag(R.layout.weibo_feed_cell_layout, position);
             holder.getView(R.id.wb_image_recyle_view).setTag(R.layout.weibo_feed_cell_layout, position);
             holder.getView(R.id.good_fingger_layout).setTag(R.layout.weibo_feed_cell_layout, mData.get(position).getIdstr());
+            holder.getView(R.id.comment_layout).setTag(R.layout.weibo_feed_cell_layout, mData.get(position).getIdstr());
+            holder.getView(R.id.resend_layout).setTag(R.layout.weibo_feed_cell_layout, mData.get(position).getIdstr());
             holder.getImageView(R.id.avater_iv).setTag(R.layout.weibo_feed_cell_layout, position);
             holder.getTextView(R.id.author_tv).setTag(R.layout.weibo_feed_cell_layout, position);
 

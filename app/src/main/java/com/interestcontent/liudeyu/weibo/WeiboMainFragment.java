@@ -37,7 +37,7 @@ public class WeiboMainFragment extends AbsTopTabFragment {
     protected List<ItemTab> provideItemTabs() {
         List<ItemTab> itemTabs = new ArrayList<>();
         String[] weiboTabName = getResources().getStringArray(R.array.weibo_top_tab);
-        int[] tabKey = new int[]{ItemTab.WEIBO_SUB_FOLLOW, ItemTab.WEIBO_SUB_HOT, ItemTab.WEIBO_SUB_MESSAGE, ItemTab.WEIBO_SUB_PROFILE};
+        int[] tabKey = new int[]{ItemTab.WEIBO_SUB_FOLLOW, ItemTab.WEIBO_SUB_HOT, ItemTab.WEIBO_SUB_MESSAGE, ItemTab.WEIBO_SUB_MY_WEIBO_PAGE,ItemTab.WEIBO_SUB_PERSON_SETTING};
         for (int i = 0; i < weiboTabName.length; i++) {
             itemTabs.add(new ItemTab(tabKey[i], weiboTabName[i]));
         }
@@ -70,7 +70,7 @@ public class WeiboMainFragment extends AbsTopTabFragment {
 
     @Override
     protected int viewpagerLimitNum() {
-        return 2;
+        return 5;
     }
 
 

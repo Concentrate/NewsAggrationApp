@@ -2,9 +2,10 @@
 <resources>
     <string-array name="weibo_top_tab">
         <item>关注</item>
-        <item>热门</item>
+        <item>发现</item>
         <item>消息</item>
         <item>个人</item>
+        <item>设置</item>
     </string-array>
 
 

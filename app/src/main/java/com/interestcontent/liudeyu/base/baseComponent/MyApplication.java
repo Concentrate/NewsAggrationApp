@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.blankj.utilcode.util.Utils;
 import com.interestcontent.liudeyu.BuildConfig;
-import com.interestcontent.liudeyu.base.utils.Logger;
+import com.example.commonlib.utils.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;

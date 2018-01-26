@@ -33,6 +33,15 @@ final public class SharePreferenceUtil {
         return value;
     }
 
+    public static String getStringPreference(Context context, String key, String defaultValue) {
+        String value = null;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (preferences != null) {
+            value = preferences.getString(key, defaultValue);
+        }
+        return value;
+    }
+
     /**
      * Helper method to write a String value to {@link SharedPreferences}.
      *

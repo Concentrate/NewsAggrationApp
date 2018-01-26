@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
-import com.interestcontent.liudeyu.base.utils.Logger;
+import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -71,6 +71,11 @@ public class WeiboLoginManager {
             mAuthInfo = new AuthInfo(MyApplication.sApplication, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
         }
         return mAuthInfo;
+    }
+
+    public String getUid() {
+        String string = SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.WEIBO_USER_ID);
+        return TextUtils.isEmpty(string) ? "" : string;
     }
 
     private class MyWeiboAuthenLitener implements WbAuthListener {

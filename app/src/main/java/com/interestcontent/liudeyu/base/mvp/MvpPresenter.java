@@ -3,7 +3,7 @@ package com.interestcontent.liudeyu.base.mvp;
 import android.os.Handler;
 import android.os.Message;
 
-import com.interestcontent.liudeyu.base.WeakHandler;
+import com.example.commonlib.components.WeakHandler;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
 
 import java.util.concurrent.Callable;

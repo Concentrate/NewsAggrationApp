@@ -4,8 +4,12 @@ import android.support.v4.app.Fragment;
 
 import com.interestcontent.liudeyu.news.NewsMainFragment;
 import com.interestcontent.liudeyu.settings.SettingFragment;
-import com.interestcontent.liudeyu.weibo.WeiboFollowFragment;
 import com.interestcontent.liudeyu.weibo.WeiboMainFragment;
+import com.interestcontent.liudeyu.weibo.feeds.WeiboFollowFragment;
+import com.interestcontent.liudeyu.weibo.feeds.WeiboHotFragment;
+import com.interestcontent.liudeyu.weibo.profiles.MyWeiboMessageFragment;
+import com.interestcontent.liudeyu.weibo.profiles.MyWeiboProfileFragment;
+import com.interestcontent.liudeyu.weibo.profiles.MyWeiboSettingFragment;
 
 /**
  * Created by liudeyu on 2018/1/12.
@@ -23,12 +27,13 @@ public class FragmentFactory {
             case ItemTab.WEIBO_SUB_FOLLOW:
                 return new WeiboFollowFragment();
             case ItemTab.WEIBO_SUB_HOT:
-                // TODO: 2018/1/12 模拟 ,下面三个数据源not done,模拟
-                return new WeiboFollowFragment();
+                return new WeiboHotFragment();
             case ItemTab.WEIBO_SUB_MESSAGE:
-                return new WeiboFollowFragment();
-            case ItemTab.WEIBO_SUB_PROFILE:
-                return new WeiboFollowFragment();
+                return new MyWeiboMessageFragment();
+            case ItemTab.WEIBO_SUB_MY_WEIBO_PAGE:
+                return new MyWeiboProfileFragment();
+            case ItemTab.WEIBO_SUB_PERSON_SETTING:
+                return new MyWeiboSettingFragment();
         }
         return null;
     }

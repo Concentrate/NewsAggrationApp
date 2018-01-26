@@ -1,4 +1,4 @@
-package com.interestcontent.liudeyu.base;
+package com.example.commonlib.components;
 
 /**
  * Created by liudeyu on 2017/12/26.

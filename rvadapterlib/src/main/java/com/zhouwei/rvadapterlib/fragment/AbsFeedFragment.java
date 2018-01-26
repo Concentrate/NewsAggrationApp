@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.example.commonlib.components.AbsFragment;
 import com.zhouwei.rvadapterlib.R;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.base.RVSimpleAdapter;
@@ -26,7 +26,7 @@ import java.util.List;
  * Created by zhouwei on 17/2/3.
  */
 
-public abstract class AbsFeedFragment<T> extends Fragment {
+public abstract class AbsFeedFragment<T> extends AbsFragment {
     public static final String TAG = "AbsFeedFragment";
     protected RecyclerView mRecyclerView;
     protected RVSimpleAdapter mBaseAdapter;

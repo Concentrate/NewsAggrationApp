@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.baseComponent.AbsFragment;
+import com.example.commonlib.components.AbsFragment;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;

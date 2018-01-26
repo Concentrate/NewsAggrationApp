@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-import com.interestcontent.liudeyu.base.WeakHandler;
+import com.example.commonlib.components.WeakHandler;
 
 
 public class AdvanceViewPager extends SSViewPager implements WeakHandler.IHandler {
