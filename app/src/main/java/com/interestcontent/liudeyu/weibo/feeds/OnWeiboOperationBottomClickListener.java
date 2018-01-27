@@ -49,6 +49,7 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
                 needAnimationView = view.findViewById(R.id.resend_iv);
                 viewCountTv = view.findViewById(R.id.resend_count_tv);
                 isJustAdd = true;
+                dealWithResendShare((String) view.getTag(R.layout.weibo_feed_cell_layout));
                 break;
             case R.id.comment_layout:
                 needAnimationView = view.findViewById(R.id.comment_iv);
@@ -75,6 +76,13 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
             showEnlargeAnimation(needAnimationView);
         }
 
+    }
+
+    private void dealWithResendShare(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            MyWeiboPageUtils.getInstance(MyApplication.sApplication, WeiboLoginManager.getInstance().getAuthInfo())
+                    .repostWeiboContent(content);
+        }
     }
 
     private void dealWithGotoComment(@NotNull String id) {

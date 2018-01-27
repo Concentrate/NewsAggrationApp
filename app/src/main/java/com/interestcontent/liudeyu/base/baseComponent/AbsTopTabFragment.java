@@ -115,6 +115,9 @@ public abstract class AbsTopTabFragment extends AbsFragment implements LifeCycle
     }
 
 
+    public void setTabLayoutVisible(int visiblety){
+        mTabLayout.setVisibility(visiblety);
+    }
     @Override
     public void onTopFragmentUserVisibleHint(boolean visible) {
 

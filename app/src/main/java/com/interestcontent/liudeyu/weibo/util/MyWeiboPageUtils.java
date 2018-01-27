@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.weibo.contents.WeiboContentBrowseActivity;
 import com.sina.weibo.sdk.WeiboAppManager;
@@ -160,10 +161,15 @@ public class MyWeiboPageUtils {
             url = "http://m.weibo.cn/mblog?";
             property = new HashMap();
             property.put("content", content);
-            url = this.schemeAddProperty(url, (HashMap) null);
+            url = this.schemeAddProperty(url, (HashMap) property);
             this.gotoWebActivity(url);
         }
 
+    }
+
+    public void repostWeiboContent(String id) {
+        String url = Constants.WEIBO_RESEND_SHARE_API + "id=" + id;
+        gotoWebActivity(url);
     }
 
     public void commentWeibo(String srcid) {

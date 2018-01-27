@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.widget.RelativeLayout;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.example.commonlib.components.AbsActivity;
 import com.example.commonlib.components.AbsFragment;
 import com.example.commonlib.components.LifeCycleMonitor;
+import com.interestcontent.liudeyu.MainActivity;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
 import com.interestcontent.liudeyu.base.constants.FileConstants;
@@ -28,13 +30,15 @@ import java.io.File;
  * Created by liudeyu on 2018/1/24.
  */
 
-public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonitor {
+public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonitor, ObservableWebView.OnScrollChangedCallback {
 
     public static final String LOAD_URL = "LOAD_URL".toLowerCase();
     private final String TAG = this.getClass().getSimpleName();
     protected AgentWeb mAgentWeb;
     private RelativeLayout mRelativeLayout;
     private boolean isWebInit = false;
+    private ObservableWebView mWebView;
+    private boolean lastDirectionDown = false;
 
 
     @Nullable
@@ -53,12 +57,14 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
         if (getActivity() instanceof ChromeClientCallbackManager.ReceivedTitleCallback) {
             commonBuilderForFragment.setReceivedTitleCallback((ChromeClientCallbackManager.ReceivedTitleCallback) getActivity());
         }
+        mWebView = new ObservableWebView(getContext());
+        mWebView.setOnScrollChangedCallback(this);
+        commonBuilderForFragment.setWebView(mWebView);
         mAgentWeb = commonBuilderForFragment.createAgentWeb().ready().go(null);
         mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         mAgentWeb.getAgentWebSettings().getWebSettings().setDomStorageEnabled(true);
         //开启 database storage API 功能
         mAgentWeb.getAgentWebSettings().getWebSettings().setDatabaseEnabled(true);
-
         String cacheDirPath = getActivity().getFilesDir().getAbsolutePath() + File.separator + FileConstants.WEB_CACHE_DIR;
         Log.d(TAG, "web view cache path is " + cacheDirPath);
         //设置数据库缓存路径
@@ -148,5 +154,36 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
     @Override
     public void onTopFragmentUserVisibleHint(boolean visible) {
 
+    }
+
+    @Override
+    public void onScroll(int dx, int dy) {
+        // 说明下滑
+        int touchMinum = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 4;
+        int touchMaxum = (int) (ViewConfiguration.get(getContext()).getScaledPagingTouchSlop() * 5.5);
+
+        if (dy > touchMinum && dy < touchMaxum) {
+            if (!lastDirectionDown) {
+                showTopBarAndBottomBar(false);
+            }
+            lastDirectionDown = true;
+        } else if (dy < -touchMinum && dy > -touchMaxum) {
+            if (lastDirectionDown) {
+                showTopBarAndBottomBar(true);
+            }
+            lastDirectionDown = false;
+        }
+
+    }
+
+    private void showTopBarAndBottomBar(boolean b) {
+        Activity activity = getActivity();
+        if (activity instanceof MainActivity) {
+            ((MainActivity) activity).setTabLayoutVisible(b ? View.VISIBLE : View.GONE);
+        }
+        Fragment fragment = getParentFragment();
+        if (fragment instanceof AbsTopTabFragment) {
+            ((AbsTopTabFragment) fragment).setTabLayoutVisible(b ? View.VISIBLE : View.GONE);
+        }
     }
 }

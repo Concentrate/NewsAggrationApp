@@ -115,6 +115,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public void setTabLayoutVisible(int visiblety){
+        mTabLayout.setVisibility(visiblety);
+    }
 
     @Override
     protected void onStop() {
