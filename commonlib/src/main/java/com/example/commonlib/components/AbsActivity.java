@@ -232,13 +232,7 @@ public abstract class AbsActivity extends AppCompatActivity implements IComponen
     protected void onResume() {
         super.onResume();
         mStatusActive = true;
-        if (!mMonitors.isEmpty()) {
-            for (LifeCycleMonitor m : mMonitors) {
-                if (m != null) {
-                    m.onResume();
-                }
-            }
-        }
+
     }
 
     @Override
@@ -252,24 +246,14 @@ public abstract class AbsActivity extends AppCompatActivity implements IComponen
         super.onStop();
         mActivityStartNum--;
         mStatusActive = false;
-        if (!mMonitors.isEmpty()) {
-            for (LifeCycleMonitor m : mMonitors) {
-                if (m != null)
-                    m.onStop();
-            }
-        }
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mStatusActive = false;
-        if (!mMonitors.isEmpty()) {
-            for (LifeCycleMonitor m : mMonitors) {
-                if (m != null)
-                    m.onPause();
-            }
-        }
+
     }
 
     @Override
@@ -278,10 +262,6 @@ public abstract class AbsActivity extends AppCompatActivity implements IComponen
         super.onDestroy();
         mStatusDestroyed = true;
         if (!mMonitors.isEmpty()) {
-            for (LifeCycleMonitor m : mMonitors) {
-                if (m != null)
-                    m.onDestroy();
-            }
             mMonitors.clear();
         }
         onActivityDestroy(this);
@@ -306,7 +286,7 @@ public abstract class AbsActivity extends AppCompatActivity implements IComponen
         if (!mMonitors.isEmpty()) {
             for (LifeCycleMonitor m : mMonitors) {
                 if (m != null) {
-                    isHandle = m.onBackPressed();
+                    isHandle = m.onTopBackPressed();
                 }
                 if (isHandle) {
                     return;

@@ -1,5 +1,6 @@
 package com.interestcontent.liudeyu.base.baseComponent;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.commonlib.components.AbsActivity;
 import com.example.commonlib.components.AbsFragment;
+import com.example.commonlib.components.LifeCycleMonitor;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
 import com.interestcontent.liudeyu.base.tabs.BasePageAdapter;
@@ -20,7 +23,10 @@ import java.util.List;
  * Created by liudeyu on 2017/12/25.
  */
 
-public abstract class AbsTopTabFragment extends AbsFragment {
+/**
+ * 第一层具有tablayout和内嵌ViewPager的Fragment
+ */
+public abstract class AbsTopTabFragment extends AbsFragment implements LifeCycleMonitor {
 
     TabLayout mTabLayout;
     AdvanceViewPager mViewPager;
@@ -38,6 +44,11 @@ public abstract class AbsTopTabFragment extends AbsFragment {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         initData();
+        Activity activity = getActivity();
+        //注册上层Activity监听
+        if (activity instanceof AbsActivity) {
+            ((AbsActivity) activity).registerLifeCycleMonitor(this);
+        }
     }
 
     protected void initView(View view1) {
@@ -60,8 +71,9 @@ public abstract class AbsTopTabFragment extends AbsFragment {
 
 
     protected abstract List<ItemTab> provideItemTabs();
+
     protected void initData() {
-        mViewPager.setAdapter(new BasePageAdapter(getChildFragmentManager(),provideItemTabs()));
+        mViewPager.setAdapter(new BasePageAdapter(getChildFragmentManager(), provideItemTabs()));
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setOffscreenPageLimit(viewpagerLimitNum());
         mTabLayout.setSelectedTabIndicatorColor(setTabSelectedColor());
@@ -75,11 +87,9 @@ public abstract class AbsTopTabFragment extends AbsFragment {
     }
 
 
-
     protected int getFragmentResourseLayout() {
         return R.layout.fragment_top_tab_main_layout;
     }
-
 
 
     protected int viewpagerLimitNum() {
@@ -90,5 +100,28 @@ public abstract class AbsTopTabFragment extends AbsFragment {
         return getActivity().getResources().getColor(R.color.md_deep_orange_200);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Activity activity = getActivity();
+        if (activity instanceof AbsActivity) {
+            ((AbsActivity) activity).unregisterLifeCycleMonitor(this);
+        }
+    }
+
+
+    @Override
+    public void onTopFragmentUserVisibleHint(boolean visible) {
+
+    }
+
+    @Override
+    public boolean onTopBackPressed() {
+        return false;
+    }
 }

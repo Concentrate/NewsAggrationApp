@@ -12,15 +12,13 @@ package com.interestcontent.liudeyu.weibo.util;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.weibo.contents.WeiboContentBrowseActivity;
 import com.sina.weibo.sdk.WeiboAppManager;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.WbAppInfo;
-import com.sina.weibo.sdk.web.WebRequestType;
-import com.sina.weibo.sdk.web.param.DefaultWebViewRequestParam;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -54,8 +52,8 @@ public class MyWeiboPageUtils {
         this.context = context;
     }
 
-    public static  MyWeiboPageUtils getInstance(Context context, AuthInfo authInfo) {
-        if(weiboSdkUtils == null) {
+    public static MyWeiboPageUtils getInstance(Context context, AuthInfo authInfo) {
+        if (weiboSdkUtils == null) {
             weiboSdkUtils = new MyWeiboPageUtils(context, authInfo);
         }
 
@@ -68,7 +66,7 @@ public class MyWeiboPageUtils {
 
     public void startUserMainPage(String uid, boolean webOnly) {
         String url;
-        if(!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
+        if (!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
             url = "sinaweibo://userinfo?";
             HashMap<String, String> property = new HashMap();
             property.put("uid", uid);
@@ -81,7 +79,7 @@ public class MyWeiboPageUtils {
             }
         } else {
             url = "http://m.weibo.cn/u/" + uid + "?";
-            url = this.schemeAddProperty(url, (HashMap)null);
+            url = this.schemeAddProperty(url, (HashMap) null);
             this.gotoWebActivity(url);
         }
 
@@ -93,7 +91,7 @@ public class MyWeiboPageUtils {
 
     public void startWeiboDetailPage(String mid, String uid, boolean webOnly) {
         String url;
-        if(!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
+        if (!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
             url = "sinaweibo://detail?";
             HashMap<String, String> property = new HashMap();
             property.put("mblogid", mid);
@@ -106,7 +104,7 @@ public class MyWeiboPageUtils {
             }
         } else {
             url = "http://m.weibo.cn/" + uid + "/" + mid + "?";
-            url = this.schemeAddProperty(url, (HashMap)null);
+            url = this.schemeAddProperty(url, (HashMap) null);
             this.gotoWebActivity(url);
         }
 
@@ -119,7 +117,7 @@ public class MyWeiboPageUtils {
     public void startWeiboTopPage(String pageId, boolean webOnly) {
         String url;
         HashMap property;
-        if(!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
+        if (!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
             url = "sinaweibo://article?";
             property = new HashMap();
             property.put("object_id", "1022:" + pageId);
@@ -147,7 +145,7 @@ public class MyWeiboPageUtils {
     public void shareToWeibo(String content, boolean webOnly) {
         String url;
         HashMap property;
-        if(!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
+        if (!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
             url = "sinaweibo://sendweibo?";
             property = new HashMap();
             property.put("content", content);
@@ -162,7 +160,7 @@ public class MyWeiboPageUtils {
             url = "http://m.weibo.cn/mblog?";
             property = new HashMap();
             property.put("content", content);
-            url = this.schemeAddProperty(url, (HashMap)null);
+            url = this.schemeAddProperty(url, (HashMap) null);
             this.gotoWebActivity(url);
         }
 
@@ -175,7 +173,7 @@ public class MyWeiboPageUtils {
     public void commentWeibo(String srcid, boolean webOnly) {
         String url;
         HashMap property;
-        if(!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
+        if (!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
             url = "sinaweibo://comment?";
             property = new HashMap();
             property.put("srcid", srcid);
@@ -203,7 +201,7 @@ public class MyWeiboPageUtils {
     public void openWeiboSearchPage(String searchKey, boolean webOnly) {
         String url = null;
         HashMap property;
-        if(!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
+        if (!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
             url = "sinaweibo://searchall?";
             property = new HashMap();
             property.put("q", searchKey);
@@ -230,9 +228,9 @@ public class MyWeiboPageUtils {
 
     public void gotoMyHomePage(boolean webOnly) {
         String url;
-        if(!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
+        if (!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
             url = "sinaweibo://gotohome?";
-            Intent intent = this.createScheme(url, (HashMap)null);
+            Intent intent = this.createScheme(url, (HashMap) null);
 
             try {
                 this.context.startActivity(intent);
@@ -243,7 +241,7 @@ public class MyWeiboPageUtils {
             url = "http://m.weibo.cn/index/router?";
             HashMap<String, String> property = new HashMap();
             property.put("cookie", "0_all");
-            url = this.schemeAddProperty(url, (HashMap)null);
+            url = this.schemeAddProperty(url, (HashMap) null);
             this.gotoWebActivity(url);
         }
 
@@ -255,9 +253,9 @@ public class MyWeiboPageUtils {
 
     public void gotoMyProfile(boolean webOnly) {
         String url;
-        if(!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
+        if (!webOnly && this.mWeiboInfo != null && this.mWeiboInfo.isLegal()) {
             url = "sinaweibo://myprofile?";
-            Intent intent = this.createScheme(url, (HashMap)null);
+            Intent intent = this.createScheme(url, (HashMap) null);
 
             try {
                 this.context.startActivity(intent);
@@ -268,18 +266,18 @@ public class MyWeiboPageUtils {
             url = "http://m.weibo.cn/index/router?";
             HashMap<String, String> property = new HashMap();
             property.put("cookie", "3");
-            url = this.schemeAddProperty(url, (HashMap)null);
+            url = this.schemeAddProperty(url, (HashMap) null);
             this.gotoWebActivity(url);
         }
 
     }
 
     public void startOtherPage(String url) {
-        this.startOtherPage(url, (HashMap)null);
+        this.startOtherPage(url, (HashMap) null);
     }
 
     public void startOtherPage(String url, HashMap<String, String> property) {
-        if(!TextUtils.isEmpty(url)) {
+        if (!TextUtils.isEmpty(url)) {
             url = this.schemeAddProperty(url, property);
             this.gotoWebActivity(url);
         }
@@ -294,9 +292,9 @@ public class MyWeiboPageUtils {
     private String schemeAddProperty(String url, HashMap<String, String> property) {
         url = url + "luicode=10000360&&lfid=OP_" + this.authInfo.getAppKey();
         Map.Entry entry;
-        if(property != null) {
-            for(Iterator iterator = property.entrySet().iterator(); iterator.hasNext(); url = url + "&" + entry.getKey().toString() + "=" + entry.getValue().toString()) {
-                entry = (Map.Entry)iterator.next();
+        if (property != null) {
+            for (Iterator iterator = property.entrySet().iterator(); iterator.hasNext(); url = url + "&" + entry.getKey().toString() + "=" + entry.getValue().toString()) {
+                entry = (Map.Entry) iterator.next();
             }
         }
 
@@ -304,12 +302,8 @@ public class MyWeiboPageUtils {
     }
 
     private void gotoWebActivity(String url) {
-        Intent intent = new Intent();
-        intent.setClass(this.context, WeiboContentBrowseActivity.class);
-        DefaultWebViewRequestParam param = new DefaultWebViewRequestParam(this.authInfo, WebRequestType.DEFAULT, (String)null, (String)null, url, this.context);
-        Bundle bundle = new Bundle();
-        param.fillBundle(bundle);
-        intent.putExtras(bundle);
-        this.context.startActivity(intent);
+        Intent intent = BrowseActivity.getIntent(url, false);
+        intent.setClass(context, WeiboContentBrowseActivity.class);
+        context.startActivity(intent);
     }
 }

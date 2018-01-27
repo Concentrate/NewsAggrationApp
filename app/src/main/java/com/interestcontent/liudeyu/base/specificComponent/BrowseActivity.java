@@ -1,47 +1,39 @@
 package com.interestcontent.liudeyu.base.specificComponent;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
-import com.interestcontent.liudeyu.base.constants.FileConstants;
-import com.just.agentweb.AgentWeb;
+import com.interestcontent.liudeyu.weibo.component.BaseWebBrowseFragment;
+import com.interestcontent.liudeyu.weibo.contents.WeiboContentBrowseFragment;
 import com.just.agentweb.ChromeClientCallbackManager;
-
-import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class BrowseActivity extends BaseActivity implements ChromeClientCallbackManager.ReceivedTitleCallback {
 
-    private static final String TAG = "webview_cache";
     public static final String LOAD_URL = "LOAD_URL".toLowerCase();
     public static final String USE_TOOL_BAR = "USE_TOOL_BAR";//是否使用状态栏
 
     @BindView(R.id.parent_container)
-    RelativeLayout mRelativeLayout;
-    protected AgentWeb mAgentWeb;
+    FrameLayout rootContainer;
 
 
-    public static void start(Context context, String loadurl, boolean useToolbar) {
-        Intent starter = new Intent(context, BrowseActivity.class);
-        starter.putExtra(LOAD_URL, loadurl);
-        starter.putExtra(USE_TOOL_BAR, useToolbar);
-        context.startActivity(starter);
+    public static Intent getIntent(String loadUrl, boolean useToolBar) {
+        Intent intent = new Intent();
+        intent.putExtra(LOAD_URL, loadUrl);
+        intent.putExtra(USE_TOOL_BAR, useToolBar);
+        return intent;
     }
-
 
     @Override
     protected boolean isUseToolBar() {
@@ -50,7 +42,7 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
 
     @Override
     protected View getResourceLayout() {
-        return LayoutInflater.from(this).inflate(R.layout.activity_browse, null);
+        return LayoutInflater.from(this).inflate(R.layout.activity_browse_layout, null);
     }
 
 
@@ -68,36 +60,16 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
                 mToolbar.setVisibility(View.GONE);
             }
         }
-        AgentWeb.AgentBuilder builder = AgentWeb.with(this);//传入Activity or Fragment
-        mAgentWeb = builder.setAgentWebParent(mRelativeLayout, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))//传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
-                .useDefaultIndicator()// 使用默认进度条
-                .defaultProgressBarColor() // 使用默认进度条颜色
-                .setReceivedTitleCallback(this)//设置 Web 页面的 title 回调
-                .createAgentWeb().ready().go(null);
-        mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-        mAgentWeb.getAgentWebSettings().getWebSettings().setDomStorageEnabled(true);
-        //开启 database storage API 功能
-        mAgentWeb.getAgentWebSettings().getWebSettings().setDatabaseEnabled(true);
-
-        String cacheDirPath = getFilesDir().getAbsolutePath() + File.separator + FileConstants.WEB_CACHE_DIR;
-        Log.d(TAG, "web view cache path is " + cacheDirPath);
-        //设置数据库缓存路径
-        //设置  Application Caches 缓存目录
-        mAgentWeb.getAgentWebSettings().getWebSettings().setAppCachePath(cacheDirPath);
-        //开启 Application Caches 功能
-        mAgentWeb.getAgentWebSettings().getWebSettings().setAppCacheEnabled(true);
-
         if (!TextUtils.isEmpty(url)) {
-            mAgentWeb.getLoader().loadUrl(url);
-
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Bundle bundle = new Bundle();
+            bundle.putString(BaseWebBrowseFragment.LOAD_URL, url);
+            Fragment fragment = new WeiboContentBrowseFragment();
+            fragment.setArguments(bundle);
+            fragmentManager.beginTransaction().add(R.id.parent_container, fragment).commit();
         }
-
     }
 
-    @Override
-    protected void onBackButtonEvent() {
-        finish();
-    }
 
     @Override
     public void onReceivedTitle(WebView view, String title) {
@@ -106,30 +78,4 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mAgentWeb.getWebLifeCycle().onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mAgentWeb.getWebLifeCycle().onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mAgentWeb.getWebLifeCycle().onDestroy();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (mAgentWeb.handleKeyEvent(keyCode, event)) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }

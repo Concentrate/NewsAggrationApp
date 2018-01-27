@@ -5,37 +5,9 @@ package com.example.commonlib.components;
  */
 
 public interface LifeCycleMonitor {
-    public void onResume();
 
-    public void onPause();
+    public boolean onTopBackPressed();
 
-    public void onStop();
+    public void onTopFragmentUserVisibleHint(boolean visible);
 
-    public void onDestroy();
-
-    public boolean onBackPressed();
-
-    class Stub implements LifeCycleMonitor {
-
-        @Override
-        public void onResume() {
-        }
-
-        @Override
-        public void onPause() {
-        }
-
-        @Override
-        public void onStop() {
-        }
-
-        @Override
-        public void onDestroy() {
-        }
-
-        public boolean onBackPressed() {
-            return false;
-        }
-
-    }
 }

@@ -48,7 +48,9 @@ import static com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils.MIDDLE;
  * Created by liudeyu on 2018/1/20.
  */
 
-/**因为api 缘故，根本拿不到数据，本地的展示由此先不用，废弃了*/
+/**
+ * 因为api 缘故，根本拿不到数据，本地的展示由此先不用，废弃了
+ */
 @Deprecated
 public class WeiboContentActivity extends BaseActivity implements IMvpView<WeiboBean> {
 
@@ -156,7 +158,9 @@ public class WeiboContentActivity extends BaseActivity implements IMvpView<Weibo
             public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
                 switch (autoLinkMode) {
                     case MODE_URL:
-                        BrowseActivity.start(mContext, matchedText, true);
+                        Intent intent = BrowseActivity.getIntent(matchedText, false);
+                        intent.setClass(WeiboContentActivity.this, BrowseActivity.class);
+                        startActivity(intent);
                         break;
 
                 }

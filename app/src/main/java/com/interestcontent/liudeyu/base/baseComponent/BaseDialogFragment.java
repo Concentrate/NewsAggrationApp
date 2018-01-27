@@ -76,34 +76,20 @@ public class BaseDialogFragment extends DialogFragment {
     public void onResume() {
         super.onResume();
         mStatusActive = true;
-        if (!mMonitors.isEmpty()) {
-            for (LifeCycleMonitor m : mMonitors)
-                if (m != null)
-                    m.onResume();
-        }
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (!mMonitors.isEmpty()) {
-            for (LifeCycleMonitor m : mMonitors) {
-                if (m != null)
-                    m.onPause();
-            }
-        }
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
         mStatusActive = false;
-        if (!mMonitors.isEmpty()) {
-            for (LifeCycleMonitor m : mMonitors) {
-                if (m != null)
-                    m.onStop();
-            }
-        }
+
     }
 
     @Override
@@ -118,10 +104,6 @@ public class BaseDialogFragment extends DialogFragment {
         mStatusViewValid = false;
         mStatusDestroyed = true;
         if (!mMonitors.isEmpty()) {
-            for (LifeCycleMonitor m : mMonitors) {
-                if (m != null)
-                    m.onDestroy();
-            }
             mMonitors.clear();
         }
     }

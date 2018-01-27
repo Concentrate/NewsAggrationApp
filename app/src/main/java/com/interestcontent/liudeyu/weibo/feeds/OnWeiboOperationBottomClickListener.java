@@ -25,7 +25,7 @@ import java.util.concurrent.Callable;
 public class OnWeiboOperationBottomClickListener implements View.OnClickListener {
 
 
-    public  void setNecesseryViewTag(String weiboId, View... list) {
+    public void setNecesseryViewTag(String weiboId, View... list) {
         if (list == null || list.length == 0) {
             return;
         }
@@ -38,6 +38,7 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
     public void onClick(View view) {
         ImageView needAnimationView = null;
         TextView viewCountTv = null;
+        boolean isJustAdd = false;
         switch (view.getId()) {
             case R.id.good_fingger_layout:
                 needAnimationView = view.findViewById(R.id.good_finger_iv);
@@ -47,11 +48,13 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
             case R.id.resend_layout:
                 needAnimationView = view.findViewById(R.id.resend_iv);
                 viewCountTv = view.findViewById(R.id.resend_count_tv);
+                isJustAdd = true;
                 break;
             case R.id.comment_layout:
                 needAnimationView = view.findViewById(R.id.comment_iv);
                 viewCountTv = view.findViewById(R.id.comment_count_tv);
                 dealWithGotoComment((String) view.getTag(R.layout.weibo_feed_cell_layout));
+                isJustAdd = true;
                 break;
         }
         if (needAnimationView == null) {
@@ -60,7 +63,11 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
         needAnimationView.setSelected(!needAnimationView.isSelected());
         try {
             int num = TextUtils.isEmpty(viewCountTv.getText().toString()) ? 0 : Integer.parseInt(viewCountTv.getText().toString());
-            viewCountTv.setText(String.valueOf(num + (needAnimationView.isSelected() ? 1 : -1)));
+            if (isJustAdd) {
+                viewCountTv.setText(String.valueOf(num + 1));
+            } else {
+                viewCountTv.setText(String.valueOf(num + (needAnimationView.isSelected() ? 1 : -1)));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,7 +79,7 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
 
     private void dealWithGotoComment(@NotNull String id) {
         MyWeiboPageUtils.getInstance(MyApplication.sApplication, WeiboLoginManager.getInstance().getAuthInfo())
-                .commentWeibo(id,true);
+                .commentWeibo(id, true);
     }
 
     private void dealWithAttitudeUpload(boolean b, final String id) {

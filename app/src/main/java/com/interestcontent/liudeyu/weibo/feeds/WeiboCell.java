@@ -1,6 +1,7 @@
 package com.interestcontent.liudeyu.weibo.feeds;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -92,7 +93,9 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
             public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
                 switch (autoLinkMode) {
                     case MODE_URL:
-                        BrowseActivity.start(mContext, matchedText, true);
+                        Intent intent= BrowseActivity.getIntent(matchedText,true);
+                        intent.setClass(mContext,BrowseActivity.class);
+                        mContext.startActivity(intent);
                         break;
 
                 }
@@ -108,9 +111,11 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
         recyclerView.setBlankListener(this);
         LinearLayout goodFinger = view.findViewById(R.id.good_fingger_layout);
         LinearLayout resendLayout = view.findViewById(R.id.resend_layout);
+        LinearLayout commentLayout = view.findViewById(R.id.comment_layout);
         OnWeiboOperationBottomClickListener bottomClickListener = new OnWeiboOperationBottomClickListener();
         goodFinger.setOnClickListener(bottomClickListener);
         resendLayout.setOnClickListener(bottomClickListener);
+        commentLayout.setOnClickListener(bottomClickListener);
         ImageView avaterIv = view.findViewById(R.id.avater_iv);
         TextView authorTv = view.findViewById(R.id.author_tv);
 

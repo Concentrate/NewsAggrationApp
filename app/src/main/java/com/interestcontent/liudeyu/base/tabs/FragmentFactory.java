@@ -7,9 +7,9 @@ import com.interestcontent.liudeyu.settings.SettingFragment;
 import com.interestcontent.liudeyu.weibo.WeiboMainFragment;
 import com.interestcontent.liudeyu.weibo.feeds.WeiboFollowFragment;
 import com.interestcontent.liudeyu.weibo.feeds.WeiboHotFragment;
-import com.interestcontent.liudeyu.weibo.profiles.MyWeiboMessageFragment;
-import com.interestcontent.liudeyu.weibo.profiles.MyWeiboProfileFragment;
-import com.interestcontent.liudeyu.weibo.profiles.MyWeiboSettingFragment;
+import com.interestcontent.liudeyu.weibo.contents.MyWeiboMessageFragment;
+import com.interestcontent.liudeyu.weibo.contents.MyWeiboProfileFragment;
+import com.interestcontent.liudeyu.weibo.contents.MyWeiboSettingFragment;
 
 /**
  * Created by liudeyu on 2018/1/12.
