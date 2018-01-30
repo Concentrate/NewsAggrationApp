@@ -83,6 +83,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
                 AutoLinkMode.MODE_PHONE,
                 AutoLinkMode.MODE_URL,
                 AutoLinkMode.MODE_MENTION);
+        autoLinkTextView.setWeiboEmojiAdd(true);
         autoLinkTextView.setHashtagModeColor(mContext.getResources().getColor(R.color.md_pink_100));
         autoLinkTextView.setPhoneModeColor(mContext.getResources().getColor(R.color.md_green_100));
         autoLinkTextView.setUrlModeColor(mContext.getResources().getColor(R.color.md_light_blue_400));
@@ -93,8 +94,8 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
             public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
                 switch (autoLinkMode) {
                     case MODE_URL:
-                        Intent intent= BrowseActivity.getIntent(matchedText,true);
-                        intent.setClass(mContext,BrowseActivity.class);
+                        Intent intent = BrowseActivity.getIntent(matchedText, true);
+                        intent.setClass(mContext, BrowseActivity.class);
                         mContext.startActivity(intent);
                         break;
 
