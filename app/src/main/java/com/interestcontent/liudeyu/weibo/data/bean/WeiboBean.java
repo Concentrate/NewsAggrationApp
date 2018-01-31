@@ -1,5 +1,7 @@
 package com.interestcontent.liudeyu.weibo.data.bean;
 
+import android.os.Parcel;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -8,7 +10,7 @@ import java.util.List;
 /**
  * Created by liudeyu on 2018/1/22.
  */
-public class WeiboBean  implements Serializable{
+public class WeiboBean implements Serializable{
     private static final long serialVersionUID = 7382351359868556980L;
     /**
      * created_at : Sat Jan 06 14:05:03 +0800 2018
@@ -75,6 +77,7 @@ public class WeiboBean  implements Serializable{
     private boolean truncated;
     private String in_reply_to_status_id;
     private String in_reply_to_user_id;
+
     private String in_reply_to_screen_name;
     private String thumbnail_pic;
     private String bmiddle_pic;
@@ -470,7 +473,8 @@ public class WeiboBean  implements Serializable{
         this.annotations = annotations;
     }
 
-    public static class VisibleBean {
+
+    public static class VisibleBean implements Serializable {
         /**
          * type : 0
          * list_id : 0
@@ -494,9 +498,21 @@ public class WeiboBean  implements Serializable{
         public void setList_id(long list_id) {
             this.list_id = list_id;
         }
+
+
+
+
+        public VisibleBean() {
+        }
+
+        protected VisibleBean(Parcel in) {
+            this.type = in.readLong();
+            this.list_id = in.readLong();
+        }
+
     }
 
-    public static class CommentManageInfoBean {
+    public static class CommentManageInfoBean implements Serializable {
         /**
          * comment_permission_type : -1
          * approval_comment_type : 0
@@ -520,9 +536,15 @@ public class WeiboBean  implements Serializable{
         public void setApproval_comment_type(long approval_comment_type) {
             this.approval_comment_type = approval_comment_type;
         }
+
+
+        public CommentManageInfoBean() {
+        }
+
+
     }
 
-    public static class PicUrlsBean {
+    public static class PicUrlsBean  implements Serializable{
         /**
          * thumbnail_pic : http://wx2.sinaimg.cn/thumbnail/aa397b7fgy1fn5p5inohpj20g8cmhkjl.jpg
          */
@@ -538,7 +560,8 @@ public class WeiboBean  implements Serializable{
         }
     }
 
-    public static class AnnotationsBean {
+
+    public static class AnnotationsBean implements Serializable{
         /**
          * client_mblogid : iPhone-B1750F90-69A5-4DE4-AFA8-91DA84EA843C
          * mapi_request : true
@@ -563,4 +586,9 @@ public class WeiboBean  implements Serializable{
             this.mapi_request = mapi_request;
         }
     }
+
+    public WeiboBean() {
+    }
+
+
 }

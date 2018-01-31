@@ -2,11 +2,13 @@ package com.interestcontent.liudeyu.weibo.data.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by liudeyu on 2018/1/2.
  */
 
-public class WeiboUserBean {
+public class WeiboUserBean implements Serializable{
 
     /*
     返回值字段	字段类型	字段说明
@@ -711,7 +713,7 @@ lang	string	用户当前的语言版本，zh-cn：简体中文，zh-tw：繁体�
         this.vclub_member = vclub_member;
     }
 
-    public static class InsecurityBean {
+    public static class InsecurityBean implements Serializable {
         /**
          * sexual_content : false
          */
@@ -725,6 +727,9 @@ lang	string	用户当前的语言版本，zh-cn：简体中文，zh-tw：繁体�
         public void setSexual_content(boolean sexual_content) {
             this.sexual_content = sexual_content;
         }
+
     }
+
+
 }
 

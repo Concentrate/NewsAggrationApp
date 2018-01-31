@@ -63,7 +63,7 @@ public class WeiboParameter {
             return this;
         }
 
-        WeiboParameter build() {
+       public   WeiboParameter build() {
             return new WeiboParameter(map);
         }
     }

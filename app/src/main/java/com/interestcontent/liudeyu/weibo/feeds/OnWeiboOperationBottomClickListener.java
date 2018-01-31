@@ -1,5 +1,6 @@
 package com.interestcontent.liudeyu.weibo.feeds;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,8 +15,6 @@ import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.weibo.util.MyWeiboPageUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.Callable;
 
@@ -85,7 +84,7 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
         }
     }
 
-    private void dealWithGotoComment(@NotNull String id) {
+    private void dealWithGotoComment(@NonNull String id) {
         MyWeiboPageUtils.getInstance(MyApplication.sApplication, WeiboLoginManager.getInstance().getAuthInfo())
                 .commentWeibo(id, true);
     }

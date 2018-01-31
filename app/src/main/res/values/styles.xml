@@ -4,6 +4,7 @@
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/md_blue_300</item>
         <item name="colorPrimaryDark">@color/md_blue_300</item>
+        <item name="android:textColorSecondary">#ffffff</item>
     </style>
 
 </resources>

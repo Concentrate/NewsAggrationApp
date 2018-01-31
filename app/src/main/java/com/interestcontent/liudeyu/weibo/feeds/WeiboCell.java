@@ -21,6 +21,7 @@ import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.BaseRecyclerView;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.SpaceItemDecoration;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
+import com.interestcontent.liudeyu.weibo.contents.WeiboContentActivity;
 import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboUserBean;
@@ -206,9 +207,12 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
     }
 
     private void dealWithGoToSourceWeibo(int position) {
-        MyWeiboPageUtils.getInstance(mContext, WeiboLoginManager.getInstance()
-                .getAuthInfo()).startWeiboDetailPage(mData.get(position).getMid(),
-                mData.get(position).getUser().getIdstr(), true);
+//        MyWeiboPageUtils.getInstance(mContext, WeiboLoginManager.getInstance()
+//                .getAuthInfo()).startWeiboDetailPage(mData.get(position).getMid(),
+//                mData.get(position).getUser().getIdstr(), true);
+        Intent intent = new Intent(mContext, WeiboContentActivity.class);
+        intent.putExtra(WeiboContentActivity.WEIBO_ITEM, mData.get(position));
+        mContext.startActivity(intent);
     }
 
     @Override

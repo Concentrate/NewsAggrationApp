@@ -18,7 +18,7 @@ public class ItemTab {
     public static final int WEIBO_SUB_MESSAGE=6;
     public static final int WEIBO_SUB_MY_WEIBO_PAGE =7;
     public static final int WEIBO_SUB_PERSON_SETTING = 8;
-
+    public static final int WEIBO_COMMENT = 9;
 
     private int mItemKey;
     private int mResourceId;
