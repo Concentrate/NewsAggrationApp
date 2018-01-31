@@ -3,6 +3,7 @@ package com.interestcontent.liudeyu.weibo.contents.comment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.interestcontent.liudeyu.R;
@@ -22,7 +23,8 @@ public class WeiboCommentListViewHolder extends RecyclerView.ViewHolder {
     TextView mCreateTime;
     AutoLinkTextView mCommentText;
     ImageView mGoodAttitudeIv;
-    TextView mGoodAttitudeTv;
+    TextView mGoodAttitudeCountTv;
+    LinearLayout mGoodAtitudeLayout;
     View mItemView;
 
     public WeiboCommentListViewHolder(View itemView) {
@@ -34,16 +36,8 @@ public class WeiboCommentListViewHolder extends RecyclerView.ViewHolder {
         mCreateTime = mItemView.findViewById(R.id.comment_create_time_tv);
         mCommentText = mItemView.findViewById(R.id.comment_content_tv);
         mGoodAttitudeIv = mItemView.findViewById(R.id.comment_digger_iv);
-        mGoodAttitudeTv = mItemView.findViewById(R.id.digger_count_tv);
-
-
+        mGoodAttitudeCountTv = mItemView.findViewById(R.id.comment_digger_count_tv);
+        mGoodAtitudeLayout=mItemView.findViewById(R.id.good_attitude_layout);
     }
 
-    public void setViewTag(int pos) {
-        mItemView.setTag(VIEWTAG, pos);
-    }
-
-    public int getPos() {
-        return (int) mItemView.getTag(VIEWTAG);
-    }
 }

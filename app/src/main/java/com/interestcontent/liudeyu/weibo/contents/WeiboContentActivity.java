@@ -43,7 +43,6 @@ import com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils;
 import com.luseen.autolinklibrary.AutoLinkMode;
 import com.luseen.autolinklibrary.AutoLinkOnClickListener;
 import com.luseen.autolinklibrary.AutoLinkTextView;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,11 +116,8 @@ public class WeiboContentActivity extends BaseActivity {
     private void showComments(List<WeiboCommontBean> weiboCommontBeans) {
         if (mWeiboCommentListAdapter == null) {
             mWeiboCommentListAdapter = new WeiboCommentListAdapter(this, weiboCommontBeans, mWeiboBean);
-            mCommentRecycleView.setAdapter(mWeiboCommentListAdapter);
             mCommentRecycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            HorizontalDividerItemDecoration.Builder builder = new HorizontalDividerItemDecoration.Builder(this.getApplicationContext());
-            builder.margin(SizeUtils.dp2px(3));
-            mCommentRecycleView.addItemDecoration(builder.build());
+            mCommentRecycleView.setAdapter(mWeiboCommentListAdapter);
         }
         mWeiboCommentListAdapter.setData(weiboCommontBeans);
 
@@ -157,7 +153,7 @@ public class WeiboContentActivity extends BaseActivity {
             @Override
             public Object call() throws Exception {
                 WeiboParameter.ParameterBuilder builder = new WeiboParameter.ParameterBuilder();
-                builder.setEveryPageCount(30).setWeiboId(mWeiboBean.getId() + "");
+                builder.setEveryPageCount(100).setWeiboId(mWeiboBean.getId() + "");
                 List<WeiboCommontBean> list = FeedDataManager.getInstance().getWeiboCommentListByNet(ItemTab.WEIBO_COMMENT,
                         Constants.WEIBO_COMMENT_API, builder.build().getParaMap(), isFirstTimeRequestComment);
                 isFirstTimeRequestComment = false;
@@ -200,10 +196,11 @@ public class WeiboContentActivity extends BaseActivity {
         recyclerView.addItemDecoration(new SpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
         mImageRecycleAdapter = new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>());
         recyclerView.setAdapter(mImageRecycleAdapter);
-        OnWeiboOperationBottomClickListener bottomClickListener = new OnWeiboOperationBottomClickListener();
+        OnWeiboOperationBottomClickListener bottomClickListener = new OnWeiboOperationBottomClickListener(this);
         mResendLayout.setOnClickListener(bottomClickListener);
         mGoodAttitudeLayout.setOnClickListener(bottomClickListener);
-        bottomClickListener.setNecesseryViewTag(mWeiboBean.getIdstr(), mResendLayout, mGoodAttitudeLayout);
+        mCommentLayout.setOnClickListener(bottomClickListener);
+        bottomClickListener.setNecesseryViewTag(mWeiboBean.getIdstr(), mResendLayout, mGoodAttitudeLayout, mCommentLayout);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -217,7 +214,9 @@ public class WeiboContentActivity extends BaseActivity {
                 return isHandle;
             }
         });
-
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        mBackButton.setColorFilter(getResources().getColor(R.color.white));
+        mToolbarTitle.setTextColor(getResources().getColor(R.color.white));
     }
 
     private void gotoSourceWeibo() {

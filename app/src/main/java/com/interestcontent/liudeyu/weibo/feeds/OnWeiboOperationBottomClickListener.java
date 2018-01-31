@@ -1,5 +1,6 @@
 package com.interestcontent.liudeyu.weibo.feeds;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
@@ -7,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
@@ -23,6 +23,11 @@ import java.util.concurrent.Callable;
  */
 public class OnWeiboOperationBottomClickListener implements View.OnClickListener {
 
+    private Context mContext;
+
+    public OnWeiboOperationBottomClickListener(Context context) {
+        mContext = context;
+    }
 
     public void setNecesseryViewTag(String weiboId, View... list) {
         if (list == null || list.length == 0) {
@@ -79,13 +84,13 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
 
     private void dealWithResendShare(String content) {
         if (!TextUtils.isEmpty(content)) {
-            MyWeiboPageUtils.getInstance(MyApplication.sApplication, WeiboLoginManager.getInstance().getAuthInfo())
+            MyWeiboPageUtils.getInstance(mContext, WeiboLoginManager.getInstance().getAuthInfo())
                     .repostWeiboContent(content);
         }
     }
 
     private void dealWithGotoComment(@NonNull String id) {
-        MyWeiboPageUtils.getInstance(MyApplication.sApplication, WeiboLoginManager.getInstance().getAuthInfo())
+        MyWeiboPageUtils.getInstance(mContext, WeiboLoginManager.getInstance().getAuthInfo())
                 .commentWeibo(id, true);
     }
 
@@ -94,7 +99,7 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
         TaskManager.inst().commit(new Callable() {
             @Override
             public Object call() throws Exception {
-                OkHttpUtils.post().url(url).addParams(Constants.WB_REQUEST_PARAMETER.ACCESS_TOKEN, SharePreferenceUtil.getStringPreference(MyApplication.sApplication,
+                OkHttpUtils.post().url(url).addParams(Constants.WB_REQUEST_PARAMETER.ACCESS_TOKEN, SharePreferenceUtil.getStringPreference(mContext,
                         SpConstants.WEIBO_AUTHEN_TOKEN)).addParams(Constants.WB_REQUEST_PARAMETER.ATTITUDE, "simle").addParams(Constants.WB_REQUEST_PARAMETER.ID,
                         id).build().execute();
                 return null;

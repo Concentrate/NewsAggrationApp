@@ -114,10 +114,10 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
         LinearLayout goodFinger = view.findViewById(R.id.good_fingger_layout);
         LinearLayout resendLayout = view.findViewById(R.id.resend_layout);
         LinearLayout commentLayout = view.findViewById(R.id.comment_layout);
-        OnWeiboOperationBottomClickListener bottomClickListener = new OnWeiboOperationBottomClickListener();
-        goodFinger.setOnClickListener(bottomClickListener);
-        resendLayout.setOnClickListener(bottomClickListener);
-        commentLayout.setOnClickListener(bottomClickListener);
+        OnWeiboOperationBottomClickListener mBottomClickListener = new OnWeiboOperationBottomClickListener(mContext);
+        goodFinger.setOnClickListener(mBottomClickListener);
+        resendLayout.setOnClickListener(mBottomClickListener);
+        commentLayout.setOnClickListener(mBottomClickListener);
         ImageView avaterIv = view.findViewById(R.id.avater_iv);
         TextView authorTv = view.findViewById(R.id.author_tv);
 
@@ -126,6 +126,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
         recyclerView.setOnClickListener(this);
         avaterIv.setOnClickListener(this);
         authorTv.setOnClickListener(this);
+        autoLinkTextView.setOnClickListener(this);
 
     }
 
@@ -144,6 +145,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
             holder.getView(R.id.resend_layout).setTag(R.layout.weibo_feed_cell_layout, mData.get(position).getIdstr());
             holder.getImageView(R.id.avater_iv).setTag(R.layout.weibo_feed_cell_layout, position);
             holder.getTextView(R.id.author_tv).setTag(R.layout.weibo_feed_cell_layout, position);
+            holder.getTextView(R.id.wb_content_tv).setTag(R.layout.weibo_feed_cell_layout, position);
 
 /*todo  以上setTag地方要改，这样容易遗忘，出问题，写法不好，为了快*/
 
@@ -185,6 +187,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
     public void onItemClick(View view, int position) {
         switch (view.getId()) {
             case R.id.root_container:
+            case R.id.wb_content_tv:
                 dealWithGoToSourceWeibo(position);
                 break;
             case R.id.avater_iv:

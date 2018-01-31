@@ -57,7 +57,7 @@ public class MyWeiboPageUtils {
         if (weiboSdkUtils == null) {
             weiboSdkUtils = new MyWeiboPageUtils(context, authInfo);
         }
-
+        weiboSdkUtils.context = context;
         return weiboSdkUtils;
     }
 

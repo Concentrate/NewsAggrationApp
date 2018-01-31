@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
@@ -35,8 +37,8 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboCommentLi
 
     private Context mContext;
     private List<WeiboCommontBean> mData;
-    private WeiboCommentListViewHolder mHolder;
     private WeiboBean mWeiboBean;
+    private View mView;
 
     public WeiboCommentListAdapter(Context context, List<WeiboCommontBean> data, WeiboBean weiboBean) {
         mContext = context;
@@ -46,18 +48,20 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboCommentLi
 
     @Override
     public WeiboCommentListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (mHolder == null) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.comment_item_layout, parent, false);
-            mHolder = new WeiboCommentListViewHolder(view);
-            mHolder.mGoodAttitudeIv.setOnClickListener(this);
-            initView(mHolder);
+        if (mView == null) {
+            mView = LayoutInflater.from(mContext).inflate(R.layout.comment_item_layout, parent, false);
+            initView(mView);
         }
 
-        return mHolder;
+        WeiboCommentListViewHolder viewHolder = new WeiboCommentListViewHolder(mView);
+        return viewHolder;
     }
 
-    private void initView(WeiboCommentListViewHolder holder) {
-        AutoLinkTextView autoLinkTextView = holder.mCommentText;
+    private void initView(View mItemView) {
+        LinearLayout mGoodAtitudeLayout = mItemView.findViewById(R.id.good_attitude_layout);
+        AutoLinkTextView mCommentText = mItemView.findViewById(R.id.comment_content_tv);
+        mGoodAtitudeLayout.setOnClickListener(this);
+        AutoLinkTextView autoLinkTextView = mCommentText;
         autoLinkTextView.addAutoLinkMode(
                 AutoLinkMode.MODE_HASHTAG,
                 AutoLinkMode.MODE_PHONE,
@@ -86,18 +90,19 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboCommentLi
 
     @Override
     public void onBindViewHolder(WeiboCommentListViewHolder holder, int position) {
-        mHolder.setViewTag(position);
+        holder.mGoodAtitudeLayout.setTag(position);
         holder.mAuthor.setText(mData.get(position).getUser().getName());
         Glide.with(mContext).load(mData.get(position).getUser().getProfile_image_url()).into(holder.mImageView);
         holder.mCommentText.setAutoLinkText(mData.get(position).getText());
         holder.mCreateTime.setText(mData.get(position).getCreated_at());
-        holder.mGoodAttitudeTv.setText(mData.get(position).getFloor_number()+"");
+        holder.mGoodAttitudeCountTv.setText(mData.get(position).getFloor_number() + "");
 
     }
 
 
     public void setData(List<WeiboCommontBean> data) {
-        mData = data;
+        mData.clear();
+        mData.addAll(data);
         notifyItemChanged(0);
     }
 
@@ -112,14 +117,21 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboCommentLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.comment_digger_iv:
-                int pos = mHolder.getPos();
-                mHolder.mGoodAttitudeIv.setSelected(!mHolder.mGoodAttitudeIv.isSelected());
-                int num = mData.get(pos).getFloor_number() + (mHolder.mGoodAttitudeIv.isSelected() ? 1 : -1);
-                mHolder.mGoodAttitudeTv.setText(num);
-                dealWithAttitudeUpload(mHolder.mGoodAttitudeIv.isSelected(), mWeiboBean.getIdstr());
-                if (mHolder.mGoodAttitudeIv.isSelected()) {
-                    showEnlargeAnimation(mHolder.mGoodAttitudeIv);
+            case R.id.good_attitude_layout:
+                int pos = (int) view.getTag();
+                TextView textView = view.findViewById(R.id.comment_digger_count_tv);
+                ImageView imageView = view.findViewById(R.id.comment_digger_iv);
+                view.setSelected(!view.isSelected());
+                int num = 0;
+                try {
+                    num = Integer.parseInt(textView.getText() + "") + (imageView.isSelected() ? 1 : -1);
+                } catch (Exception e) {
+
+                }
+                textView.setText(String.valueOf(num));
+                dealWithAttitudeUpload(imageView.isSelected(), mWeiboBean.getIdstr());
+                if (imageView.isSelected()) {
+                    showEnlargeAnimation(imageView);
                 }
                 break;
 
