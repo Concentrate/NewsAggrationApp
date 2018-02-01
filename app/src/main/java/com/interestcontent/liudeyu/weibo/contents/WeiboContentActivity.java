@@ -16,16 +16,17 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
+import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
-import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.SpaceItemDecoration;
+import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.GridManagerSpaceItemDecoration;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.dataManager.FeedDataManager;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
@@ -43,6 +44,7 @@ import com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils;
 import com.luseen.autolinklibrary.AutoLinkMode;
 import com.luseen.autolinklibrary.AutoLinkOnClickListener;
 import com.luseen.autolinklibrary.AutoLinkTextView;
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +74,7 @@ public class WeiboContentActivity extends BaseActivity {
     @BindView(R.id.create_time_tv)
     TextView mCreateTime;
     @BindView(R.id.wb_content_tv)
-    AutoLinkTextView mContentView;
+    AutoLinkTextView mWbContentView;
     @BindView(R.id.wb_image_recyle_view)
     RecyclerView mImageRecycleView;
     @BindView(R.id.resend_layout)
@@ -95,6 +97,8 @@ public class WeiboContentActivity extends BaseActivity {
     TextView mCommentCountTv;
     @BindView(R.id.comment_recycle_layout)
     RecyclerView mCommentRecycleView;
+    @BindView(R.id.root_container)
+    ViewGroup mWbContentViewRootContainer;
     private Context mContext;
     private WeiboImageRecycleViewAdapter mImageRecycleAdapter;
     private WeiboBean mWeiboBean;
@@ -112,12 +116,18 @@ public class WeiboContentActivity extends BaseActivity {
         }
     };
     private WeiboCommentListAdapter mWeiboCommentListAdapter;
+    private View mView;
 
     private void showComments(List<WeiboCommontBean> weiboCommontBeans) {
         if (mWeiboCommentListAdapter == null) {
             mWeiboCommentListAdapter = new WeiboCommentListAdapter(this, weiboCommontBeans, mWeiboBean);
             mCommentRecycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             mCommentRecycleView.setAdapter(mWeiboCommentListAdapter);
+            mCommentRecycleView.setItemAnimator(new DefaultItemAnimator());
+            VerticalDividerItemDecoration.Builder builder = new VerticalDividerItemDecoration.Builder(this);
+            builder.margin(SizeUtils.dp2px(5)).color(getResources().getColor(R.color.md_blue_grey_400));
+            VerticalDividerItemDecoration verticalDividerItemDecoration = builder.build();
+            mCommentRecycleView.addItemDecoration(verticalDividerItemDecoration);
         }
         mWeiboCommentListAdapter.setData(weiboCommontBeans);
 
@@ -148,12 +158,13 @@ public class WeiboContentActivity extends BaseActivity {
         }
     }
 
+
     private void startRequestCommentData() {
         TaskManager.inst().commit(mHandler, new Callable() {
             @Override
             public Object call() throws Exception {
                 WeiboParameter.ParameterBuilder builder = new WeiboParameter.ParameterBuilder();
-                builder.setEveryPageCount(100).setWeiboId(mWeiboBean.getId() + "");
+                builder.setEveryPageCount(200).setWeiboId(mWeiboBean.getId() + "");
                 List<WeiboCommontBean> list = FeedDataManager.getInstance().getWeiboCommentListByNet(ItemTab.WEIBO_COMMENT,
                         Constants.WEIBO_COMMENT_API, builder.build().getParaMap(), isFirstTimeRequestComment);
                 isFirstTimeRequestComment = false;
@@ -164,7 +175,7 @@ public class WeiboContentActivity extends BaseActivity {
 
 
     private void initViews() {
-        AutoLinkTextView autoLinkTextView = mContentView;
+        AutoLinkTextView autoLinkTextView = mWbContentView;
         autoLinkTextView.addAutoLinkMode(
                 AutoLinkMode.MODE_HASHTAG,
                 AutoLinkMode.MODE_PHONE,
@@ -188,12 +199,18 @@ public class WeiboContentActivity extends BaseActivity {
                 }
             }
         });
-        RecyclerView recyclerView = mImageRecycleView;
+        final RecyclerView recyclerView = mImageRecycleView;
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
-        final int itemDecortWidth = (int) ((ScreenUtils.getScreenWidth() - mContext.getResources().
-                getDimension(R.dimen.wb_cell_image_size) * 3) / 2);
-        recyclerView.addItemDecoration(new SpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3, GridLayoutManager.VERTICAL, false));
+        mWbContentViewRootContainer.post(new Runnable() {
+            @Override
+            public void run() {
+                final int itemDecortWidth = (int) ((mWbContentViewRootContainer.getWidth() - mContext.getResources().
+                        getDimension(R.dimen.wb_cell_image_size) * 3) / 2);
+                Logger.d(this.getClass().getSimpleName(), "image item with space is " + itemDecortWidth);
+                recyclerView.addItemDecoration(new GridManagerSpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
+            }
+        });
         mImageRecycleAdapter = new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>());
         recyclerView.setAdapter(mImageRecycleAdapter);
         OnWeiboOperationBottomClickListener bottomClickListener = new OnWeiboOperationBottomClickListener(this);
@@ -244,7 +261,8 @@ public class WeiboContentActivity extends BaseActivity {
 
     @Override
     protected View getResourceLayout() {
-        return LayoutInflater.from(this).inflate(R.layout.weibo_main_content_layout, null);
+        mView = LayoutInflater.from(this).inflate(R.layout.weibo_main_content_layout, null);
+        return mView;
     }
 
     @Override
@@ -266,7 +284,7 @@ public class WeiboContentActivity extends BaseActivity {
             mToolbarTitle.setText(res.getUser().getName());
         }
         mCreateTime.setText(res.getCreated_at());
-        mContentView.setAutoLinkText(TextUtils.isEmpty(res.getText()) ? "" : res.getText());
+        mWbContentView.setAutoLinkText(TextUtils.isEmpty(res.getText()) ? "" : res.getText());
         mResendTv.setText(res.getReposts_count() + "");
         mCommentCountTv.setText(res.getComments_count() + "");
         mGooAttitudeTv.setText(res.getAttitudes_count() + "");

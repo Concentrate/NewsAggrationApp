@@ -26,6 +26,7 @@ import com.luseen.autolinklibrary.AutoLinkOnClickListener;
 import com.luseen.autolinklibrary.AutoLinkTextView;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -36,22 +37,22 @@ import java.util.concurrent.Callable;
 public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboCommentListViewHolder> implements View.OnClickListener {
 
     private Context mContext;
-    private List<WeiboCommontBean> mData;
+    private List<WeiboCommontBean> mData = new ArrayList<>();
     private WeiboBean mWeiboBean;
     private View mView;
 
     public WeiboCommentListAdapter(Context context, List<WeiboCommontBean> data, WeiboBean weiboBean) {
         mContext = context;
-        mData = data;
+        setData(data);
         mWeiboBean = weiboBean;
     }
 
     @Override
     public WeiboCommentListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (mView == null) {
-            mView = LayoutInflater.from(mContext).inflate(R.layout.comment_item_layout, parent, false);
-            initView(mView);
-        }
+//        if (mView == null) {
+        mView = LayoutInflater.from(mContext).inflate(R.layout.comment_item_layout, parent, false);
+        initView(mView);
+//        }
 
         WeiboCommentListViewHolder viewHolder = new WeiboCommentListViewHolder(mView);
         return viewHolder;
@@ -101,6 +102,9 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboCommentLi
 
 
     public void setData(List<WeiboCommontBean> data) {
+        if (data == null || data.isEmpty()) {
+            return;
+        }
         mData.clear();
         mData.addAll(data);
         notifyItemChanged(0);

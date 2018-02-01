@@ -14,12 +14,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.BaseRecyclerView;
-import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.SpaceItemDecoration;
+import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.GridManagerSpaceItemDecoration;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.weibo.contents.WeiboContentActivity;
 import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
@@ -77,7 +76,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
         return viewHolder;
     }
 
-    private void initViewState(View view) {
+    private void initViewState(final View view) {
         AutoLinkTextView autoLinkTextView = (AutoLinkTextView) view.findViewById(R.id.wb_content_tv);
         autoLinkTextView.addAutoLinkMode(
                 AutoLinkMode.MODE_HASHTAG,
@@ -103,12 +102,17 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
                 }
             }
         });
-        BaseRecyclerView recyclerView = view.findViewById(R.id.wb_image_recyle_view);
+        final BaseRecyclerView recyclerView = view.findViewById(R.id.wb_image_recyle_view);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
-        int itemDecortWidth = (int) ((ScreenUtils.getScreenWidth() - mContext.getResources().
-                getDimension(R.dimen.wb_cell_image_size) * 3) / 2);
-        recyclerView.addItemDecoration(new SpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3, GridLayoutManager.VERTICAL, false));
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                int itemDecortWidth = (int) ((view.getWidth() - mContext.getResources().
+                        getDimension(R.dimen.wb_cell_image_size) * 3) / 2);
+                recyclerView.addItemDecoration(new GridManagerSpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
+            }
+        });
         recyclerView.setAdapter(new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>()));
         recyclerView.setBlankListener(this);
         LinearLayout goodFinger = view.findViewById(R.id.good_fingger_layout);

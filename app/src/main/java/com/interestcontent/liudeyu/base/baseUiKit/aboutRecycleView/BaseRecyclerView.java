@@ -40,14 +40,14 @@ public class BaseRecyclerView extends RecyclerView {
     }
 
     public interface BlankListener {
-//这里加上RecycleView 是为了获取点击上一级的点击位置，这里比较奇淫巧技
+        //这里加上RecycleView 是为了获取点击上一级的点击位置，这里比较奇淫巧技
         void onBlankClick(RecyclerView recyclerView);
 
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        if (gestureDetector.onTouchEvent(e)) {
+        if (gestureDetector != null && gestureDetector.onTouchEvent(e)) {
             View childView = findChildViewUnder(e.getX(), e.getY());
             if (childView == null) {
                 listener.onBlankClick(this);

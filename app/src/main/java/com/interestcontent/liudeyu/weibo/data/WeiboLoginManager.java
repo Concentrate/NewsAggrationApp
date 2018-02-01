@@ -54,7 +54,7 @@ public class WeiboLoginManager {
         if (mSsoHandler == null) {
             mSsoHandler = new SsoHandler(activity);
         }
-        mSsoHandler.authorize(mWbAuthListener);
+        mSsoHandler.authorizeWeb(mWbAuthListener);
     }
 
     public void resetLoginState() {

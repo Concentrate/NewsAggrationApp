@@ -3,6 +3,8 @@ package com.interestcontent.liudeyu.weibo.feeds;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
 import com.blankj.utilcode.util.SizeUtils;
@@ -46,6 +48,10 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
         if (fragment instanceof AbsTopTabFragment) {
             ((AbsTopTabFragment) fragment).registerLifeCycleMonitor(this);
         }
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        DividerItemDecoration itemDecoration=new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(getActivity().getResources().getDrawable(R.drawable.weibo_cell_divider_line));
+        mRecyclerView.addItemDecoration(itemDecoration);
     }
 
     @Override
