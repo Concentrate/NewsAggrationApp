@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -44,13 +45,13 @@ import com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils;
 import com.luseen.autolinklibrary.AutoLinkMode;
 import com.luseen.autolinklibrary.AutoLinkOnClickListener;
 import com.luseen.autolinklibrary.AutoLinkTextView;
-import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
+import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils.MIDDLE;
@@ -67,38 +68,36 @@ public class WeiboContentActivity extends BaseActivity {
     public static final int WHAT = 2;
 
 
-    @BindView(R.id.avater_iv)
     ImageView mAvater;
-    @BindView(R.id.author_tv)
+
     TextView mAuthor;
-    @BindView(R.id.create_time_tv)
+
     TextView mCreateTime;
-    @BindView(R.id.wb_content_tv)
+
     AutoLinkTextView mWbContentView;
-    @BindView(R.id.wb_image_recyle_view)
+
     RecyclerView mImageRecycleView;
-    @BindView(R.id.resend_layout)
+
     LinearLayout mResendLayout;
-    @BindView(R.id.resend_iv)
+
     ImageView mResendIv;
-    @BindView(R.id.resend_count_tv)
+
     TextView mResendTv;
-    @BindView(R.id.good_fingger_layout)
+
     LinearLayout mGoodAttitudeLayout;
-    @BindView(R.id.good_finger_iv)
+
     ImageView mGoodAttitudeIv;
-    @BindView(R.id.good_fingger_count_tv)
+
     TextView mGooAttitudeTv;
-    @BindView(R.id.comment_layout)
+
     LinearLayout mCommentLayout;
-    @BindView(R.id.comment_iv)
+
     ImageView mCommentIv;
-    @BindView(R.id.comment_count_tv)
+
     TextView mCommentCountTv;
-    @BindView(R.id.comment_recycle_layout)
-    RecyclerView mCommentRecycleView;
-    @BindView(R.id.root_container)
+
     ViewGroup mWbContentViewRootContainer;
+    PullLoadMoreRecyclerView mCommentRecycleView;
     private Context mContext;
     private WeiboImageRecycleViewAdapter mImageRecycleAdapter;
     private WeiboBean mWeiboBean;
@@ -109,26 +108,20 @@ public class WeiboContentActivity extends BaseActivity {
             switch (msg.what) {
                 case WHAT:
                     List<WeiboCommontBean> weiboCommontBeans = (List<WeiboCommontBean>) msg.obj;
-                    showComments(weiboCommontBeans);
+                    if (weiboCommontBeans == null || weiboCommontBeans.isEmpty()) {
+                        mCommentRecycleView.setHasMore(false);
+                    } else {
+                        showComments(weiboCommontBeans);
+                    }
                     break;
 
             }
         }
     };
     private WeiboCommentListAdapter mWeiboCommentListAdapter;
-    private View mView;
 
     private void showComments(List<WeiboCommontBean> weiboCommontBeans) {
-        if (mWeiboCommentListAdapter == null) {
-            mWeiboCommentListAdapter = new WeiboCommentListAdapter(this, weiboCommontBeans, mWeiboBean);
-            mCommentRecycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            mCommentRecycleView.setAdapter(mWeiboCommentListAdapter);
-            mCommentRecycleView.setItemAnimator(new DefaultItemAnimator());
-            VerticalDividerItemDecoration.Builder builder = new VerticalDividerItemDecoration.Builder(this);
-            builder.margin(SizeUtils.dp2px(5)).color(getResources().getColor(R.color.md_blue_grey_400));
-            VerticalDividerItemDecoration verticalDividerItemDecoration = builder.build();
-            mCommentRecycleView.addItemDecoration(verticalDividerItemDecoration);
-        }
+        mCommentRecycleView.setPullLoadMoreCompleted();
         mWeiboCommentListAdapter.setData(weiboCommontBeans);
 
 
@@ -145,17 +138,80 @@ public class WeiboContentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.weibo_feed_cell_layout, null);
+        mWbContentViewRootContainer = (ViewGroup) view;
+        mWbContentViewRootContainer.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        findViews(mWbContentViewRootContainer);
+        ButterKnife.bind(mWbContentViewRootContainer);
         mContext = this;
         Intent intent = getIntent();
         if (intent != null) {
             mWeiboBean = (WeiboBean) intent.getSerializableExtra(WEIBO_ITEM);
             if (mWeiboBean != null) {
                 initViews();
+                initCommentRecycleViews();
                 initData(mWeiboBean);
                 startRequestCommentData();
             }
         }
+    }
+
+    private void findViews(ViewGroup wbContentViewRootContainer) {
+
+        mAvater = wbContentViewRootContainer.findViewById(R.id.avater_iv);
+
+        mAuthor = wbContentViewRootContainer.findViewById(R.id.author_tv);
+
+        mCreateTime = wbContentViewRootContainer.findViewById(R.id.create_time_tv);
+
+        mWbContentView = wbContentViewRootContainer.findViewById(R.id.wb_content_tv);
+
+        mImageRecycleView = wbContentViewRootContainer.findViewById(R.id.wb_image_recyle_view);
+
+        mResendLayout = wbContentViewRootContainer.findViewById(R.id.resend_layout);
+
+        mResendIv = wbContentViewRootContainer.findViewById(R.id.resend_iv);
+
+        mResendTv = wbContentViewRootContainer.findViewById(R.id.resend_count_tv);
+
+        mGoodAttitudeLayout = wbContentViewRootContainer.findViewById(R.id.good_fingger_layout);
+
+        mGoodAttitudeIv = wbContentViewRootContainer.findViewById(R.id.good_finger_iv);
+
+        mGooAttitudeTv = wbContentViewRootContainer.findViewById(R.id.good_fingger_count_tv);
+
+        mCommentLayout = wbContentViewRootContainer.findViewById(R.id.comment_layout);
+
+        mCommentIv = wbContentViewRootContainer.findViewById(R.id.comment_iv);
+
+        mCommentCountTv = wbContentViewRootContainer.findViewById(R.id.comment_count_tv);
+
+    }
+
+    private void initCommentRecycleViews() {
+        mCommentRecycleView.getRecyclerView().setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mCommentRecycleView.getRecyclerView().setItemAnimator(new DefaultItemAnimator());
+        HorizontalDividerItemDecoration.Builder builder = new HorizontalDividerItemDecoration.Builder(this);
+        builder.size(SizeUtils.dp2px(5)).color(getResources().getColor(R.color.md_grey_200));
+        HorizontalDividerItemDecoration itemdecration = builder.build();
+        mCommentRecycleView.getRecyclerView().addItemDecoration(itemdecration);
+        mCommentRecycleView.setPullRefreshEnable(false);
+        mCommentRecycleView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+
+            @Override
+            public void onLoadMore() {
+                startRequestCommentData();
+            }
+        });
+        mCommentRecycleView.setFooterViewText("加载中...");
+        mWeiboCommentListAdapter = new WeiboCommentListAdapter(this, new ArrayList<WeiboCommontBean>(), mWeiboBean);
+        mWeiboCommentListAdapter.setHeaderView(mWbContentViewRootContainer);
+        mCommentRecycleView.setAdapter(mWeiboCommentListAdapter);
+
     }
 
 
@@ -164,7 +220,7 @@ public class WeiboContentActivity extends BaseActivity {
             @Override
             public Object call() throws Exception {
                 WeiboParameter.ParameterBuilder builder = new WeiboParameter.ParameterBuilder();
-                builder.setEveryPageCount(200).setWeiboId(mWeiboBean.getId() + "");
+                builder.setEveryPageCount(20).setWeiboId(mWeiboBean.getId() + "");
                 List<WeiboCommontBean> list = FeedDataManager.getInstance().getWeiboCommentListByNet(ItemTab.WEIBO_COMMENT,
                         Constants.WEIBO_COMMENT_API, builder.build().getParaMap(), isFirstTimeRequestComment);
                 isFirstTimeRequestComment = false;
@@ -175,6 +231,7 @@ public class WeiboContentActivity extends BaseActivity {
 
 
     private void initViews() {
+        mCommentRecycleView = findViewById(R.id.comment_recycle_view);
         AutoLinkTextView autoLinkTextView = mWbContentView;
         autoLinkTextView.addAutoLinkMode(
                 AutoLinkMode.MODE_HASHTAG,
@@ -234,7 +291,31 @@ public class WeiboContentActivity extends BaseActivity {
         mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
         mBackButton.setColorFilter(getResources().getColor(R.color.white));
         mToolbarTitle.setTextColor(getResources().getColor(R.color.white));
+        mAvater.setOnClickListener(this);
+        mAuthor.setOnClickListener(this);
     }
+
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+        switch (view.getId()) {
+            case R.id.avater_iv:
+            case R.id.author_tv:
+                dealWithGoToAuthorPage();
+                break;
+
+        }
+    }
+
+    private void dealWithGoToAuthorPage() {
+        String profile = mWeiboBean.getUser().getProfile_url();
+        if (!TextUtils.isEmpty(profile)) {
+            MyWeiboPageUtils.getInstance(mContext, WeiboLoginManager.getInstance().getAuthInfo())
+                    .startOtherPage(WeiboUrlsUtils.getPersonalProfileUrl(profile));
+        }
+    }
+
 
     private void gotoSourceWeibo() {
         if (mWeiboBean == null) {
@@ -261,8 +342,7 @@ public class WeiboContentActivity extends BaseActivity {
 
     @Override
     protected View getResourceLayout() {
-        mView = LayoutInflater.from(this).inflate(R.layout.weibo_main_content_layout, null);
-        return mView;
+        return LayoutInflater.from(this).inflate(R.layout.weibo_main_content_layout, null);
     }
 
     @Override

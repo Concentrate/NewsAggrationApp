@@ -1,6 +1,5 @@
 package com.interestcontent.liudeyu.weibo.contents.comment;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +14,7 @@ import butterknife.ButterKnife;
  * Created by liudeyu on 2018/1/31.
  */
 
-public class WeiboCommentListViewHolder extends RecyclerView.ViewHolder {
+public class WeiboCommentListViewHolder extends WeiboBaseHolder {
 
     public static final int VIEWTAG = R.layout.comment_item_layout;
     ImageView mImageView;

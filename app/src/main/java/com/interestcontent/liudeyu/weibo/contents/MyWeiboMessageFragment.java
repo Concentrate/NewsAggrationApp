@@ -12,4 +12,5 @@ public class MyWeiboMessageFragment extends BaseWebBrowseFragment {
     protected String provideUrl() {
         return WeiboUrlsUtils.getWeiboMessageUrl();
     }
+
 }

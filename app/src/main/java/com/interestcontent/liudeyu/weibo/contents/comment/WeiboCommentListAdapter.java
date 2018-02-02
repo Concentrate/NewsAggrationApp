@@ -34,28 +34,46 @@ import java.util.concurrent.Callable;
  * Created by liudeyu on 2018/1/31.
  */
 
-public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboCommentListViewHolder> implements View.OnClickListener {
+public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboBaseHolder> implements View.OnClickListener {
 
     private Context mContext;
     private List<WeiboCommontBean> mData = new ArrayList<>();
     private WeiboBean mWeiboBean;
     private View mView;
+    private View mHeaderView;
+    private static final int WEIBO_CONTENT_TYPE = 3;
+    private static final int WEIBO_COMMENT_TYPE = 4;
 
     public WeiboCommentListAdapter(Context context, List<WeiboCommontBean> data, WeiboBean weiboBean) {
         mContext = context;
-        setData(data);
         mWeiboBean = weiboBean;
+        if (data != null || !data.isEmpty()) {
+            mData.addAll(data);
+        }
+    }
+
+    public void setHeaderView(View view) {
+        mHeaderView = view;
+        notifyItemInserted(0);
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) return WEIBO_CONTENT_TYPE;
+        return WEIBO_COMMENT_TYPE;
     }
 
     @Override
-    public WeiboCommentListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        if (mView == null) {
-        mView = LayoutInflater.from(mContext).inflate(R.layout.comment_item_layout, parent, false);
-        initView(mView);
-//        }
-
-        WeiboCommentListViewHolder viewHolder = new WeiboCommentListViewHolder(mView);
-        return viewHolder;
+    public WeiboBaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == WEIBO_CONTENT_TYPE && mHeaderView != null) {
+            return new WeiboBaseHolder(mHeaderView);
+        } else {
+            mView = LayoutInflater.from(mContext).inflate(R.layout.comment_item_layout, parent, false);
+            initView(mView);
+            WeiboCommentListViewHolder viewHolder = new WeiboCommentListViewHolder(mView);
+            return viewHolder;
+        }
     }
 
     private void initView(View mItemView) {
@@ -89,14 +107,26 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboCommentLi
         });
     }
 
+    public int getRealPosition(RecyclerView.ViewHolder holder) {
+        int position = holder.getLayoutPosition();
+        return mHeaderView == null ? position : position - 1;
+    }
+
     @Override
-    public void onBindViewHolder(WeiboCommentListViewHolder holder, int position) {
-        holder.mGoodAtitudeLayout.setTag(position);
-        holder.mAuthor.setText(mData.get(position).getUser().getName());
-        Glide.with(mContext).load(mData.get(position).getUser().getProfile_image_url()).into(holder.mImageView);
-        holder.mCommentText.setAutoLinkText(mData.get(position).getText());
-        holder.mCreateTime.setText(mData.get(position).getCreated_at());
-        holder.mGoodAttitudeCountTv.setText(mData.get(position).getFloor_number() + "");
+    public void onBindViewHolder(WeiboBaseHolder holder, int position) {
+        if (getItemViewType(position) == WEIBO_CONTENT_TYPE) {
+            return;
+        }
+        if (holder instanceof WeiboCommentListViewHolder) {
+            position = getRealPosition(holder);
+            WeiboCommentListViewHolder aHolder = (WeiboCommentListViewHolder) holder;
+            aHolder.mGoodAtitudeLayout.setTag(position);
+            aHolder.mAuthor.setText(mData.get(position).getUser().getName());
+            Glide.with(mContext).load(mData.get(position).getUser().getProfile_image_url()).into(aHolder.mImageView);
+            aHolder.mCommentText.setAutoLinkText(mData.get(position).getText());
+            aHolder.mCreateTime.setText(mData.get(position).getCreated_at());
+            aHolder.mGoodAttitudeCountTv.setText(mData.get(position).getFloor_number() + "");
+        }
 
     }
 
@@ -107,15 +137,12 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboCommentLi
         }
         mData.clear();
         mData.addAll(data);
-        notifyItemChanged(0);
+        notifyItemRangeChanged(1, data.size());
     }
 
     @Override
     public int getItemCount() {
-        if (mData != null) {
-            return mData.size();
-        }
-        return 0;
+        return mHeaderView == null ? mData.size() : mData.size() + 1;
     }
 
     @Override
@@ -166,4 +193,6 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboCommentLi
             }
         });
     }
+
+
 }

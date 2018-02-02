@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -14,17 +13,17 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.widget.RelativeLayout;
 
+import com.blankj.utilcode.util.NetworkUtils;
 import com.example.commonlib.components.AbsActivity;
 import com.example.commonlib.components.AbsFragment;
 import com.example.commonlib.components.LifeCycleMonitor;
+import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.MainActivity;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
-import com.interestcontent.liudeyu.base.constants.FileConstants;
+import com.interestcontent.liudeyu.base.utils.PathUtils;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.ChromeClientCallbackManager;
-
-import java.io.File;
 
 /**
  * Created by liudeyu on 2018/1/24.
@@ -33,7 +32,7 @@ import java.io.File;
 public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonitor, ObservableWebView.OnScrollChangedCallback {
 
     public static final String LOAD_URL = "LOAD_URL".toLowerCase();
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "webview_cache_path";
     protected AgentWeb mAgentWeb;
     private RelativeLayout mRelativeLayout;
     private boolean isWebInit = false;
@@ -61,16 +60,18 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
         mWebView.setOnScrollChangedCallback(this);
         commonBuilderForFragment.setWebView(mWebView);
         mAgentWeb = commonBuilderForFragment.createAgentWeb().ready().go(null);
-        mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        if (NetworkUtils.isAvailableByPing()) {
+            mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        } else {
+            mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
         mAgentWeb.getAgentWebSettings().getWebSettings().setDomStorageEnabled(true);
         //开启 database storage API 功能
         mAgentWeb.getAgentWebSettings().getWebSettings().setDatabaseEnabled(true);
-        String cacheDirPath = getActivity().getFilesDir().getAbsolutePath() + File.separator + FileConstants.WEB_CACHE_DIR;
-        Log.d(TAG, "web view cache path is " + cacheDirPath);
-        //设置数据库缓存路径
-        //设置  Application Caches 缓存目录
-        mAgentWeb.getAgentWebSettings().getWebSettings().setAppCachePath(cacheDirPath);
-        //开启 Application Caches 功能
+        mAgentWeb.getAgentWebSettings().getWebSettings().setJavaScriptEnabled(true);
+        boolean isOk = com.blankj.utilcode.util.FileUtils.createOrExistsDir(PathUtils.getWebViewCachePath());
+        Logger.d("createDir", "create is ok " + isOk);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setAppCachePath(PathUtils.getWebViewCachePath());
         mAgentWeb.getAgentWebSettings().getWebSettings().setAppCacheEnabled(true);
         Fragment fragment = getParentFragment();
         if (fragment != null && fragment instanceof AbsTopTabFragment) {
@@ -159,8 +160,8 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
     @Override
     public void onScroll(int dx, int dy) {
         // 说明下滑
-        int touchMinum = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 4;
-        int touchMaxum = (int) (ViewConfiguration.get(getContext()).getScaledPagingTouchSlop() * 5.5);
+        int touchMinum = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 7;
+        int touchMaxum = (int) (ViewConfiguration.get(getContext()).getScaledPagingTouchSlop() * 9);
 
         if (dy > touchMinum && dy < touchMaxum) {
             if (!lastDirectionDown) {

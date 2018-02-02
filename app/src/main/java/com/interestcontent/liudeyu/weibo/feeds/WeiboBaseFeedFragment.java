@@ -21,7 +21,6 @@ import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +48,13 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
             ((AbsTopTabFragment) fragment).registerLifeCycleMonitor(this);
         }
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        DividerItemDecoration itemDecoration=new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         itemDecoration.setDrawable(getActivity().getResources().getDrawable(R.drawable.weibo_cell_divider_line));
         mRecyclerView.addItemDecoration(itemDecoration);
     }
 
     @Override
-    protected List<Cell> getCells(@NotNull List list) {
+    protected List<Cell> getCells(List list) {
         List<Cell> cellList = new ArrayList<>();
         if (mCell == null) {
             mCell = new WeiboCell(list, getActivity());

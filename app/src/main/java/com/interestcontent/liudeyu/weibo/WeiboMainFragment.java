@@ -2,12 +2,11 @@ package com.interestcontent.liudeyu.weibo;
 
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
@@ -21,56 +20,53 @@ import java.util.List;
  */
 public class WeiboMainFragment extends AbsTopTabFragment {
 
-    ImageView mLoginView;
-    TextView mLoginText;
-    private MyClickListener mMyClickListener;
-    private View mloginView;
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initLoginState();
+        initState();
+    }
+
+    private void initState() {
+
+    }
+
+
+    @Override
+    protected int provideInitShowItem() {
+        return 2;
+    }
+
+    @Override
+    protected int provideTabMode() {
+        return TabLayout.MODE_FIXED;
     }
 
     @Override
     protected List<ItemTab> provideItemTabs() {
         List<ItemTab> itemTabs = new ArrayList<>();
         String[] weiboTabName = getResources().getStringArray(R.array.weibo_top_tab);
-        int[] tabKey = new int[]{ItemTab.WEIBO_SUB_FOLLOW, ItemTab.WEIBO_SUB_HOT, ItemTab.WEIBO_SUB_MESSAGE, ItemTab.WEIBO_SUB_MY_WEIBO_PAGE,ItemTab.WEIBO_SUB_PERSON_SETTING};
+        int[] tabKey = new int[]{ItemTab.WEIBO_SUB_FOLLOW, ItemTab.WEIBO_SUB_HOT, ItemTab.WEIBO_SUB_MESSAGE, ItemTab.WEIBO_SUB_MY_WEIBO_PAGE};
         for (int i = 0; i < weiboTabName.length; i++) {
             itemTabs.add(new ItemTab(tabKey[i], weiboTabName[i]));
         }
         return itemTabs;
     }
 
-    private void initLoginState() {
-        if (mLoginView == null) {
-            mloginView = LayoutInflater.from(getContext()).inflate(R.layout.weibo_login_layout, mEmptyContainer);
-            mLoginText = mloginView.findViewById(R.id.login_button_tv);
-            mLoginView = mloginView.findViewById(R.id.login_button);
-            if (mMyClickListener == null) {
-                mMyClickListener = new MyClickListener(this);
-            }
-            mLoginView.setOnClickListener(mMyClickListener);
-            mLoginText.setOnClickListener(mMyClickListener);
-        }
-
-    }
 
     @Override
     public void onResume() {
         super.onResume();
         if (!WeiboLoginManager.getInstance().isLogin) {
-            hideContentAndShowEmptyView();
-        } else {
-            showContentHideEmptyView();
+            ToastUtils.setBgColor(getActivity().getResources().getColor(R.color.md_blue_200));
+            ToastUtils.showShort("请关联应用");
+            mViewPager.setCurrentItem(2);
         }
     }
 
     @Override
     protected int viewpagerLimitNum() {
-        return 5;
+        return 3;
     }
 
 
@@ -84,10 +80,7 @@ public class WeiboMainFragment extends AbsTopTabFragment {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.login_button:
-                case R.id.login_button_tv:
-                    WeiboLoginManager.getInstance().startLoginAuthen(mFragment.getActivity());
-                    break;
+
 
             }
         }

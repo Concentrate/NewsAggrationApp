@@ -41,6 +41,7 @@ public class Constants {
     public static final String WEIBO_COMMON_API="https://api.weibo.com/2/statuses/public_timeline.json";
     public static final String WEIBO_RESEND_SHARE_API="https://m.weibo.cn/compose/repost?";
     public static final String WEIBO_COMMENT_API="https://api.weibo.com/2/comments/show.json";
+    public static final String WEIBO_LOGIN_AUTHEN="https://passport.weibo.cn/signin/login?";
 
     public static class WB_REQUEST_PARAMETER {
         public static final String ACCESS_TOKEN = "access_token";

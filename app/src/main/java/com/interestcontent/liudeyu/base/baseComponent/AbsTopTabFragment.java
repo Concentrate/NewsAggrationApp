@@ -28,8 +28,8 @@ import java.util.List;
  */
 public abstract class AbsTopTabFragment extends AbsFragment implements LifeCycleMonitor {
 
-    TabLayout mTabLayout;
-    AdvanceViewPager mViewPager;
+    protected TabLayout mTabLayout;
+    protected AdvanceViewPager mViewPager;
     protected ViewGroup mEmptyContainer;
 
     @Nullable
@@ -69,6 +69,9 @@ public abstract class AbsTopTabFragment extends AbsFragment implements LifeCycle
         mViewPager.setVisibility(View.VISIBLE);
     }
 
+    protected int provideInitShowItem(){
+        return 0;
+    }
 
     protected abstract List<ItemTab> provideItemTabs();
 
@@ -79,13 +82,16 @@ public abstract class AbsTopTabFragment extends AbsFragment implements LifeCycle
         mTabLayout.setSelectedTabIndicatorColor(setTabSelectedColor());
         mTabLayout.setSelectedTabIndicatorHeight(getActivity().getResources().getDimensionPixelSize(R.dimen.selected_tab_color_height));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        mTabLayout.setTabMode(provideTabMode());
         mTabLayout.setBackgroundColor(getActivity().getResources().getColor(R.color.md_red_A100));
         mTabLayout.setTabTextColors(getActivity().getResources().getColor(R.color.md_white_1000), getActivity()
                 .getResources().getColor(R.color.md_yellow_100));
-
+        mViewPager.setCurrentItem(provideInitShowItem());
     }
 
+    protected int provideTabMode() {
+        return TabLayout.MODE_SCROLLABLE;
+    }
 
     protected int getFragmentResourseLayout() {
         return R.layout.fragment_top_tab_main_layout;
@@ -115,9 +121,10 @@ public abstract class AbsTopTabFragment extends AbsFragment implements LifeCycle
     }
 
 
-    public void setTabLayoutVisible(int visiblety){
+    public void setTabLayoutVisible(int visiblety) {
         mTabLayout.setVisibility(visiblety);
     }
+
     @Override
     public void onTopFragmentUserVisibleHint(boolean visible) {
 
