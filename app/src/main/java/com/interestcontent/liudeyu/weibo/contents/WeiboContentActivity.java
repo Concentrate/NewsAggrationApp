@@ -107,12 +107,14 @@ public class WeiboContentActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case WHAT:
+                    if (msg.obj instanceof Exception) {
+                        return;
+                    }
                     List<WeiboCommontBean> weiboCommontBeans = (List<WeiboCommontBean>) msg.obj;
                     if (weiboCommontBeans == null || weiboCommontBeans.isEmpty()) {
                         mCommentRecycleView.setHasMore(false);
-                    } else {
-                        showComments(weiboCommontBeans);
                     }
+                    showComments(weiboCommontBeans);
                     mCommentRecycleView.setPullLoadMoreCompleted();
                     break;
 
