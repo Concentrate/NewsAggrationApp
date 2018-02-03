@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by liudeyu on 2018/1/22.
  */
-public class WeiboBean implements Serializable{
+public class WeiboBean  extends WeiboBaseBean implements Serializable{
     private static final long serialVersionUID = 7382351359868556980L;
     /**
      * created_at : Sat Jan 06 14:05:03 +0800 2018

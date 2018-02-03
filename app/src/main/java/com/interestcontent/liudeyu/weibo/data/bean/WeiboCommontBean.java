@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by liudeyu on 2017/12/31.
  */
 
-public class WeiboCommontBean implements Serializable {
+public class WeiboCommontBean extends WeiboBaseBean  implements Serializable {
 
     /*
     * 返回值字段	字段类型	字段说明

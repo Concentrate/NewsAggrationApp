@@ -8,6 +8,7 @@ import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.weibo.contents.comment.WeiboCommentRequet;
+import com.interestcontent.liudeyu.weibo.data.bean.WeiboBaseBean;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboCommontBean;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboRequest;
@@ -26,7 +27,7 @@ public class FeedDataManager {
 
     private static int WB_REQUEST_EVERY_PAGE_NUM = 15;
     private static int WB_MEMORY_STORGE_SAVE_TIME = 60 * 60 * 1000;
-    private SparseArray<List<WeiboBean>> wbRamCache = new SparseArray<>();
+    private SparseArray<List<? extends WeiboBaseBean>> wbRamCache = new SparseArray<>();
     private ACache mACache;
     private SparseArray<Integer> weiboTabCurrentPageMap = new SparseArray<>();
     private volatile boolean isLoadingWeiboData;
@@ -52,7 +53,7 @@ public class FeedDataManager {
 
     public List<WeiboBean> getWeiboListAtFirstFlush(int itemTabKey, String url) throws Exception {
         if (wbRamCache.get(itemTabKey) != null && !wbRamCache.get(itemTabKey).isEmpty()) {
-            return wbRamCache.get(itemTabKey);
+            return (List<WeiboBean>) wbRamCache.get(itemTabKey);
         }
         return getWeiboBeanListByNet(itemTabKey, url, false);
     }
@@ -76,7 +77,7 @@ public class FeedDataManager {
         }
         try {
             WeiboCommentRequet requet = getWeiboFeedByNet(itemTabKey, url, map, WeiboCommentRequet.class);
-            return requet.getWeiboCommontBeans();
+            return saveToCache(itemTabKey, requet.getWeiboCommontBeans(), isFirstTime);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,16 +98,17 @@ public class FeedDataManager {
         return request;
     }
 
-    private synchronized List<WeiboBean> saveToCache(int itemTabKey, List<WeiboBean> weiboLists, boolean isReflash) {
+    private synchronized <T extends WeiboBaseBean> List<T> saveToCache(int itemTabKey, List<T> weiboLists, boolean isReflash) {
         if (isReflash) {
             wbRamCache.put(itemTabKey, weiboLists);
         }
         if (wbRamCache.get(itemTabKey) == null) {
             wbRamCache.put(itemTabKey, weiboLists);
         } else {
-            wbRamCache.get(itemTabKey).addAll(weiboLists);
+            List<T> ablist = (List<T>) wbRamCache.get(itemTabKey);
+            ablist.addAll(weiboLists);
         }
-        return wbRamCache.get(itemTabKey);
+        return (List<T>) wbRamCache.get(itemTabKey);
     }
 
     public List<WeiboBean> reflashWeiboListByNet(int itemTabKey, String url) throws Exception {
