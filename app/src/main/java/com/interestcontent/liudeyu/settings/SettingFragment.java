@@ -54,7 +54,17 @@ public class SettingFragment extends AbsFragment {
     @Override
     public void onResume() {
         super.onResume();
-        initViews();
+        if (getUserVisibleHint()) {
+            initViews();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            initViews();
+        }
     }
 
     private void initViews() {

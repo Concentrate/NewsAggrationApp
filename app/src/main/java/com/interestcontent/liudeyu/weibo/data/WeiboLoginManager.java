@@ -69,9 +69,9 @@ public class WeiboLoginManager {
             if (TextUtils.isEmpty(token)) {
                 return;
             }
-            TaskManager.inst().commit(mGetUserInfo, new Callable<String>() {
+            TaskManager.inst().commit(mGetUserInfo, new Callable<WeiboUserBean>() {
                 @Override
-                public String call() throws Exception {
+                public WeiboUserBean call() throws Exception {
                     String tmp = SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.WEIBO_USER_INFO, "");
                     if (!TextUtils.isEmpty(tmp)) {
                         Gson gson = new Gson();
@@ -80,7 +80,9 @@ public class WeiboLoginManager {
                     }
                     Map<String, String> map = new HashMap();
                     map.put(Constants.WB_REQUEST_PARAMETER.ACCESS_TOKEN, token);
-                    return OkHttpUtils.get().url(Constants.WEIBO_USER_INFO_API).params(map).build().execute().body().string();
+                    String a1 = OkHttpUtils.get().url(Constants.WEIBO_USER_INFO_API).params(map).build().execute().body().string();
+                    Gson gson = new Gson();
+                    return gson.fromJson(a1, WeiboUserBean.class);
                 }
             }, 1);
         }

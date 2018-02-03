@@ -19,6 +19,6 @@
     <dimen name="wb_operation_tip_text_size">16sp</dimen>
     <dimen name="setting_page_back_height">200dp</dimen>
     <dimen name="setting_profile_header_size">50dp</dimen>
-    <dimen name="setting_icon_size">35dp</dimen>
+    <dimen name="setting_icon_size">25dp</dimen>
 
 </resources>

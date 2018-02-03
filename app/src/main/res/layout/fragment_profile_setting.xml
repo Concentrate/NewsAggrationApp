@@ -10,7 +10,7 @@
         android:id="@+id/background_iv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_page_back_height"
-        tools:src="@color/md_purple_50" />
+        android:src="@color/md_blue_100" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avater_iv"
@@ -18,7 +18,7 @@
         android:layout_height="@dimen/setting_profile_header_size"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        tools:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher" />
 
     <ListView
         android:id="@+id/theme_setting_lv"
