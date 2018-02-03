@@ -34,7 +34,11 @@ public class WeiboMainFragment extends AbsTopTabFragment {
 
     @Override
     protected int provideInitShowItem() {
-        return 2;
+        if (!WeiboLoginManager.getInstance().isLogin) {
+            return 2;
+        } else {
+            return super.provideInitShowItem();
+        }
     }
 
     @Override
@@ -60,7 +64,6 @@ public class WeiboMainFragment extends AbsTopTabFragment {
         if (!WeiboLoginManager.getInstance().isLogin) {
             ToastUtils.setBgColor(getActivity().getResources().getColor(R.color.md_blue_200));
             ToastUtils.showShort("请关联应用");
-            mViewPager.setCurrentItem(2);
         }
     }
 

@@ -1,7 +1,5 @@
 package com.interestcontent.liudeyu.base.constants;
 
-import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
-
 /**
  * Created by liudeyu on 2017/12/30.
  */
@@ -29,19 +27,18 @@ public class Constants {
                     + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
                     + "follow_app_official_microblog," + "invitation_write";
 
+    public static final String WEIBO_BASE_WEB_DOMAIN = "https://m.weibo.cn";
     public static final String WEIBO_DOMAIN = "https://api.weibo.com/2";
     public static final String HOME_WEIBO_FOLLOW = WEIBO_DOMAIN + "/statuses/home_timeline.json";
     public static final String WEIBO_GO_WEB_ORIGIN = "http://api.weibo.com/2/statuses/go";
     public static final String WEIBO_GOOD_ATTITUDE = "https://api.weibo.com/2/attitudes/create.json"; // 点赞 api post
     public static final String WEIBO_NEGETIVE_ATTITUDE = "https://api.weibo.com/2/attitudes/destroy.json"; // 取消点赞 post
     public static final String WEIBO_SINGLE_CONTENT = WEIBO_DOMAIN + "/statuses/show.json";
-    public static final String WEIBO_PERSONNAL_PROFILE = "https://www.weibo.com/";
-    public static final String WEIBO_MY_PERSON_PAGE = "http://m.weibo.cn/u/" + WeiboLoginManager.getInstance().getUid() + "?";
+    public static final String WEIBO_WEB_PERSON_PAGE = WEIBO_BASE_WEB_DOMAIN+"/u/";
     public static final String WEIBO_MY_PROFILE_SETTING_PAGE = "http://m.weibo.cn/index/router?";
     public static final String WEIBO_COMMON_API = "https://api.weibo.com/2/statuses/public_timeline.json";
     public static final String WEIBO_RESEND_SHARE_API = "https://m.weibo.cn/compose/repost?";
     public static final String WEIBO_COMMENT_API = "https://api.weibo.com/2/comments/show.json";
-    public static final String WEIBO_BASE_WEB_DOMAIN = "https://m.weibo.cn";
 
     public static class WB_REQUEST_PARAMETER {
         public static final String ACCESS_TOKEN = "access_token";

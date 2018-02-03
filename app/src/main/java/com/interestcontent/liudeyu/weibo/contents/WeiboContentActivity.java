@@ -113,6 +113,7 @@ public class WeiboContentActivity extends BaseActivity {
                     } else {
                         showComments(weiboCommontBeans);
                     }
+                    mCommentRecycleView.setPullLoadMoreCompleted();
                     break;
 
             }
@@ -121,7 +122,11 @@ public class WeiboContentActivity extends BaseActivity {
     private WeiboCommentListAdapter mWeiboCommentListAdapter;
 
     private void showComments(List<WeiboCommontBean> weiboCommontBeans) {
-        mCommentRecycleView.setPullLoadMoreCompleted();
+        if (mWeiboCommentListAdapter == null) {
+            mWeiboCommentListAdapter = new WeiboCommentListAdapter(this, new ArrayList<WeiboCommontBean>(), mWeiboBean);
+            mWeiboCommentListAdapter.setHeaderView(mWbContentViewRootContainer);
+            mCommentRecycleView.setAdapter(mWeiboCommentListAdapter);
+        }
         mWeiboCommentListAdapter.setData(weiboCommontBeans);
 
 
@@ -140,7 +145,7 @@ public class WeiboContentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         View view = LayoutInflater.from(this).inflate(R.layout.weibo_feed_cell_layout, null);
         mWbContentViewRootContainer = (ViewGroup) view;
-        mWbContentViewRootContainer.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mWbContentViewRootContainer.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         findViews(mWbContentViewRootContainer);
         ButterKnife.bind(mWbContentViewRootContainer);
         mContext = this;
@@ -208,9 +213,7 @@ public class WeiboContentActivity extends BaseActivity {
             }
         });
         mCommentRecycleView.setFooterViewText("加载中...");
-        mWeiboCommentListAdapter = new WeiboCommentListAdapter(this, new ArrayList<WeiboCommontBean>(), mWeiboBean);
-        mWeiboCommentListAdapter.setHeaderView(mWbContentViewRootContainer);
-        mCommentRecycleView.setAdapter(mWeiboCommentListAdapter);
+
 
     }
 
@@ -309,7 +312,7 @@ public class WeiboContentActivity extends BaseActivity {
     }
 
     private void dealWithGoToAuthorPage() {
-        String profile = mWeiboBean.getUser().getProfile_url();
+        String profile = mWeiboBean.getUser().getIdstr();
         if (!TextUtils.isEmpty(profile)) {
             MyWeiboPageUtils.getInstance(mContext, WeiboLoginManager.getInstance().getAuthInfo())
                     .startOtherPage(WeiboUrlsUtils.getPersonalProfileUrl(profile));

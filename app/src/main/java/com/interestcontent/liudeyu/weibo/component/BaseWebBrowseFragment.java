@@ -39,7 +39,6 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
     private ObservableWebView mWebView;
     private boolean lastDirectionDown = false;
 
-    private static final String MOKE_USER_AGENT="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"; //模拟电脑user agent，为了一些去除效果
 
     @Nullable
     @Override

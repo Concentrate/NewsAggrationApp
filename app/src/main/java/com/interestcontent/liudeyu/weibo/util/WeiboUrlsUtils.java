@@ -70,12 +70,12 @@ public class WeiboUrlsUtils {
     }
 
 
-    public static String getPersonalProfileUrl(String profileName) {
-        return Constants.WEIBO_PERSONNAL_PROFILE + profileName + "?";
+    public static String getPersonalProfileUrl(String uid) {
+        return Constants.WEIBO_WEB_PERSON_PAGE + uid + "?";
     }
 
     public static String getMyProfilePageUrl() {
-        String domain = addCommonWeiboPara(Constants.WEIBO_MY_PERSON_PAGE);
+        String domain = addCommonWeiboPara(Constants.WEIBO_WEB_PERSON_PAGE + WeiboLoginManager.getInstance().getUid() + "?");
         return domain;
     }
 

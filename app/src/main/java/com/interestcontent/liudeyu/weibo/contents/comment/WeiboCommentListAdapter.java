@@ -26,7 +26,6 @@ import com.luseen.autolinklibrary.AutoLinkOnClickListener;
 import com.luseen.autolinklibrary.AutoLinkTextView;
 import com.zhy.http.okhttp.OkHttpUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -37,7 +36,7 @@ import java.util.concurrent.Callable;
 public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboBaseHolder> implements View.OnClickListener {
 
     private Context mContext;
-    private List<WeiboCommontBean> mData = new ArrayList<>();
+    private List<WeiboCommontBean> mData;
     private WeiboBean mWeiboBean;
     private View mView;
     private View mHeaderView;
@@ -47,9 +46,7 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboBaseHolde
     public WeiboCommentListAdapter(Context context, List<WeiboCommontBean> data, WeiboBean weiboBean) {
         mContext = context;
         mWeiboBean = weiboBean;
-        if (data != null || !data.isEmpty()) {
-            mData.addAll(data);
-        }
+        mData = data;
     }
 
     public void setHeaderView(View view) {
@@ -119,6 +116,9 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboBaseHolde
         }
         if (holder instanceof WeiboCommentListViewHolder) {
             position = getRealPosition(holder);
+            if (position >= mData.size()) {
+                return;
+            }
             WeiboCommentListViewHolder aHolder = (WeiboCommentListViewHolder) holder;
             aHolder.mGoodAtitudeLayout.setTag(position);
             aHolder.mAuthor.setText(mData.get(position).getUser().getName());
@@ -135,13 +135,15 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboBaseHolde
         if (data == null || data.isEmpty()) {
             return;
         }
-        mData.clear();
-        mData.addAll(data);
-        notifyItemRangeChanged(1, data.size());
+        mData = data;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
+        if (mData == null) {
+            return mHeaderView == null ? 0 : 1;
+        }
         return mHeaderView == null ? mData.size() : mData.size() + 1;
     }
 

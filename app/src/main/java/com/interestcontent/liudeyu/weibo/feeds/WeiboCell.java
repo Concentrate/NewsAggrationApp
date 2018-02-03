@@ -206,7 +206,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
         if (mData.get(position).getUser() == null) {
             return;
         }
-        String profile = mData.get(position).getUser().getProfile_url();
+        String profile = mData.get(position).getUser().getIdstr();
         if (!TextUtils.isEmpty(profile)) {
             MyWeiboPageUtils.getInstance(mContext, WeiboLoginManager.getInstance().getAuthInfo())
                     .startOtherPage(WeiboUrlsUtils.getPersonalProfileUrl(profile));
