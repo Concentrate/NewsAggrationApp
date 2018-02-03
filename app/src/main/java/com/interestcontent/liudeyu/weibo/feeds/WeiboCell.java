@@ -48,6 +48,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
     private static final String TAG = WeiboCell.class.getSimpleName();
 
     private Context mContext;
+    private android.support.v4.app.Fragment mFragment;
 
     public WeiboCell(List<WeiboBean> data) {
         super(data);
@@ -57,6 +58,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
         super(data);
         mContext = context;
     }
+
 
     @Override
     public int getItemType() {
@@ -113,7 +115,9 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
                 recyclerView.addItemDecoration(new GridManagerSpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
             }
         });
-        recyclerView.setAdapter(new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>()));
+        WeiboImageRecycleViewAdapter adapter = new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>());
+        adapter.setFragment(mFragment);
+        recyclerView.setAdapter(adapter);
         recyclerView.setBlankListener(this);
         LinearLayout goodFinger = view.findViewById(R.id.good_fingger_layout);
         LinearLayout resendLayout = view.findViewById(R.id.resend_layout);
@@ -134,6 +138,10 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
 
     }
 
+
+    public void setFragment(android.support.v4.app.Fragment fragment) {
+        mFragment = fragment;
+    }
 
     @Override
     public void onBindViewHolder(RVBaseViewHolder holder, int position) {
@@ -163,7 +171,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
             WeiboUserBean userBean = mData.get(position).getUser();
             if (userBean != null) {
                 holder.getTextView(R.id.author_tv).setText(userBean.getName());
-                Glide.with(mContext).load(userBean.getProfile_image_url()).into(holder.getImageView(R.id.avater_iv));
+                Glide.with(mFragment).load(userBean.getProfile_image_url()).into(holder.getImageView(R.id.avater_iv));
             }
             List<WeiboBean.PicUrlsBean> picUrlsBeans = mData.get(position).getPic_urls();
             RecyclerView recyclerView = (RecyclerView) holder.getView(R.id.wb_image_recyle_view);

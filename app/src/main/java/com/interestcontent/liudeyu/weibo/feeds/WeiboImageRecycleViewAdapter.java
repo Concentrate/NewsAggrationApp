@@ -1,6 +1,7 @@
 package com.interestcontent.liudeyu.weibo.feeds;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +26,15 @@ public class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImag
     private Context mContext;
     private List<String> mUrls;
     private Set<WeakReference<OnRecycleViewItemClickListener>> mImagesSetClickObserverSet;
+    private Fragment mFragment;
 
     public WeiboImageRecycleViewAdapter(Context context, List<String> data) {
         mContext = context;
         mUrls = data;
+    }
+
+    public void setFragment(Fragment fragment) {
+        mFragment = fragment;
     }
 
     public void addImagesUrls(List<String> data) {
@@ -65,7 +71,7 @@ public class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImag
         holder.mImageView.setTag(R.layout.weibo_images_gallery, position);
         holder.itemView.setTag(R.layout.weibo_images_gallery);
         int width = (int) mContext.getResources().getDimension(R.dimen.wb_cell_image_size);
-        Glide.with(mContext).load(mUrls.get(position)).override(width, width)
+        Glide.with(mFragment).load(mUrls.get(position)).override(width, width)
                 .centerCrop().into(holder.mImageView);
     }
 

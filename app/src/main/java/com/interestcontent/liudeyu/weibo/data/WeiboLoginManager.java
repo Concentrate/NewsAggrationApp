@@ -1,20 +1,29 @@
 package com.interestcontent.liudeyu.weibo.data;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 
+import com.example.commonlib.utils.Logger;
+import com.google.gson.Gson;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
-import com.example.commonlib.utils.Logger;
+import com.interestcontent.liudeyu.base.thread.TaskManager;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
+import com.interestcontent.liudeyu.weibo.data.bean.WeiboUserBean;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbAuthListener;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * Created by liudeyu on 2017/12/30.
@@ -27,12 +36,59 @@ public class WeiboLoginManager {
     private SsoHandler mSsoHandler;
     public boolean isLogin;
     private AuthInfo mAuthInfo;
+    private WeiboUserBean mLoginUser;
+
+    private WbAuthListener mWbAuthListener = new MyWeiboAuthenLitener();
+    private Handler mGetUserInfo = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (!(msg.obj instanceof Exception)) {
+                switch (msg.what) {
+                    case 1:
+                        mLoginUser = (WeiboUserBean) msg.obj;
+                        Gson gson = new Gson();
+                        String tmp = gson.toJson(mLoginUser);
+                        SharePreferenceUtil.setStringPreference(MyApplication.sApplication, SpConstants.WEIBO_USER_INFO, tmp);
+                        break;
+                }
+
+            }
+        }
+    };
 
     private WeiboLoginManager() {
         resetLoginState();
+        initDataTasks();
     }
 
-    private WbAuthListener mWbAuthListener = new MyWeiboAuthenLitener();
+
+    private void initDataTasks() {
+        if (isLogin && getUid() != null) {
+            final String token = SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.WEIBO_AUTHEN_TOKEN, "");
+            if (TextUtils.isEmpty(token)) {
+                return;
+            }
+            TaskManager.inst().commit(mGetUserInfo, new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    String tmp = SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.WEIBO_USER_INFO, "");
+                    if (!TextUtils.isEmpty(tmp)) {
+                        Gson gson = new Gson();
+                        mLoginUser = gson.fromJson(tmp, WeiboUserBean.class);
+                        return null;
+                    }
+                    Map<String, String> map = new HashMap();
+                    map.put(Constants.WB_REQUEST_PARAMETER.ACCESS_TOKEN, token);
+                    return OkHttpUtils.get().url(Constants.WEIBO_USER_INFO_API).params(map).build().execute().body().string();
+                }
+            }, 1);
+        }
+    }
+
+    public WeiboUserBean getLoginUser() {
+        return mLoginUser;
+    }
 
     public static WeiboLoginManager getInstance() {
         if (sWeiboLoginManager == null) {
@@ -66,6 +122,11 @@ public class WeiboLoginManager {
         }
     }
 
+    public void loginOutWeibo() {
+        SharePreferenceUtil.setStringPreference(MyApplication.sApplication, SpConstants.WEIBO_AUTHEN_TOKEN, "");
+        isLogin = false;
+    }
+
     public AuthInfo getAuthInfo() {
         if (mAuthInfo == null) {
             mAuthInfo = new AuthInfo(MyApplication.sApplication, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
@@ -93,6 +154,7 @@ public class WeiboLoginManager {
                         oauth2AccessToken.getExpiresTime());
                 WeiboLoginManager.getInstance().resetLoginState();
                 Logger.d(LOG_TAG, oauth2AccessToken.getToken());
+                initDataTasks();
             }
         }
 
