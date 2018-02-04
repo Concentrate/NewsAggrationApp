@@ -7,5 +7,33 @@
         <item>个人</item>
     </string-array>
 
+    <string-array name="news_top_tab_name">
+        <item>科技</item>
+        <item>手机</item>
+        <item>编程</item>
+        <item>Tencent</item>
+        <item>Google</item>
+        <item>Life</item>
+        <item>Apple</item>
+    </string-array>
 
+    <integer-array name="news_item_tab">
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+    </integer-array>
+    <!--
+      public static final int NEWS_TECHNOLEGE = 10; //科技，选用36kr api
+    public static final int NEWS_PHONE = 11;
+    public static final int NEWS_PROGRAM = 12;
+    public static final int NEWS_TENCENT = 13;
+    public static final int NEWS_GOOGLE = 14;
+    public static final int NEWS_LIFE = 15;
+    public static final int NEWS_APPLE = 16;
+
+    -->
 </resources>

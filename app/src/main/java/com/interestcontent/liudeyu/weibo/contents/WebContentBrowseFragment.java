@@ -9,7 +9,7 @@ import com.interestcontent.liudeyu.weibo.component.BaseWebBrowseFragment;
  * Created by liudeyu on 2018/1/27.
  */
 
-public class WeiboContentBrowseFragment extends BaseWebBrowseFragment {
+public class WebContentBrowseFragment extends BaseWebBrowseFragment {
 
 
 

@@ -12,16 +12,22 @@ public class ItemTab {
     public static final int TAB_NEWS = 2;
     public static final int TAB_SETTINGS = 3;
 
-//    weibo
-    public static final int WEIBO_SUB_FOLLOW=4;
-    public static final int WEIBO_SUB_HOT=5;
-    public static final int WEIBO_SUB_MESSAGE=6;
-    public static final int WEIBO_SUB_MY_WEIBO_PAGE =7;
+    //    weibo
+    public static final int WEIBO_SUB_FOLLOW = 4;
+    public static final int WEIBO_SUB_HOT = 5;
+    public static final int WEIBO_SUB_MESSAGE = 6;
+    public static final int WEIBO_SUB_MY_WEIBO_PAGE = 7;
     public static final int WEIBO_SUB_PERSON_SETTING = 8;
     public static final int WEIBO_COMMENT = 9;
 
-//    news
-    public static final int NEWS_TECHNOLEGE =10; //科技，选用36kr api
+    //    news
+    public static final int NEWS_TECHNOLEGE = 10; //科技，选用36kr api
+    public static final int NEWS_PHONE = 11;
+    public static final int NEWS_PROGRAM = 12;
+    public static final int NEWS_TENCENT = 13;
+    public static final int NEWS_GOOGLE = 14;
+    public static final int NEWS_LIFE = 15;
+    public static final int NEWS_APPLE = 16;
 
     private int mItemKey;
     private int mResourceId;

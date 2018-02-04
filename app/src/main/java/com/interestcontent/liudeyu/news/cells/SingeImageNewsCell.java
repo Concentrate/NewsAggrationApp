@@ -64,7 +64,7 @@ public class SingeImageNewsCell extends RVBaseCell<NewsTechnoBean> {
         holder.getTextView(R.id.news_comment_count_tv).setText("评论数:" + mData.getCommentCount());
         long publishTime = mData.getPublishDate();
         Date date = new Date(publishTime);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE MMMMdd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE MMMMdd日");
         holder.getTextView(R.id.news_publish_time_tv).setText(dateFormat.format(date));
         holder.getItemView().setOnClickListener(new View.OnClickListener() {
             @Override

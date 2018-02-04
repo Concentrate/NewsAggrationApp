@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
 import com.interestcontent.liudeyu.weibo.component.BaseWebBrowseFragment;
-import com.interestcontent.liudeyu.weibo.contents.WeiboContentBrowseFragment;
+import com.interestcontent.liudeyu.weibo.contents.WebContentBrowseFragment;
 import com.just.agentweb.ChromeClientCallbackManager;
 
 import butterknife.BindView;
@@ -64,12 +64,17 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
             FragmentManager fragmentManager = getSupportFragmentManager();
             Bundle bundle = new Bundle();
             bundle.putString(BaseWebBrowseFragment.LOAD_URL, url);
-            Fragment fragment = new WeiboContentBrowseFragment();
+            Fragment fragment = new WebContentBrowseFragment();
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction().add(R.id.parent_container, fragment).commit();
         }
     }
 
+    @Override
+    protected void onBackButtonEvent() {
+        super.onBackButtonEvent();
+        onBackPressed();
+    }
 
     @Override
     public void onReceivedTitle(WebView view, String title) {

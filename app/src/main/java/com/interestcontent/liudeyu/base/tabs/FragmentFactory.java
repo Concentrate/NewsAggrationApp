@@ -1,16 +1,17 @@
 package com.interestcontent.liudeyu.base.tabs;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.interestcontent.liudeyu.news.NewsMainFragment;
 import com.interestcontent.liudeyu.news.NewsTechnologyFragment;
 import com.interestcontent.liudeyu.settings.SettingFragment;
 import com.interestcontent.liudeyu.weibo.WeiboMainFragment;
-import com.interestcontent.liudeyu.weibo.feeds.WeiboFollowFragment;
-import com.interestcontent.liudeyu.weibo.feeds.WeiboHotFragment;
 import com.interestcontent.liudeyu.weibo.contents.MyWeiboMessageFragment;
 import com.interestcontent.liudeyu.weibo.contents.MyWeiboProfileFragment;
 import com.interestcontent.liudeyu.weibo.contents.MyWeiboSettingFragment;
+import com.interestcontent.liudeyu.weibo.feeds.WeiboFollowFragment;
+import com.interestcontent.liudeyu.weibo.feeds.WeiboHotFragment;
 
 /**
  * Created by liudeyu on 2018/1/12.
@@ -36,7 +37,16 @@ public class FragmentFactory {
             case ItemTab.WEIBO_SUB_PERSON_SETTING:
                 return new MyWeiboSettingFragment();
             case ItemTab.NEWS_TECHNOLEGE:
-                return new NewsTechnologyFragment();
+            case ItemTab.NEWS_GOOGLE:
+            case ItemTab.NEWS_PHONE:
+            case ItemTab.NEWS_APPLE:
+            case ItemTab.NEWS_LIFE:
+            case ItemTab.NEWS_PROGRAM:
+            case ItemTab.NEWS_TENCENT:
+                Bundle bundle = NewsTechnologyFragment.getTopicBundle(itemTab.getTitle());
+                NewsTechnologyFragment fragment = new NewsTechnologyFragment();
+                fragment.setArguments(bundle);
+                return fragment;
         }
         return null;
     }
