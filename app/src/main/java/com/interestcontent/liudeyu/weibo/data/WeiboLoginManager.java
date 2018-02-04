@@ -32,6 +32,7 @@ import java.util.concurrent.Callable;
 public class WeiboLoginManager {
 
     private static final String LOG_TAG = WeiboLoginManager.class.getSimpleName();
+    private static final int RE_REQUEST_USER_INFO = 2 * 24 * 60 * 60 * 1000;
     private static WeiboLoginManager sWeiboLoginManager;
     private SsoHandler mSsoHandler;
     public boolean isLogin;
@@ -47,9 +48,11 @@ public class WeiboLoginManager {
                 switch (msg.what) {
                     case 1:
                         mLoginUser = (WeiboUserBean) msg.obj;
-                        Gson gson = new Gson();
-                        String tmp = gson.toJson(mLoginUser);
-                        SharePreferenceUtil.setStringPreference(MyApplication.sApplication, SpConstants.WEIBO_USER_INFO, tmp);
+                        if (mLoginUser != null) {
+                            Gson gson = new Gson();
+                            String tmp = gson.toJson(mLoginUser);
+                            SharePreferenceUtil.setStringPreference(MyApplication.sApplication, SpConstants.WEIBO_USER_INFO, tmp);
+                        }
                         break;
                 }
 
@@ -72,14 +75,20 @@ public class WeiboLoginManager {
             TaskManager.inst().commit(mGetUserInfo, new Callable<WeiboUserBean>() {
                 @Override
                 public WeiboUserBean call() throws Exception {
+                    long lastNetReq = SharePreferenceUtil.getLongPreference(MyApplication.sApplication, SpConstants.WEIBO_RE_USER_INFO_LAST_TIME,
+                            0);
+                    boolean isNeedReq = Math.abs(new Date().getTime() - lastNetReq) > RE_REQUEST_USER_INFO;
                     String tmp = SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.WEIBO_USER_INFO, "");
-                    if (!TextUtils.isEmpty(tmp)) {
+                    if (!TextUtils.isEmpty(tmp) && !isNeedReq) {
                         Gson gson = new Gson();
                         mLoginUser = gson.fromJson(tmp, WeiboUserBean.class);
-                        return null;
+                        return mLoginUser;
                     }
+                    SharePreferenceUtil.setLongPreference(MyApplication.sApplication, SpConstants.WEIBO_RE_USER_INFO_LAST_TIME,
+                            new Date().getTime());
                     Map<String, String> map = new HashMap();
                     map.put(Constants.WB_REQUEST_PARAMETER.ACCESS_TOKEN, token);
+                    map.put(Constants.WB_REQUEST_PARAMETER.UID, getUid());
                     String a1 = OkHttpUtils.get().url(Constants.WEIBO_USER_INFO_API).params(map).build().execute().body().string();
                     Gson gson = new Gson();
                     return gson.fromJson(a1, WeiboUserBean.class);

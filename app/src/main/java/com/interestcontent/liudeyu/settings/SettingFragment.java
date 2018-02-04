@@ -39,6 +39,7 @@ public class SettingFragment extends AbsFragment {
     ImageView mBackground;
     @BindView(R.id.avater_iv)
     ImageView mAvater;
+    private boolean isFirstTime = true;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,8 +63,9 @@ public class SettingFragment extends AbsFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
+        if (isVisibleToUser && isFirstTime) {
             initViews();
+            isFirstTime = false;
         }
     }
 
@@ -82,7 +84,8 @@ public class SettingFragment extends AbsFragment {
         if (WeiboLoginManager.getInstance().isLogin) {
             if (WeiboLoginManager.getInstance().getLoginUser() != null) {
                 Glide.with(this).load(WeiboLoginManager.getInstance().getLoginUser().getAvatar_large()).into(mAvater);
-                Glide.with(this).load(WeiboLoginManager.getInstance().getLoginUser().getCover_image()).into(mBackground);
+                Glide.with(this).load(WeiboLoginManager.getInstance().getLoginUser().getCover_image_phone()).centerCrop()
+                        .into(mBackground);
             }
         }
     }

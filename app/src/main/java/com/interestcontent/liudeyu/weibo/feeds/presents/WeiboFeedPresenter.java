@@ -30,7 +30,7 @@ public class WeiboFeedPresenter extends MvpPresenter<List<WeiboBean>,IMvpView<Li
             case REFLASH:
                 return FeedDataManager.getInstance().reflashWeiboListByNet(itemType,url);
             case FIRST_FLUSH:
-                return FeedDataManager.getInstance().getWeiboListAtFirstFlush(itemType,url);
+                return FeedDataManager.getInstance().getWeiboListAtFirst(itemType,url);
         }
         return null;
     }

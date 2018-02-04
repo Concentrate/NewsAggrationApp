@@ -3,6 +3,7 @@ package com.interestcontent.liudeyu.base.tabs;
 import android.support.v4.app.Fragment;
 
 import com.interestcontent.liudeyu.news.NewsMainFragment;
+import com.interestcontent.liudeyu.news.NewsTechnologyFragment;
 import com.interestcontent.liudeyu.settings.SettingFragment;
 import com.interestcontent.liudeyu.weibo.WeiboMainFragment;
 import com.interestcontent.liudeyu.weibo.feeds.WeiboFollowFragment;
@@ -34,6 +35,8 @@ public class FragmentFactory {
                 return new MyWeiboProfileFragment();
             case ItemTab.WEIBO_SUB_PERSON_SETTING:
                 return new MyWeiboSettingFragment();
+            case ItemTab.NEWS_TECHNOLEGE:
+                return new NewsTechnologyFragment();
         }
         return null;
     }

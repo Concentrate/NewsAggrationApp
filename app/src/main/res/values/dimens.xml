@@ -20,5 +20,9 @@
     <dimen name="setting_page_back_height">200dp</dimen>
     <dimen name="setting_profile_header_size">50dp</dimen>
     <dimen name="setting_icon_size">25dp</dimen>
+    <dimen name="news_cell_item_height">100dp</dimen>
+    <dimen name="news_small_text_size">10sp</dimen>
+    <dimen name="news_single_pic_display_size">90dp</dimen>
+    <dimen name="news_mutilple_images_height">200dp</dimen>
 
 </resources>

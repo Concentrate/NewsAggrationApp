@@ -293,6 +293,9 @@ public abstract class AbsActivity extends AppCompatActivity implements IComponen
                 }
             }
         }
-        super.onBackPressed();
+        if (!moveTaskToBack(false)) {
+            super.onBackPressed();
+        }
     }
+
 }

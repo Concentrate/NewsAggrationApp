@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/news_mutilple_images_height"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/news_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxEms="10"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="安居客垃圾坑垃圾啊看了就拉进来的静安立刻据了解阿拉基大家ldjkjdkjkdjkajkdjjdkjkjd" />
+
+
+    <TextView
+        android:id="@+id/news_publish_source_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/md_grey_500"
+        android:textSize="@dimen/news_small_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="publish " />
+
+    <TextView
+        android:id="@+id/news_publish_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="@dimen/news_small_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/news_publish_source_tv"
+        app:layout_constraintLeft_toRightOf="@id/news_publish_source_tv"
+        app:layout_constraintTop_toTopOf="@id/news_publish_source_tv"
+        tools:text="11:00" />
+
+    <TextView
+        android:id="@+id/news_comment_count_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:textSize="@dimen/news_small_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/news_publish_time_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/news_publish_time_tv"
+        tools:text="评论数" />
+
+    <ListView
+        android:id="@+id/news_image_preview_listview"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:divider="@color/white"
+        android:dividerHeight="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/news_publish_source_tv"
+        app:layout_constraintTop_toBottomOf="@id/news_title_tv"
+
+        ></ListView>
+
+</android.support.constraint.ConstraintLayout>

@@ -15,6 +15,13 @@ public class NewsMainFragment extends AbsTopTabFragment {
 
     @Override
     protected List<ItemTab> provideItemTabs() {
-        return new ArrayList<>();
+        List<ItemTab> itemTabs = new ArrayList<>();
+        itemTabs.add(new ItemTab(ItemTab.NEWS_TECHNOLEGE, "科技"));
+        return itemTabs;
+    }
+
+    @Override
+    protected int viewpagerLimitNum() {
+        return 2;
     }
 }

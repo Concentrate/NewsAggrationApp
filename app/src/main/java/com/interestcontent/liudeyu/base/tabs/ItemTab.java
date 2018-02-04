@@ -20,6 +20,9 @@ public class ItemTab {
     public static final int WEIBO_SUB_PERSON_SETTING = 8;
     public static final int WEIBO_COMMENT = 9;
 
+//    news
+    public static final int NEWS_TECHNOLEGE =10; //科技，选用36kr api
+
     private int mItemKey;
     private int mResourceId;
     private String mTitle;
