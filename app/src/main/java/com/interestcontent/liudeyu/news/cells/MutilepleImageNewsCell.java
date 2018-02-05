@@ -74,16 +74,12 @@ public class MutilepleImageNewsCell extends RVBaseCell<NewsTechnoBean> {
             }
         });
         RecyclerView recycleView = (RecyclerView) holder.getView(R.id.news_image_preview_listview);
-        if (mData.getImageUrls() != null && mData.getImageUrls().size() <= 3) {
-            recycleView.setVisibility(View.GONE);
-            return;
-        }
-        MultipleImageRecycleAdapter adapter=new MultipleImageRecycleAdapter(mContext,mData.getImageUrls().subList(0,3));
+        MultipleImageRecycleAdapter adapter = new MultipleImageRecycleAdapter(mContext, mData.getImageUrls());
         adapter.setFragment(mFragment);
         recycleView.setAdapter(adapter);
         VerticalDividerItemDecoration verticalDividerItemDecoration = new VerticalDividerItemDecoration.Builder(mContext)
                 .size(SizeUtils.dp2px(6)).colorResId(R.color.white).build();
-        recycleView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        recycleView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false));
         recycleView.addItemDecoration(verticalDividerItemDecoration);
     }
 }

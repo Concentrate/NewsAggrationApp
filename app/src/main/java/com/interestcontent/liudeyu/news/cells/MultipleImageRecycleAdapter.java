@@ -44,7 +44,8 @@ public class MultipleImageRecycleAdapter extends RecyclerView.Adapter<RVBaseView
             Glide.with(mFragment).load(mData.get(position)).into(
                     holder.getImageView(R.id.news_multi_image_iv));
         } else {
-            Glide.with(mContext).load(mData.get(position)).into(holder.getImageView(R.id.news_multi_image_iv));
+            Glide.with(mContext).load(mData.get(position)).centerCrop()
+                    .into(holder.getImageView(R.id.news_multi_image_iv));
         }
 
     }
