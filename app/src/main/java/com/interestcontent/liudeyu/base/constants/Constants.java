@@ -54,7 +54,7 @@ public class Constants {
 
 
     //    news
-    private static final String NEWS_TECH_BASE = "http://120.76.205.241:8000/news/kr36";
+    public static final String NEWS_TECH_BASE = "http://120.76.205.241:8000/news/kr36";
     public static final String NEWS_TECH_API_KEY = "oUqVYxWWMrP5HEMrzN5CfOnEpNEpD5tDvtgYZV6nPyEemzs9P80k81FVDSpfNeK2";
     public static final String NES_TECH_REQUEST_DOMAIN = "http://120.76.205.241:8000/news/kr36?apikey=oUqVYxWWMrP5HEMrzN5CfOnEpNEpD5tDvtgYZV6nPyEemzs9P80k81FVDSpfNeK2&kw=%E7%8B%AC%E8%A7%92%E5%85%BD";
 

@@ -71,8 +71,13 @@ public class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImag
         holder.mImageView.setTag(R.layout.weibo_images_gallery, position);
         holder.itemView.setTag(R.layout.weibo_images_gallery);
         int width = (int) mContext.getResources().getDimension(R.dimen.wb_cell_image_size);
-        Glide.with(mFragment).load(mUrls.get(position)).override(width, width)
-                .centerCrop().into(holder.mImageView);
+        if (mFragment != null) {
+            Glide.with(mFragment).load(mUrls.get(position)).override(width, width)
+                    .centerCrop().into(holder.mImageView);
+        } else {
+            Glide.with(mContext).load(mUrls.get(position)).override(width, width)
+                    .centerCrop().into(holder.mImageView);
+        }
     }
 
     @Override

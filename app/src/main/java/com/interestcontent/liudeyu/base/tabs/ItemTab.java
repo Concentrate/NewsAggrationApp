@@ -3,11 +3,13 @@ package com.interestcontent.liudeyu.base.tabs;
 import android.support.annotation.DrawableRes;
 import android.view.View;
 
+import java.io.Serializable;
+
 /**
  * Created by liudeyu on 2018/1/12.
  */
 
-public class ItemTab {
+public class ItemTab  implements Serializable{
     public static final int TAB_WEIBO = 1;
     public static final int TAB_NEWS = 2;
     public static final int TAB_SETTINGS = 3;

@@ -23,6 +23,7 @@
     <dimen name="news_cell_item_height">100dp</dimen>
     <dimen name="news_small_text_size">10sp</dimen>
     <dimen name="news_single_pic_display_size">90dp</dimen>
-    <dimen name="news_mutilple_images_height">200dp</dimen>
+    <dimen name="news_mutilple_images_cell_height">200dp</dimen>
+    <dimen name="news_mutiple_images_dis_size">100dp</dimen>
 
 </resources>

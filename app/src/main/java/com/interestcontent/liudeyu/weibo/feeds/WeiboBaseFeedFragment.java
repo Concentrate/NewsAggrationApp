@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
 import com.blankj.utilcode.util.SizeUtils;
@@ -21,7 +20,6 @@ import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +32,6 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
 
     private RVBaseCell mCell;
 
-    private String loadUrl;
-    private int itemTabKey;
 
     private WeiboFeedPresenter mFeedPresenter;
 
@@ -48,8 +44,9 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
             ((AbsTopTabFragment) fragment).registerLifeCycleMonitor(this);
         }
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        itemDecoration.setDrawable(getActivity().getResources().getDrawable(R.drawable.weibo_cell_divider_line));
+        HorizontalDividerItemDecoration itemDecoration = new HorizontalDividerItemDecoration.Builder(getContext())
+                .margin(SizeUtils.dp2px(10))
+                .size(SizeUtils.dp2px(1)).colorResId(R.color.md_grey_200).build();
         mRecyclerView.addItemDecoration(itemDecoration);
     }
 
@@ -94,12 +91,12 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
 
     @Override
     public void onPullRefresh() {
-        startRequestWeiboFeed(false, WeiboFeedPresenter.FEED_QUEST_TYPE.REFLASH);
+        startRequestWeiboFeed(WeiboFeedPresenter.FEED_QUEST_TYPE.REFLASH);
     }
 
     @Override
     public void onLoadMore() {
-        startRequestWeiboFeed(true, WeiboFeedPresenter.FEED_QUEST_TYPE.NORMAL_BY_NET);
+        startRequestWeiboFeed(WeiboFeedPresenter.FEED_QUEST_TYPE.NORMAL_BY_NET);
     }
 
     @Override
@@ -108,14 +105,14 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
                 .color(MyApplication.sApplication.getResources().getColor(R.color.md_white_1000))
                 .size(SizeUtils.dp2px(1.0f))
                 .build());
-        startRequestWeiboFeed(true, WeiboFeedPresenter.FEED_QUEST_TYPE.FIRST_FLUSH);
-
+        startRequestWeiboFeed(WeiboFeedPresenter.FEED_QUEST_TYPE.FIRST_FLUSH);
+        mBaseAdapter.showLoading();
     }
 
 
     protected abstract int provideItemTabKey();
 
-    protected void startRequestWeiboFeed(boolean showLoadMore, WeiboFeedPresenter.FEED_QUEST_TYPE type) {
+    protected void startRequestWeiboFeed(WeiboFeedPresenter.FEED_QUEST_TYPE type) {
         if (mFeedPresenter == null) {
             mFeedPresenter = new WeiboFeedPresenter();
         }

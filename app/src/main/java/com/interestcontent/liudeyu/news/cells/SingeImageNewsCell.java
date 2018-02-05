@@ -34,8 +34,9 @@ public class SingeImageNewsCell extends RVBaseCell<NewsTechnoBean> {
         mData = data;
     }
 
-    public void setFragment(android.support.v4.app.Fragment fragment) {
+    public SingeImageNewsCell setFragment(android.support.v4.app.Fragment fragment) {
         mFragment = fragment;
+        return this;
     }
 
     @Override
@@ -58,7 +59,9 @@ public class SingeImageNewsCell extends RVBaseCell<NewsTechnoBean> {
     public void onBindViewHolder(RVBaseViewHolder holder, final int position) {
         holder.getTextView(R.id.news_title_tv).setText(mData.getTitle());
         if (mData.getImageUrls() != null) {
-            Glide.with(mFragment).load(mData.getImageUrls().get(0)).into(holder.getImageView(R.id.news_display_image_iv));
+            Glide.with(mFragment).load(mData.getImageUrls().get(0)).centerCrop().into(holder.getImageView(R.id.news_display_image_iv));
+        } else {
+            holder.getImageView(R.id.news_display_image_iv).setVisibility(View.GONE);
         }
         holder.getTextView(R.id.news_publish_source_tv).setText(mData.getPosterScreenName());
         holder.getTextView(R.id.news_comment_count_tv).setText("评论数:" + mData.getCommentCount());

@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.example.commonlib.utils.Logger;
+
 /**
  * Base class of fragment.
  */
 public abstract class AbsFragment extends Fragment implements IComponent {
 
+    private static String Tag="Fragment_visible_log";
     protected boolean mStatusActive;
     protected boolean mStatusViewValid;
     protected boolean mStatusDestroyed;
@@ -53,6 +56,7 @@ public abstract class AbsFragment extends Fragment implements IComponent {
     public void onResume() {
         super.onResume();
         mStatusActive = true;
+        Logger.d(Tag,"on Resume "+this.getClass().getSimpleName()+"  is visible : "+getUserVisibleHint());
     }
 
     @Override
@@ -86,6 +90,7 @@ public abstract class AbsFragment extends Fragment implements IComponent {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        Logger.d(Tag,"setUserVisible Hint "+this.getClass().getSimpleName()+" is visible "+isVisibleToUser);
         if (!mMonitors.isEmpty()) {
             for (LifeCycleMonitor m : mMonitors) {
                 if (m != null)

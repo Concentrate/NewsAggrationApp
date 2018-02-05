@@ -43,7 +43,7 @@ public class FragmentFactory {
             case ItemTab.NEWS_LIFE:
             case ItemTab.NEWS_PROGRAM:
             case ItemTab.NEWS_TENCENT:
-                Bundle bundle = NewsTechnologyFragment.getTopicBundle(itemTab.getTitle());
+                Bundle bundle = NewsTechnologyFragment.getTopicBundle(itemTab);
                 NewsTechnologyFragment fragment = new NewsTechnologyFragment();
                 fragment.setArguments(bundle);
                 return fragment;

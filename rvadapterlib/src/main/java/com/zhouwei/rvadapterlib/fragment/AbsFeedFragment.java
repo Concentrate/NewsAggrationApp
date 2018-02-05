@@ -120,7 +120,8 @@ public abstract class AbsFeedFragment<T> extends AbsFragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser &&!isFirstInitial) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser&&isResumed()) {
             onRecyclerViewInitialized();
         }
     }

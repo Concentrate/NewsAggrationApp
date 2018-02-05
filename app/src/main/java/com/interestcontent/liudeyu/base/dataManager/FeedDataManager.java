@@ -83,18 +83,14 @@ public class FeedDataManager {
 
     public List<NewsTechnoBean> getNewsTechListByNet(int itemTabKey, String url, boolean reflash) {
         try {
-            switch (itemTabKey) {
-                case ItemTab.NEWS_TECHNOLEGE:
-                    if (reflash) {
-                        feedTabCurrentPageMap.put(ItemTab.NEWS_TECHNOLEGE, 0);
-                    }
-                    NewsTechoRequest request = getWeiboFeedByNet(itemTabKey, url, Constants.NEWS_TECH_PARAMETER.PAGE_COUNT,
-                            null, NewsTechoRequest.class);
-                    if (request != null) {
-                        return saveToCache(itemTabKey, request.getData(), reflash);
-                    }
+            if (reflash) {
+                feedTabCurrentPageMap.put(ItemTab.NEWS_TECHNOLEGE, 0);
             }
-
+            NewsTechoRequest request = getWeiboFeedByNet(itemTabKey, url, Constants.NEWS_TECH_PARAMETER.PAGE_COUNT,
+                    null, NewsTechoRequest.class);
+            if (request != null) {
+                return saveToCache(itemTabKey, request.getData(), reflash);
+            }
         } catch (Exception e) {
 
         }

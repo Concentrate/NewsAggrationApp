@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/news_mutilple_images_height"
+    android:layout_height="@dimen/news_mutilple_images_cell_height"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
@@ -56,16 +56,13 @@
         app:layout_constraintTop_toTopOf="@id/news_publish_time_tv"
         tools:text="评论数" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/news_image_preview_listview"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:divider="@color/white"
-        android:dividerHeight="4dp"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/news_publish_source_tv"
         app:layout_constraintTop_toBottomOf="@id/news_title_tv"
 
-        ></ListView>
+        ></android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>
