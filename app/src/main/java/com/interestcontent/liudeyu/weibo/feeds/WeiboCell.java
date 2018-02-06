@@ -19,7 +19,9 @@ import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.BaseRecyclerView;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.GridManagerSpaceItemDecoration;
+import com.interestcontent.liudeyu.base.constants.WebConstants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
+import com.interestcontent.liudeyu.weibo.contents.WebContentBrowseFragment;
 import com.interestcontent.liudeyu.weibo.contents.WeiboContentActivity;
 import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
@@ -97,6 +99,7 @@ public class WeiboCell extends RVBaseCell<List<WeiboBean>> implements View.OnCli
                 switch (autoLinkMode) {
                     case MODE_URL:
                         Intent intent = BrowseActivity.getIntent(matchedText, true);
+                        intent.putExtra(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
                         intent.setClass(mContext, BrowseActivity.class);
                         mContext.startActivity(intent);
                         break;

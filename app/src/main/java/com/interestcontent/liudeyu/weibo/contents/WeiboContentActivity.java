@@ -29,6 +29,7 @@ import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.GridManagerSpaceItemDecoration;
 import com.interestcontent.liudeyu.base.constants.Constants;
+import com.interestcontent.liudeyu.base.constants.WebConstants;
 import com.interestcontent.liudeyu.base.dataManager.FeedDataManager;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
@@ -254,6 +255,7 @@ public class WeiboContentActivity extends BaseActivity {
                 switch (autoLinkMode) {
                     case MODE_URL:
                         Intent intent = BrowseActivity.getIntent(matchedText, false);
+                        intent.putExtra(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
                         intent.setClass(WeiboContentActivity.this, BrowseActivity.class);
                         startActivity(intent);
                         break;

@@ -24,6 +24,7 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
     public static final String LOAD_URL = "LOAD_URL".toLowerCase();
     public static final String USE_TOOL_BAR = "USE_TOOL_BAR";//是否使用状态栏
 
+
     @BindView(R.id.parent_container)
     FrameLayout rootContainer;
 
@@ -59,11 +60,17 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
             if (!useToolbar) {
                 mToolbar.setVisibility(View.GONE);
             }
+
+
         }
         if (!TextUtils.isEmpty(url)) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             Bundle bundle = new Bundle();
             bundle.putString(BaseWebBrowseFragment.LOAD_URL, url);
+            String depreJsClass = bundle.getString(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN);
+            if (!TextUtils.isEmpty(depreJsClass)) {
+                bundle.putString(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, depreJsClass);
+            }
             Fragment fragment = new WebContentBrowseFragment();
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction().add(R.id.parent_container, fragment).commit();

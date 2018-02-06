@@ -3,7 +3,6 @@ package com.interestcontent.liudeyu.weibo.contents;
 import android.os.Bundle;
 import android.view.View;
 
-import com.interestcontent.liudeyu.weibo.component.BaseWebBrowseFragment;
 import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils;
 
@@ -11,7 +10,7 @@ import com.interestcontent.liudeyu.weibo.util.WeiboUrlsUtils;
  * Created by liudeyu on 2018/1/24.
  */
 
-public class MyWeiboProfileFragment extends BaseWebBrowseFragment {
+public class MyWeiboProfileFragment extends WebContentBrowseFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

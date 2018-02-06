@@ -15,7 +15,9 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.interestcontent.liudeyu.base.constants.Constants;
+import com.interestcontent.liudeyu.base.constants.WebConstants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
+import com.interestcontent.liudeyu.weibo.contents.WebContentBrowseFragment;
 import com.interestcontent.liudeyu.weibo.contents.WeiboContentBrowseActivity;
 import com.sina.weibo.sdk.WeiboAppManager;
 import com.sina.weibo.sdk.auth.AuthInfo;
@@ -309,6 +311,7 @@ public class MyWeiboPageUtils {
 
     private void gotoWebActivity(String url) {
         Intent intent = BrowseActivity.getIntent(url, false);
+        intent.putExtra(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
         intent.setClass(context, WeiboContentBrowseActivity.class);
         context.startActivity(intent);
     }

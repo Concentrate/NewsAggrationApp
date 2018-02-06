@@ -3,6 +3,7 @@ package com.interestcontent.liudeyu.base.tabs;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.interestcontent.liudeyu.base.constants.WebConstants;
 import com.interestcontent.liudeyu.news.NewsMainFragment;
 import com.interestcontent.liudeyu.news.NewsTechnologyFragment;
 import com.interestcontent.liudeyu.settings.SettingFragment;
@@ -10,6 +11,7 @@ import com.interestcontent.liudeyu.weibo.WeiboMainFragment;
 import com.interestcontent.liudeyu.weibo.contents.MyWeiboMessageFragment;
 import com.interestcontent.liudeyu.weibo.contents.MyWeiboProfileFragment;
 import com.interestcontent.liudeyu.weibo.contents.MyWeiboSettingFragment;
+import com.interestcontent.liudeyu.weibo.contents.WebContentBrowseFragment;
 import com.interestcontent.liudeyu.weibo.feeds.WeiboFollowFragment;
 import com.interestcontent.liudeyu.weibo.feeds.WeiboHotFragment;
 
@@ -19,6 +21,8 @@ import com.interestcontent.liudeyu.weibo.feeds.WeiboHotFragment;
 
 public class FragmentFactory {
     public static Fragment getFragmentByItemTab(ItemTab itemTab) {
+        Bundle bundle = new Bundle();
+        Fragment fragment = null;
         switch (itemTab.getItemKey()) {
             case ItemTab.TAB_WEIBO:
                 return new WeiboMainFragment();
@@ -31,11 +35,20 @@ public class FragmentFactory {
             case ItemTab.WEIBO_SUB_HOT:
                 return new WeiboHotFragment();
             case ItemTab.WEIBO_SUB_MESSAGE:
-                return new MyWeiboMessageFragment();
+                fragment = new MyWeiboMessageFragment();
+                bundle.putString(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
+                fragment.setArguments(bundle);
+                return fragment;
             case ItemTab.WEIBO_SUB_MY_WEIBO_PAGE:
-                return new MyWeiboProfileFragment();
+                fragment = new MyWeiboProfileFragment();
+                bundle.putString(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
+                fragment.setArguments(bundle);
+                return fragment;
             case ItemTab.WEIBO_SUB_PERSON_SETTING:
-                return new MyWeiboSettingFragment();
+                fragment = new MyWeiboSettingFragment();
+                bundle.putString(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
+                fragment.setArguments(bundle);
+                return fragment;
             case ItemTab.NEWS_TECHNOLEGE:
             case ItemTab.NEWS_GOOGLE:
             case ItemTab.NEWS_PHONE:
@@ -43,8 +56,8 @@ public class FragmentFactory {
             case ItemTab.NEWS_LIFE:
             case ItemTab.NEWS_PROGRAM:
             case ItemTab.NEWS_TENCENT:
-                Bundle bundle = NewsTechnologyFragment.getTopicBundle(itemTab);
-                NewsTechnologyFragment fragment = new NewsTechnologyFragment();
+                bundle = NewsTechnologyFragment.getTopicBundle(itemTab);
+                fragment = new NewsTechnologyFragment();
                 fragment.setArguments(bundle);
                 return fragment;
         }

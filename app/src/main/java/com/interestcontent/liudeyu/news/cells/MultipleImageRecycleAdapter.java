@@ -4,10 +4,12 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.weibo.contents.PictureBrowseActivity;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 
 import java.util.List;
@@ -17,7 +19,6 @@ import java.util.List;
  */
 
 public class MultipleImageRecycleAdapter extends RecyclerView.Adapter<RVBaseViewHolder> {
-
 
     private Context mContext;
     private List<String> mData;
@@ -39,7 +40,7 @@ public class MultipleImageRecycleAdapter extends RecyclerView.Adapter<RVBaseView
     }
 
     @Override
-    public void onBindViewHolder(RVBaseViewHolder holder, int position) {
+    public void onBindViewHolder(final RVBaseViewHolder holder, final int position) {
         if (mFragment != null) {
             Glide.with(mFragment).load(mData.get(position)).into(
                     holder.getImageView(R.id.news_multi_image_iv));
@@ -47,6 +48,12 @@ public class MultipleImageRecycleAdapter extends RecyclerView.Adapter<RVBaseView
             Glide.with(mContext).load(mData.get(position)).centerCrop()
                     .into(holder.getImageView(R.id.news_multi_image_iv));
         }
+        holder.getImageView(R.id.news_multi_image_iv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PictureBrowseActivity.start(mContext, mData.get(position));
+            }
+        });
 
     }
 
@@ -57,4 +64,6 @@ public class MultipleImageRecycleAdapter extends RecyclerView.Adapter<RVBaseView
         }
         return 0;
     }
+
+
 }

@@ -16,9 +16,11 @@ import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
+import com.interestcontent.liudeyu.base.constants.WebConstants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
+import com.interestcontent.liudeyu.weibo.contents.WebContentBrowseFragment;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.weibo.data.bean.WeiboCommontBean;
 import com.luseen.autolinklibrary.AutoLinkMode;
@@ -95,6 +97,7 @@ public class WeiboCommentListAdapter extends RecyclerView.Adapter<WeiboBaseHolde
                 switch (autoLinkMode) {
                     case MODE_URL:
                         Intent intent = BrowseActivity.getIntent(matchedText, true);
+                        intent.putExtra(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
                         intent.setClass(mContext, BrowseActivity.class);
                         mContext.startActivity(intent);
                         break;
