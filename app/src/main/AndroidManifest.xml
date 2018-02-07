@@ -38,12 +38,11 @@
         <activity android:name=".base.specificComponent.BrowseActivity"
             android:hardwareAccelerated="true"
             android:configChanges="orientation|screenSize"></activity>
-        <activity android:name=".weibo.contents.PictureBrowseActivity"
-            android:launchMode="singleInstance"
+        <activity android:name=".contents.weibo.contents.PictureBrowseActivity"
             />
-        <activity android:name=".weibo.contents.WeiboContentActivity"
+        <activity android:name=".contents.weibo.contents.WeiboContentActivity"
             />
-        <activity android:name=".weibo.contents.WeiboContentBrowseActivity"/>
+        <activity android:name=".contents.weibo.contents.WeiboContentBrowseActivity"/>
     </application>
 
 </manifest>

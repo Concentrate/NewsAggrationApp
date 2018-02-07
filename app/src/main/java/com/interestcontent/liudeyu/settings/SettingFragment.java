@@ -16,7 +16,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.example.commonlib.components.AbsFragment;
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.weibo.data.WeiboLoginManager;
+import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 

@@ -3,17 +3,15 @@ package com.interestcontent.liudeyu.base.tabs;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.interestcontent.liudeyu.base.constants.WebConstants;
-import com.interestcontent.liudeyu.news.NewsMainFragment;
-import com.interestcontent.liudeyu.news.NewsTechnologyFragment;
+import com.interestcontent.liudeyu.contents.news.NewsMainFragment;
+import com.interestcontent.liudeyu.contents.news.NewsTechnologyFragment;
 import com.interestcontent.liudeyu.settings.SettingFragment;
-import com.interestcontent.liudeyu.weibo.WeiboMainFragment;
-import com.interestcontent.liudeyu.weibo.contents.MyWeiboMessageFragment;
-import com.interestcontent.liudeyu.weibo.contents.MyWeiboProfileFragment;
-import com.interestcontent.liudeyu.weibo.contents.MyWeiboSettingFragment;
-import com.interestcontent.liudeyu.weibo.contents.WebContentBrowseFragment;
-import com.interestcontent.liudeyu.weibo.feeds.WeiboFollowFragment;
-import com.interestcontent.liudeyu.weibo.feeds.WeiboHotFragment;
+import com.interestcontent.liudeyu.contents.weibo.WeiboMainFragment;
+import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboMessageFragment;
+import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboProfileFragment;
+import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboSettingFragment;
+import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboFollowFragment;
+import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboHotFragment;
 
 /**
  * Created by liudeyu on 2018/1/12.
@@ -36,18 +34,12 @@ public class FragmentFactory {
                 return new WeiboHotFragment();
             case ItemTab.WEIBO_SUB_MESSAGE:
                 fragment = new MyWeiboMessageFragment();
-                bundle.putString(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
-                fragment.setArguments(bundle);
                 return fragment;
             case ItemTab.WEIBO_SUB_MY_WEIBO_PAGE:
                 fragment = new MyWeiboProfileFragment();
-                bundle.putString(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
-                fragment.setArguments(bundle);
                 return fragment;
             case ItemTab.WEIBO_SUB_PERSON_SETTING:
                 fragment = new MyWeiboSettingFragment();
-                bundle.putString(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
-                fragment.setArguments(bundle);
                 return fragment;
             case ItemTab.NEWS_TECHNOLEGE:
             case ItemTab.NEWS_GOOGLE:

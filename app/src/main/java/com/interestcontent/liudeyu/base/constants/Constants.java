@@ -53,10 +53,11 @@ public class Constants {
     }
 
 
-    //    news
+    //  36kr  news
     public static final String NEWS_TECH_BASE = "http://120.76.205.241:8000/news/kr36";
     public static final String NEWS_TECH_API_KEY = "oUqVYxWWMrP5HEMrzN5CfOnEpNEpD5tDvtgYZV6nPyEemzs9P80k81FVDSpfNeK2";
     public static final String NES_TECH_REQUEST_DOMAIN = "http://120.76.205.241:8000/news/kr36?apikey=oUqVYxWWMrP5HEMrzN5CfOnEpNEpD5tDvtgYZV6nPyEemzs9P80k81FVDSpfNeK2&kw=%E7%8B%AC%E8%A7%92%E5%85%BD";
+    public static final String NEWS_36KR_BASE_WEB_DOMAIN = "36kr.com/";
 
     public static class NEWS_TECH_PARAMETER {
         public static final String THEME_PARA = "kw";
@@ -66,5 +67,9 @@ public class Constants {
         public static final String APIKEY = "apikey";
 
     }
+
+    // zhihu 日报
+    public static final String ZHIHU_JOURNAL_LIST_API="https://news-at.zhihu.com/api/4/news/latest";
+
 }
 

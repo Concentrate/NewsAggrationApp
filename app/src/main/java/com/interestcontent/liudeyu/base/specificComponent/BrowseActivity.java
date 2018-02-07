@@ -12,8 +12,8 @@ import android.widget.FrameLayout;
 
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
-import com.interestcontent.liudeyu.weibo.component.BaseWebBrowseFragment;
-import com.interestcontent.liudeyu.weibo.contents.WebContentBrowseFragment;
+import com.interestcontent.liudeyu.base.baseComponent.BaseWebBrowseFragment;
+import com.interestcontent.liudeyu.base.baseComponent.BrowseFragmentRemoveAd;
 import com.just.agentweb.ChromeClientCallbackManager;
 
 import butterknife.BindView;
@@ -67,11 +67,7 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
             FragmentManager fragmentManager = getSupportFragmentManager();
             Bundle bundle = new Bundle();
             bundle.putString(BaseWebBrowseFragment.LOAD_URL, url);
-            String depreJsClass = bundle.getString(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN);
-            if (!TextUtils.isEmpty(depreJsClass)) {
-                bundle.putString(WebContentBrowseFragment.DEPRECATED_WEB_Class_FUN, depreJsClass);
-            }
-            Fragment fragment = new WebContentBrowseFragment();
+            Fragment fragment = new BrowseFragmentRemoveAd();
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction().add(R.id.parent_container, fragment).commit();
         }
