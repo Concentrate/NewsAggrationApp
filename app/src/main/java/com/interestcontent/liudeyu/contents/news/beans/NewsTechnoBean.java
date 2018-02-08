@@ -1,6 +1,6 @@
 package com.interestcontent.liudeyu.contents.news.beans;
 
-import com.interestcontent.liudeyu.contents.weibo.data.bean.FeedBaseBean;
+import com.interestcontent.liudeyu.base.baseBeans.FeedBaseBean;
 
 import java.util.List;
 

@@ -3,6 +3,7 @@ package com.interestcontent.liudeyu.contents.weibo.data.bean;
 import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
+import com.interestcontent.liudeyu.base.baseBeans.FeedBaseBean;
 
 import java.io.Serializable;
 import java.util.List;

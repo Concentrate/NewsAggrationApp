@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by liudeyu on 2018/1/12.
  */
 
-public class ItemTab  implements Serializable{
+public class ItemTab implements Serializable {
     public static final int TAB_WEIBO = 1;
     public static final int TAB_NEWS = 2;
     public static final int TAB_SETTINGS = 3;
@@ -30,6 +30,12 @@ public class ItemTab  implements Serializable{
     public static final int NEWS_GOOGLE = 14;
     public static final int NEWS_LIFE = 15;
     public static final int NEWS_APPLE = 16;
+
+
+    // 见解 ，知乎
+    public static final int OPINION_ZHIHU_NEW_LEASTEST = 17;
+    public static final int TAB_OPINIONS = 18;
+
 
     private int mItemKey;
     private int mResourceId;

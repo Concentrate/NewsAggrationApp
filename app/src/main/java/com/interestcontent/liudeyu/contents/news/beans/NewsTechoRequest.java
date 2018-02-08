@@ -1,12 +1,14 @@
 package com.interestcontent.liudeyu.contents.news.beans;
 
+import com.interestcontent.liudeyu.base.baseBeans.FeedBaseRequest;
+
 import java.util.List;
 
 /**
  * Created by liudeyu on 2018/2/4.
  */
 
-public class NewsTechoRequest {
+public class NewsTechoRequest extends FeedBaseRequest {
 
     /**
      * data:[]

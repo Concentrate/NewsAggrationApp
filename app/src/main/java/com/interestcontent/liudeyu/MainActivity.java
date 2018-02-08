@@ -79,16 +79,21 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initOtherData() {
-        AuthInfo authInfo =WeiboLoginManager.getInstance().getAuthInfo();
+        AuthInfo authInfo = WeiboLoginManager.getInstance().getAuthInfo();
         WbSdk.install(this, authInfo);
     }
 
 
     private void initUiData() {
         List<ItemTab> itemTabs = new ArrayList<>();
-        itemTabs.add(new ItemTab(ItemTab.TAB_WEIBO, R.drawable.tab_weibo_selector, getString(R.string.tab_weibo)));
-        itemTabs.add(new ItemTab(ItemTab.TAB_NEWS, R.drawable.tab_news_selector, getString(R.string.tab_news)));
-        itemTabs.add(new ItemTab(ItemTab.TAB_SETTINGS, R.drawable.tab_setting_selector, getString(R.string.tab_settings)));
+        String[] nameArrays = getResources().getStringArray(R.array.main_tabs_title);
+        int[] itemKey = getResources().getIntArray(R.array.main_tabs_key);
+        int []iconArray=new int[]{
+                R.drawable.tab_opinion_selector,R.drawable.tab_weibo_selector,R.drawable.tab_news_selector,R.drawable.tab_setting_selector
+        };
+        for (int i = 0; i < nameArrays.length; i++) {
+            itemTabs.add(new ItemTab(itemKey[i], iconArray[i], nameArrays[i]));
+        }
         mViewPager.setAdapter(new BasePageAdapter(getSupportFragmentManager(), itemTabs));
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -112,7 +117,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void setTabLayoutVisible(int visiblety){
+    public void setTabLayoutVisible(int visiblety) {
         mTabLayout.setVisibility(visiblety);
     }
 

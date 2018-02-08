@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 
 import com.interestcontent.liudeyu.contents.news.NewsMainFragment;
 import com.interestcontent.liudeyu.contents.news.NewsTechnologyFragment;
+import com.interestcontent.liudeyu.contents.zhihu.fragments.OpinionMainFragment;
+import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuJournalListFragment;
 import com.interestcontent.liudeyu.settings.SettingFragment;
 import com.interestcontent.liudeyu.contents.weibo.WeiboMainFragment;
 import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboMessageFragment;
@@ -52,6 +54,10 @@ public class FragmentFactory {
                 fragment = new NewsTechnologyFragment();
                 fragment.setArguments(bundle);
                 return fragment;
+            case ItemTab.OPINION_ZHIHU_NEW_LEASTEST:
+                return new ZhihuJournalListFragment();
+            case ItemTab.TAB_OPINIONS:
+                return new OpinionMainFragment();
         }
         return null;
     }

@@ -3,6 +3,8 @@ package com.interestcontent.liudeyu.base.dataManager;
 import android.util.SparseArray;
 
 import com.google.gson.Gson;
+import com.interestcontent.liudeyu.base.baseBeans.FeedBaseBean;
+import com.interestcontent.liudeyu.base.baseBeans.FeedBaseRequest;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
@@ -11,7 +13,6 @@ import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.contents.news.beans.NewsTechnoBean;
 import com.interestcontent.liudeyu.contents.news.beans.NewsTechoRequest;
 import com.interestcontent.liudeyu.contents.weibo.contents.comment.WeiboCommentRequet;
-import com.interestcontent.liudeyu.contents.weibo.data.bean.FeedBaseBean;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboCommontBean;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboRequest;
@@ -34,7 +35,7 @@ public class FeedDataManager {
     private ACache mACache;
     private SparseArray<Integer> feedTabCurrentPageMap = new SparseArray<>();
     private volatile boolean isLoadingWeiboData;
-
+    private SparseArray<FeedBaseRequest> mfeedBaseRequestCacheData = new SparseArray<>(); // 由于feed流，有可能有过个array结构，缓存一个request结构是比较通用的
 
     private FeedDataManager() {
         mACache = ACache.get(MyApplication.sApplication);
@@ -54,6 +55,8 @@ public class FeedDataManager {
         return map;
     }
 
+
+    /**** weibo */
     public List<WeiboBean> getWeiboListAtFirst(int itemTabKey, String url) throws Exception {
         if (feedRamCacheData.get(itemTabKey) != null && !feedRamCacheData.get(itemTabKey).isEmpty()) {
             return (List<WeiboBean>) feedRamCacheData.get(itemTabKey);
@@ -63,9 +66,9 @@ public class FeedDataManager {
 
     public List<WeiboBean> getWeiboBeanListByNet(int itemTabKey, String url, boolean isReflash) {
         try {
-            WeiboRequest request = getWeiboFeedByNet(itemTabKey, url, Constants.WB_REQUEST_PARAMETER.PAGE, provideWeiboBeanBasicRequestParameter(), WeiboRequest.class);
+            WeiboRequest request = getFeedRequestByNet(itemTabKey, url, Constants.WB_REQUEST_PARAMETER.PAGE, provideWeiboBeanBasicRequestParameter(), WeiboRequest.class);
             if (request != null) {
-                return saveToCache(itemTabKey, request.getWeiboLists(), isReflash);
+                return saveToListCache(itemTabKey, request.getWeiboLists(), isReflash);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,7 +76,25 @@ public class FeedDataManager {
         return new ArrayList<WeiboBean>();
     }
 
+    public List<WeiboCommontBean> getWeiboCommentListByNet(int itemTabKey, String url, Map<String, String> map, boolean isFirstTime) {
+        if (isFirstTime) {
+            feedTabCurrentPageMap.put(itemTabKey, 0);
+        }
+        try {
+            WeiboCommentRequet requet = getFeedRequestByNet(itemTabKey, url, Constants.WB_REQUEST_PARAMETER.PAGE, map, WeiboCommentRequet.class);
+            return saveToListCache(itemTabKey, requet.getWeiboCommontBeans(), isFirstTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<WeiboCommontBean>();
+    }
 
+    public List<WeiboBean> reflashWeiboFeedListByNet(int itemTabKey, String url) throws Exception {
+        feedTabCurrentPageMap.put(itemTabKey, 0);
+        return getWeiboBeanListByNet(itemTabKey, url, true);
+    }
+
+    /****** news */
     public List<NewsTechnoBean> getNewsTechListAtFirst(int itemTabKey, String url) {
         if (feedRamCacheData.get(itemTabKey) != null && !feedRamCacheData.get(itemTabKey).isEmpty()) {
             return (List<NewsTechnoBean>) feedRamCacheData.get(itemTabKey);
@@ -86,10 +107,10 @@ public class FeedDataManager {
             if (reflash) {
                 feedTabCurrentPageMap.put(ItemTab.NEWS_TECHNOLEGE, 0);
             }
-            NewsTechoRequest request = getWeiboFeedByNet(itemTabKey, url, Constants.NEWS_TECH_PARAMETER.PAGE_COUNT,
+            NewsTechoRequest request = getFeedRequestByNet(itemTabKey, url, Constants.NEWS_TECH_PARAMETER.PAGE_COUNT,
                     null, NewsTechoRequest.class);
             if (request != null) {
-                return saveToCache(itemTabKey, request.getData(), reflash);
+                return saveToListCache(itemTabKey, request.getData(), reflash);
             }
         } catch (Exception e) {
 
@@ -98,23 +119,38 @@ public class FeedDataManager {
     }
 
 
-    public List<WeiboCommontBean> getWeiboCommentListByNet(int itemTabKey, String url, Map<String, String> map, boolean isFirstTime) {
-        if (isFirstTime) {
-            feedTabCurrentPageMap.put(itemTabKey, 0);
+    /**
+     * ，缓存或请求一个request结构体，这里就没有分页的分别了
+     */
+    public synchronized <T extends FeedBaseRequest> T getRequest(boolean isReflash, int itemTabKey, String url, Class<T> tClass) throws Exception {
+        T t = null;
+        if (isReflash) {
+            t = getFeedRequestByNet(itemTabKey, url, "", null, tClass);
+            if (t == null) {
+                throw new IllegalArgumentException("not data response");
+            }
+            mfeedBaseRequestCacheData.put(itemTabKey, t);
+        } else {
+            if (mfeedBaseRequestCacheData.get(itemTabKey) != null) {
+                t = (T) mfeedBaseRequestCacheData.get(itemTabKey);
+            } else {
+                t = getFeedRequestByNet(itemTabKey, url, "", null, tClass);
+                if (t == null) {
+                    throw new IllegalArgumentException("not data response");
+                }
+                mfeedBaseRequestCacheData.put(itemTabKey, t);
+            }
         }
-        try {
-            WeiboCommentRequet requet = getWeiboFeedByNet(itemTabKey, url, Constants.WB_REQUEST_PARAMETER.PAGE, map, WeiboCommentRequet.class);
-            return saveToCache(itemTabKey, requet.getWeiboCommontBeans(), isFirstTime);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<WeiboCommontBean>();
+        return (T) mfeedBaseRequestCacheData.get(itemTabKey);
     }
+
+
+    /***** 通用*/
 
     /**
      * @param pageRequestTag 这个是请求后端的page参数
      */
-    private synchronized <T> T getWeiboFeedByNet(int itemTabKey, String url, String pageRequestTag, Map<String, String> paras, Class<T> tClass) throws Exception {
+    private synchronized <T> T getFeedRequestByNet(int itemTabKey, String url, String pageRequestTag, Map<String, String> paras, Class<T> tClass) throws Exception {
         int requestPage = 1;
         if (feedTabCurrentPageMap.get(itemTabKey) != null) {
             requestPage = feedTabCurrentPageMap.get(itemTabKey) + 1;
@@ -131,7 +167,7 @@ public class FeedDataManager {
         return request;
     }
 
-    private synchronized <T extends FeedBaseBean> List<T> saveToCache(int itemTabKey, List<T> weiboLists, boolean isReflash) {
+    private synchronized <T extends FeedBaseBean> List<T> saveToListCache(int itemTabKey, List<T> weiboLists, boolean isReflash) {
         if (isReflash) {
             feedRamCacheData.put(itemTabKey, weiboLists);
         }
@@ -144,21 +180,9 @@ public class FeedDataManager {
         return (List<T>) feedRamCacheData.get(itemTabKey);
     }
 
-    public List<WeiboBean> reflashWeiboListByNet(int itemTabKey, String url) throws Exception {
-        feedTabCurrentPageMap.put(itemTabKey, 0);
-        return getWeiboBeanListByNet(itemTabKey, url, true);
-    }
 
     private static class FeedDataManagerHolder {
         static FeedDataManager sFeedDataManager = new FeedDataManager();
-    }
-
-
-    /**
-     * 返回唯一存储标记,凭itemTab key 和page
-     */
-    private String getUniqueStoreTag(int itemTabKey, int page) {
-        return new StringBuilder().append(itemTabKey).append("**$$$###").append(page).toString();
     }
 
 

@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--主页主tab-->
+    <string-array name="main_tabs_title">
+        <item>见解</item>
+        <item>微博</item>
+        <item>新闻</item>
+        <item>设置</item>
+    </string-array>
+    <integer-array name="main_tabs_key">
+        <item>18</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </integer-array>
+
+
+
     <string-array name="weibo_top_tab">
         <item>关注</item>
         <item>发现</item>
@@ -26,14 +42,13 @@
         <item>15</item>
         <item>16</item>
     </integer-array>
-    <!--
-      public static final int NEWS_TECHNOLEGE = 10; //科技，选用36kr api
-    public static final int NEWS_PHONE = 11;
-    public static final int NEWS_PROGRAM = 12;
-    public static final int NEWS_TENCENT = 13;
-    public static final int NEWS_GOOGLE = 14;
-    public static final int NEWS_LIFE = 15;
-    public static final int NEWS_APPLE = 16;
 
-    -->
+
+    <integer-array name="opinion_item_key">
+        <item>17</item>
+    </integer-array>
+    <string-array name="opinion_item_tab_value">
+        <item>日报</item>
+    </string-array>
+
 </resources>

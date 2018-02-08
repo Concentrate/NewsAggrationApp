@@ -1,12 +1,15 @@
 package com.interestcontent.liudeyu.contents.zhihu.bean;
 
+import com.interestcontent.liudeyu.base.baseBeans.FeedBaseBean;
+import com.interestcontent.liudeyu.base.baseBeans.FeedBaseRequest;
+
 import java.util.List;
 
 /**
  * Created by liudeyu on 2018/2/7.
  */
 
-public class ZhihuJournayListBean {
+public class ZhihuJournayListRequest extends FeedBaseRequest{
 
     /**
      * date : 20180207
@@ -42,7 +45,7 @@ public class ZhihuJournayListBean {
         this.top_stories = top_stories;
     }
 
-    public static class StoriesBean {
+    public static class StoriesBean extends FeedBaseBean {
         /**
          * images : ["https://pic1.zhimg.com/v2-4d9e250f4ab5bcc383323728295309a0.jpg"]
          * type : 0
@@ -98,7 +101,7 @@ public class ZhihuJournayListBean {
         }
     }
 
-    public static class TopStoriesBean {
+    public static class TopStoriesBean extends FeedBaseBean{
         /**
          * image : https://pic4.zhimg.com/v2-a0a38c2677aa0b5c9c1ce2078daf3f83.jpg
          * type : 0

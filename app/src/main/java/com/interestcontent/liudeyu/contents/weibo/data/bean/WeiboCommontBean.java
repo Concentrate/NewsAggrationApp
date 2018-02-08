@@ -1,6 +1,7 @@
 package com.interestcontent.liudeyu.contents.weibo.data.bean;
 
 import com.google.gson.annotations.SerializedName;
+import com.interestcontent.liudeyu.base.baseBeans.FeedBaseBean;
 
 import java.io.Serializable;
 
