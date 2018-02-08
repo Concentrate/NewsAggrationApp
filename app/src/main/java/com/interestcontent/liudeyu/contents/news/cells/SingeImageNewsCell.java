@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.contents.news.beans.NewsTechnoBean;
-import com.interestcontent.liudeyu.contents.weibo.feeds.FeedConstants;
+import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 

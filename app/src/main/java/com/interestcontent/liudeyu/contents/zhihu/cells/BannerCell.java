@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.contents.weibo.feeds.FeedConstants;
+import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.contents.zhihu.bean.ZhihuJournayListRequest;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;

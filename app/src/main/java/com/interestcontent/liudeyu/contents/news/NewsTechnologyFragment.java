@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.mvp.IMvpView;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.contents.news.beans.NewsTechnoBean;
@@ -60,7 +61,7 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
                 .size(SizeUtils.dp2px(1)).colorResId(R.color.md_grey_100).build();
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setItemAnimator(new SlideInDownAnimator());
-        startRequestData(NewsPresenter.FEED_QUEST_TYPE.FIRST_FLUSH);
+        startRequestData(FeedConstants.FEED_REQUEST_EMUM.FIRST_FLUSH);
         mBaseAdapter.showLoading();
     }
 
@@ -68,7 +69,7 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
         return mItemTab == null ? SCIENCE : mItemTab.getTitle();
     }
 
-    private void startRequestData(NewsPresenter.FEED_QUEST_TYPE type) {
+    private void startRequestData(FeedConstants.FEED_REQUEST_EMUM type) {
         int itemTabKey = mItemTab == null ? ItemTab.NEWS_TECHNOLEGE : mItemTab.getItemKey();
         String url = NewsUrlUtils.get36krNewsTypeUrl(provideInterestTag());
         mNewsPresenter.execute(url, itemTabKey, type);
@@ -76,12 +77,12 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
 
     @Override
     public void onPullRefresh() {
-        startRequestData(NewsPresenter.FEED_QUEST_TYPE.REFLASH);
+        startRequestData(FeedConstants.FEED_REQUEST_EMUM.REFLASH);
     }
 
     @Override
     public void onLoadMore() {
-        startRequestData(NewsPresenter.FEED_QUEST_TYPE.NORMAL_BY_NET);
+        startRequestData(FeedConstants.FEED_REQUEST_EMUM.NORMAL_BY_NET);
     }
 
     @Override

@@ -1,10 +1,9 @@
 package com.interestcontent.liudeyu.contents.zhihu.fragments;
 
-import android.view.animation.RotateAnimation;
-
 import com.blankj.utilcode.util.SizeUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.Constants;
+import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.mvp.IMvpView;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.contents.zhihu.bean.ZhihuJournayListRequest;
@@ -25,29 +24,34 @@ import java.util.List;
 public class ZhihuJournalListFragment extends AbsFeedFragment implements IMvpView<ZhihuJournayListRequest> {
 
     private ZhihuJournalListPresenter mPresenter = new ZhihuJournalListPresenter();
+    private boolean isLoadMore;
 
     @Override
     public void onRecyclerViewInitialized() {
         mPresenter.attachView(this);
-        HorizontalDividerItemDecoration itemDecoration = new HorizontalDividerItemDecoration.Builder(getContext())
-                .colorResId(R.color.md_blue_grey_100).size(SizeUtils.dp2px(1)).build();
+        HorizontalDividerItemDecoration.Builder builder = new HorizontalDividerItemDecoration.Builder(getContext());
+        HorizontalDividerItemDecoration itemDecoration = builder.margin(SizeUtils.dp2px(10))
+                .size(SizeUtils.dp2px(1)).colorResId(R.color.md_grey_100).build();
         mRecyclerView.addItemDecoration(itemDecoration);
-        mRecyclerView.setAnimation(new RotateAnimation(0, 90));
         startRequestData(false);
     }
 
     private void startRequestData(boolean isReflash) {
+        mPresenter.execute(Constants.ZHIHU_JOURNAL_LIST_API, ItemTab.OPINION_ZHIHU_NEW_LEASTEST, isReflash ? FeedConstants.FEED_REQUEST_EMUM.REFLASH : FeedConstants.FEED_REQUEST_EMUM.FIRST_FLUSH);
+        isLoadMore = false;
         mBaseAdapter.showLoading();
-        mPresenter.execute(Constants.ZHIHU_JOURNAL_LIST_API, ItemTab.OPINION_ZHIHU_NEW_LEASTEST, isReflash);
     }
 
     @Override
     public void onPullRefresh() {
         startRequestData(true);
+
     }
 
     @Override
     public void onLoadMore() {
+        mPresenter.execute(Constants.ZHIHU_JOURNAL_LIST_BEOFRE, ItemTab.OPINION_ZHIHU_NEW_LEASTEST, FeedConstants.FEED_REQUEST_EMUM.NORMAL_BY_NET);
+        isLoadMore = true;
     }
 
     @Override
@@ -65,11 +69,23 @@ public class ZhihuJournalListFragment extends AbsFeedFragment implements IMvpVie
     public void onQueryResult(ZhihuJournayListRequest result) {
         hideLoadMore();
         setRefreshing(false);
+        if (result == null) {
+            return;
+        }
+        if (isLoadMore) {
+            List<Cell> cellList = new ArrayList<>();
+            for (int i = 0; i < result.getStories().size(); i++) {
+                cellList.add(new ZhihuItemCell(result.getStories().get(i), this));
+            }
+            mBaseAdapter.addAll(cellList);
+            return;
+
+        }
         List<Cell> cellList = new ArrayList<>();
         BannerCell bannerCell = new BannerCell(result.getTop_stories(), this);
         cellList.add(bannerCell);
         for (int i = 0; i < result.getStories().size(); i++) {
-            cellList.add(new ZhihuItemCell(result.getStories(), this));
+            cellList.add(new ZhihuItemCell(result.getStories().get(i), this));
         }
         mBaseAdapter.setData(cellList);
     }
@@ -78,5 +94,6 @@ public class ZhihuJournalListFragment extends AbsFeedFragment implements IMvpVie
     public void onQueryError(Exception e) {
         hideLoadMore();
         setRefreshing(false);
+        mBaseAdapter.showError();
     }
 }

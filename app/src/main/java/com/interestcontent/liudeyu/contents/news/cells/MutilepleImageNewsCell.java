@@ -13,7 +13,7 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.contents.news.beans.NewsTechnoBean;
-import com.interestcontent.liudeyu.contents.weibo.feeds.FeedConstants;
+import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;

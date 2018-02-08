@@ -321,6 +321,9 @@ public class RVSimpleAdapter extends RVBaseAdapter {
         if (mData.contains(mLoadMoreCell)) {
             remove(mLoadMoreCell);
         }
+        if (mData.contains(mLoadingCell)) {
+            remove(mLoadingCell);
+        }
         mIsShowLoadMore = false;
         mIsShowLoading = false;
     }
@@ -375,6 +378,7 @@ public class RVSimpleAdapter extends RVBaseAdapter {
         mEmptyCell.setHeight(height);
         add(mEmptyCell);
     }
+
 
     /**
      * 显示空view

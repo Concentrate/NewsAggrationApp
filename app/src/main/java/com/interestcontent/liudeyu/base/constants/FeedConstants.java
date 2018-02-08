@@ -1,4 +1,4 @@
-package com.interestcontent.liudeyu.contents.weibo.feeds;
+package com.interestcontent.liudeyu.base.constants;
 
 /**
  * Created by liudeyu on 2018/1/2.
@@ -10,4 +10,8 @@ public class FeedConstants {
     public static final int NEWS_MULTIPLE_IMAGE_TYPE = 3;
     public static final int OPINION_ZHIHU_CELL_TYPE = 4;
     public static final int BANNER_CELL_TYPE=5;
+
+    public enum FEED_REQUEST_EMUM {
+        FIRST_FLUSH, NORMAL_BY_NET, REFLASH
+    }
 }

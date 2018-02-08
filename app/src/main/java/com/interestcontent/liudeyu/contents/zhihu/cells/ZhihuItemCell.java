@@ -1,6 +1,7 @@
 package com.interestcontent.liudeyu.contents.zhihu.cells;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,23 +9,21 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutGlide.GlideRoundTransform;
-import com.interestcontent.liudeyu.contents.weibo.feeds.FeedConstants;
+import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.contents.zhihu.bean.ZhihuJournayListRequest;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
-
-import java.util.List;
 
 /**
  * Created by liudeyu on 2018/2/8.
  */
 
-public class ZhihuItemCell extends RVBaseCell<List<ZhihuJournayListRequest.StoriesBean>> {
+public class ZhihuItemCell extends RVBaseCell<ZhihuJournayListRequest.StoriesBean> {
     private Activity mActivity;
     private android.support.v4.app.Fragment mFragment;
 
-    public ZhihuItemCell(List<ZhihuJournayListRequest.StoriesBean> storiesBeans, android.support.v4.app.Fragment fragment) {
-        super(storiesBeans);
+    public ZhihuItemCell(ZhihuJournayListRequest.StoriesBean storiesBean, Fragment fragment) {
+        super(storiesBean);
         mFragment = fragment;
         mActivity = mFragment.getActivity();
     }
@@ -42,16 +41,14 @@ public class ZhihuItemCell extends RVBaseCell<List<ZhihuJournayListRequest.Stori
 
     @Override
     public void onBindViewHolder(RVBaseViewHolder holder, int position) {
-        if (position >= mData.size()) {
-            return;
-        }
-        if (mData.get(position).getImages().isEmpty()) {
+
+        if (mData.getImages().isEmpty()) {
             holder.getImageView(R.id.image_iv).setVisibility(View.GONE);
         }
-        Glide.with(mFragment).load(mData.get(position).getImages().get(0)).transform(
+        Glide.with(mFragment).load(mData.getImages().get(0)).transform(
                 new GlideRoundTransform(mActivity, 5)
         ).into(holder.getImageView(R.id.image_iv));
-        holder.getTextView(R.id.title).setText(mData.get(position).getTitle());
+        holder.getTextView(R.id.title).setText(mData.getTitle());
     }
 
 }

@@ -128,7 +128,7 @@ public   abstract class RVBaseAdapter<C extends RVBaseCell>  extends RecyclerVie
         }
         Log.e(TAG,"addAll cell size:"+cells.size());
         mData.addAll(cells);
-        notifyItemRangeChanged(mData.size()-cells.size(),mData.size());
+        notifyItemRangeInserted(mData.size()-cells.size(),cells.size());
     }
 
     public void addAll(int index,List<C> cells){

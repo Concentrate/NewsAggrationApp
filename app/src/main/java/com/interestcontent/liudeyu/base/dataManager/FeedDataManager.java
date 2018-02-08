@@ -1,5 +1,6 @@
 package com.interestcontent.liudeyu.base.dataManager;
 
+import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.google.gson.Gson;
@@ -160,8 +161,15 @@ public class FeedDataManager {
         if (map == null) {
             map = new HashMap<>();
         }
-        map.put(pageRequestTag, requestPage + "");
-        String response = OkHttpUtils.get().url(url).params(map).build().execute().body().string();
+        if (!TextUtils.isEmpty(pageRequestTag)) {
+            map.put(pageRequestTag, requestPage + "");
+        }
+        String response;
+        if (!map.keySet().isEmpty()) {
+            response = OkHttpUtils.get().url(url).params(map).build().execute().body().string();
+        } else {
+            response = OkHttpUtils.get().url(url).build().execute().body().string();
+        }
         Gson gson = new Gson();
         T request = gson.fromJson(response, tClass);
         return request;

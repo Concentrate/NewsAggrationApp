@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.BaseRecyclerView;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.GridManagerSpaceItemDecoration;
+import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.contents.weibo.contents.WeiboContentActivity;
 import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
