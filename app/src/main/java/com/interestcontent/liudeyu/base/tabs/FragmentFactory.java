@@ -7,6 +7,7 @@ import com.interestcontent.liudeyu.contents.news.NewsMainFragment;
 import com.interestcontent.liudeyu.contents.news.NewsTechnologyFragment;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.OpinionMainFragment;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuJournalListFragment;
+import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuThemeFragment;
 import com.interestcontent.liudeyu.settings.SettingFragment;
 import com.interestcontent.liudeyu.contents.weibo.WeiboMainFragment;
 import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboMessageFragment;
@@ -58,6 +59,8 @@ public class FragmentFactory {
                 return new ZhihuJournalListFragment();
             case ItemTab.TAB_OPINIONS:
                 return new OpinionMainFragment();
+            case ItemTab.TAB_ZHIHU_THEME:
+                return new ZhihuThemeFragment();
         }
         return null;
     }

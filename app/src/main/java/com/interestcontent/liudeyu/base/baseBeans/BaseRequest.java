@@ -6,5 +6,5 @@ import java.io.Serializable;
  * Created by liudeyu on 2018/2/8.
  */
 
-public class FeedBaseRequest implements Serializable {
+public class BaseRequest implements Serializable {
 }

@@ -1,7 +1,7 @@
 package com.interestcontent.liudeyu.contents.weibo.contents.comment;
 
 import com.google.gson.annotations.SerializedName;
-import com.interestcontent.liudeyu.base.baseBeans.FeedBaseRequest;
+import com.interestcontent.liudeyu.base.baseBeans.BaseRequest;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboCommontBean;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by liudeyu on 2018/1/31.
  */
 
-public class WeiboCommentRequet extends FeedBaseRequest {
+public class WeiboCommentRequet extends BaseRequest {
     @SerializedName(value = "total_number")
     private int totalNumber;
     @SerializedName(value = "comments")

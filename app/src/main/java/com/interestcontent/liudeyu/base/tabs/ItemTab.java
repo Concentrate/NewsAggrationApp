@@ -35,6 +35,7 @@ public class ItemTab implements Serializable {
     // 见解 ，知乎
     public static final int OPINION_ZHIHU_NEW_LEASTEST = 17;
     public static final int TAB_OPINIONS = 18;
+    public static final int TAB_ZHIHU_THEME = 19;
 
 
     private int mItemKey;

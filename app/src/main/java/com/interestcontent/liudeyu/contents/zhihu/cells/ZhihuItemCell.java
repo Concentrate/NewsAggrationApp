@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.baseUiKit.aboutGlide.GlideRoundTransform;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.contents.zhihu.bean.ZhihuJournayListRequest;
+import com.interestcontent.liudeyu.contents.zhihu.contents.ZhihuContentActivity;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 
@@ -40,15 +40,19 @@ public class ZhihuItemCell extends RVBaseCell<ZhihuJournayListRequest.StoriesBea
     }
 
     @Override
-    public void onBindViewHolder(RVBaseViewHolder holder, int position) {
+    public void onBindViewHolder(RVBaseViewHolder holder, final int position) {
 
         if (mData.getImages().isEmpty()) {
             holder.getImageView(R.id.image_iv).setVisibility(View.GONE);
         }
-        Glide.with(mFragment).load(mData.getImages().get(0)).transform(
-                new GlideRoundTransform(mActivity, 5)
-        ).into(holder.getImageView(R.id.image_iv));
+        Glide.with(mFragment).load(mData.getImages().get(0)).into(holder.getImageView(R.id.image_iv));
         holder.getTextView(R.id.title).setText(mData.getTitle());
+        holder.getItemView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ZhihuContentActivity.start(mActivity, mData.getId() + "");
+            }
+        });
     }
 
 }

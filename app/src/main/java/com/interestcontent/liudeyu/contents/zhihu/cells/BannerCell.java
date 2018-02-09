@@ -13,6 +13,7 @@ import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.contents.zhihu.bean.ZhihuJournayListRequest;
+import com.interestcontent.liudeyu.contents.zhihu.contents.ZhihuContentActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -63,7 +64,7 @@ public class BannerCell extends RVBaseCell<List<ZhihuJournayListRequest.TopStori
         mBanner.setBannerAnimation(Transformer.FlipHorizontal);
         List<String> imageUrls = new ArrayList<>();
         List<String> titleList = new ArrayList<>();
-        List<String> ids = new ArrayList<>();
+        final List<String> ids = new ArrayList<>();
         for (int i = 0; i < mData.size(); i++) {
             if (!TextUtils.isEmpty(mData.get(i).getImage())) {
                 imageUrls.add(mData.get(i).getImage());
@@ -80,6 +81,7 @@ public class BannerCell extends RVBaseCell<List<ZhihuJournayListRequest.TopStori
             @Override
             public void OnBannerClick(int position) {
                 Logger.d(TAG, "banner click position " + position);
+                ZhihuContentActivity.start(mActivity, ids.get(position));
             }
         }).start();
 

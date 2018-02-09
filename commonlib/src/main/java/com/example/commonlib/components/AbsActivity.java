@@ -201,7 +201,7 @@ public abstract class AbsActivity extends AppCompatActivity implements IComponen
     }
 
     protected int getStatusBarColor() {
-        return getResources().getColor(R.color.md_blue_100);
+        return getResources().getColor(R.color.md_grey_700);
     }
 
     protected void setStatusBarColor() {

@@ -5,7 +5,7 @@ import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.interestcontent.liudeyu.base.baseBeans.FeedBaseBean;
-import com.interestcontent.liudeyu.base.baseBeans.FeedBaseRequest;
+import com.interestcontent.liudeyu.base.baseBeans.BaseRequest;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
@@ -36,7 +36,7 @@ public class FeedDataManager {
     private ACache mACache;
     private SparseArray<Integer> feedTabCurrentPageMap = new SparseArray<>();
     private volatile boolean isLoadingWeiboData;
-    private SparseArray<FeedBaseRequest> mfeedBaseRequestCacheData = new SparseArray<>(); // 由于feed流，有可能有过个array结构，缓存一个request结构是比较通用的
+    private SparseArray<BaseRequest> mfeedBaseRequestCacheData = new SparseArray<>(); // 由于feed流，有可能有过个array结构，缓存一个request结构是比较通用的
 
     private FeedDataManager() {
         mACache = ACache.get(MyApplication.sApplication);
@@ -123,7 +123,7 @@ public class FeedDataManager {
     /**
      * ，缓存或请求一个request结构体，这里就没有分页的分别了
      */
-    public synchronized <T extends FeedBaseRequest> T getRequest(boolean isReflash, int itemTabKey, String url, Class<T> tClass) throws Exception {
+    public synchronized <T extends BaseRequest> T getRequest(boolean isReflash, int itemTabKey, String url, Class<T> tClass) throws Exception {
         T t = null;
         if (isReflash) {
             t = getFeedRequestByNet(itemTabKey, url, "", null, tClass);

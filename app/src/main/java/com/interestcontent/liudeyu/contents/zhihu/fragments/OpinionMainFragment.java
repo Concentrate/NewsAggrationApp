@@ -1,5 +1,7 @@
 package com.interestcontent.liudeyu.contents.zhihu.fragments;
 
+import android.support.design.widget.TabLayout;
+
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
@@ -23,5 +25,10 @@ public class OpinionMainFragment extends AbsTopTabFragment {
             list.add(new ItemTab(keys[i], tabNames[i]));
         }
         return list;
+    }
+
+    @Override
+    protected int provideTabMode() {
+        return TabLayout.MODE_FIXED;
     }
 }

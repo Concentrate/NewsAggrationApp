@@ -46,9 +46,11 @@
 
     <integer-array name="opinion_item_key">
         <item>17</item>
+        <item>19</item>
     </integer-array>
     <string-array name="opinion_item_tab_value">
         <item>日报</item>
+        <item>主题</item>
     </string-array>
 
 </resources>

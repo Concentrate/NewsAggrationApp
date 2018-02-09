@@ -1,7 +1,7 @@
 package com.interestcontent.liudeyu.contents.zhihu.bean;
 
 import com.interestcontent.liudeyu.base.baseBeans.FeedBaseBean;
-import com.interestcontent.liudeyu.base.baseBeans.FeedBaseRequest;
+import com.interestcontent.liudeyu.base.baseBeans.BaseRequest;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * Created by liudeyu on 2018/2/7.
  */
 
-public class ZhihuJournayListRequest extends FeedBaseRequest{
+public class ZhihuJournayListRequest extends BaseRequest {
 
     /**
      * date : 20180207
