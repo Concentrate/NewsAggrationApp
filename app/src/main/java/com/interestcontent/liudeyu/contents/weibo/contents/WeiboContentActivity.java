@@ -38,7 +38,6 @@ import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboCommontBean;
 import com.interestcontent.liudeyu.contents.weibo.feeds.OnWeiboOperationBottomClickListener;
-import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboImageRecycleViewAdapter;
 import com.interestcontent.liudeyu.contents.weibo.util.MyWeiboPageUtils;
 import com.interestcontent.liudeyu.contents.weibo.util.WeiboParameter;
 import com.interestcontent.liudeyu.contents.weibo.util.WeiboUrlsUtils;
@@ -47,6 +46,8 @@ import com.luseen.autolinklibrary.AutoLinkOnClickListener;
 import com.luseen.autolinklibrary.AutoLinkTextView;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +100,6 @@ public class WeiboContentActivity extends BaseActivity {
     ViewGroup mWbContentViewRootContainer;
     PullLoadMoreRecyclerView mCommentRecycleView;
     private Context mContext;
-    private WeiboImageRecycleViewAdapter mImageRecycleAdapter;
     private WeiboBean mWeiboBean;
     private boolean isFirstTimeRequestComment = true;
     private Handler mHandler = new Handler() {
@@ -274,13 +274,10 @@ public class WeiboContentActivity extends BaseActivity {
                 recyclerView.addItemDecoration(new GridManagerSpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
             }
         });
-        mImageRecycleAdapter = new WeiboImageRecycleViewAdapter(mContext, new ArrayList<String>());
-        recyclerView.setAdapter(mImageRecycleAdapter);
-        OnWeiboOperationBottomClickListener bottomClickListener = new OnWeiboOperationBottomClickListener(this);
+        OnWeiboOperationBottomClickListener bottomClickListener = new OnWeiboOperationBottomClickListener(this, mWeiboBean.getIdstr());
         mResendLayout.setOnClickListener(bottomClickListener);
         mGoodAttitudeLayout.setOnClickListener(bottomClickListener);
         mCommentLayout.setOnClickListener(bottomClickListener);
-        bottomClickListener.setNecesseryViewTag(mWeiboBean.getIdstr(), mResendLayout, mGoodAttitudeLayout, mCommentLayout);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -380,9 +377,22 @@ public class WeiboContentActivity extends BaseActivity {
         if (picUrlsBeans != null && !picUrlsBeans.isEmpty()) {
             int limitPreivewSize = WeiboUrlsUtils.getLimitPreivewSize(picUrlsBeans);
             recyclerView.setVisibility(View.VISIBLE);
-            WeiboImageRecycleViewAdapter adapter = (WeiboImageRecycleViewAdapter) recyclerView.getAdapter();
             List<String> urls = WeiboUrlsUtils.getOriginPicUrls(picUrlsBeans, originPicDomen, limitPreivewSize, MIDDLE);
-            adapter.setImageUrls(urls);
+            recyclerView.setAdapter(new CommonAdapter<String>(this, R.layout.weibo_images_gallery, urls) {
+
+                @Override
+                protected void convert(ViewHolder holder, final String s, int position) {
+                    Glide.with(mContext).load(s)
+                            .centerCrop().into((ImageView) holder.getView(R.id.image_iv));
+                    holder.getView(R.id.image_iv).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            PictureBrowseActivity.start(mContext, s.replace(WeiboUrlsUtils.MIDDLE, WeiboUrlsUtils.ORIGIN));
+                        }
+                    });
+                }
+            });
+
         } else {
             recyclerView.setVisibility(View.GONE);
         }

@@ -9,6 +9,7 @@ import com.interestcontent.liudeyu.R;
 /**
  * Created by liudeyu on 2018/1/17.
  */
+@Deprecated
 class WeiboImageRecycleViewHolder extends RecyclerView.ViewHolder {
 
     ImageView mImageView;

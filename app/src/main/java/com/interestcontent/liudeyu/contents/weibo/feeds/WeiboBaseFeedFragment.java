@@ -53,15 +53,9 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
     @Override
     protected List<Cell> getCells(List list) {
         List<Cell> cellList = new ArrayList<>();
-        if (mCell == null) {
-            mCell = new WeiboCell(list, getActivity());
-            if (mCell instanceof WeiboCell) {
-                ((WeiboCell) mCell).setFragment(this);
-            }
-        }
-        mCell.mData = list;
-        for (int i = 0; i < list.size(); i++) {
-            cellList.add(mCell);
+        List<WeiboBean>weiboBeans=list;
+        for(WeiboBean bean:weiboBeans){
+            cellList.add(new WeiboCell(bean,this));
         }
         return cellList;
     }

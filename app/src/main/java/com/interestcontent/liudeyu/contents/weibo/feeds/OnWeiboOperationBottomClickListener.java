@@ -24,18 +24,11 @@ import java.util.concurrent.Callable;
 public class OnWeiboOperationBottomClickListener implements View.OnClickListener {
 
     private Context mContext;
+    private String id;
 
-    public OnWeiboOperationBottomClickListener(Context context) {
+    public OnWeiboOperationBottomClickListener(Context context, String id) {
         mContext = context;
-    }
-
-    public void setNecesseryViewTag(String weiboId, View... list) {
-        if (list == null || list.length == 0) {
-            return;
-        }
-        for (View view : list) {
-            view.setTag(R.layout.weibo_feed_cell_layout, weiboId);
-        }
+        this.id = id;
     }
 
     @Override
@@ -47,18 +40,18 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
             case R.id.good_fingger_layout:
                 needAnimationView = view.findViewById(R.id.good_finger_iv);
                 viewCountTv = view.findViewById(R.id.good_fingger_count_tv);
-                dealWithAttitudeUpload(!needAnimationView.isSelected(), (String) view.getTag(R.layout.weibo_feed_cell_layout));
+                dealWithAttitudeUpload(!needAnimationView.isSelected(), id);
                 break;
             case R.id.resend_layout:
                 needAnimationView = view.findViewById(R.id.resend_iv);
                 viewCountTv = view.findViewById(R.id.resend_count_tv);
                 isJustAdd = true;
-                dealWithResendShare((String) view.getTag(R.layout.weibo_feed_cell_layout));
+                dealWithResendShare(id);
                 break;
             case R.id.comment_layout:
                 needAnimationView = view.findViewById(R.id.comment_iv);
                 viewCountTv = view.findViewById(R.id.comment_count_tv);
-                dealWithGotoComment((String) view.getTag(R.layout.weibo_feed_cell_layout));
+                dealWithGotoComment(id);
                 isJustAdd = true;
                 break;
         }
@@ -82,10 +75,10 @@ public class OnWeiboOperationBottomClickListener implements View.OnClickListener
 
     }
 
-    private void dealWithResendShare(String content) {
-        if (!TextUtils.isEmpty(content)) {
+    private void dealWithResendShare(String id) {
+        if (!TextUtils.isEmpty(id)) {
             MyWeiboPageUtils.getInstance(mContext, WeiboLoginManager.getInstance().getAuthInfo())
-                    .repostWeiboContent(content);
+                    .repostWeiboContent(id);
         }
     }
 

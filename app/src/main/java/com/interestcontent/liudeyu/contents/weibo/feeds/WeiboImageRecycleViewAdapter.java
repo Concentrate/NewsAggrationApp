@@ -21,6 +21,7 @@ import java.util.Set;
 /**
  * Created by liudeyu on 2018/1/17.
  */
+@Deprecated
 public class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImageRecycleViewHolder> implements View.OnClickListener, OnRecycleViewItemClickListener {
 
     private Context mContext;
@@ -28,13 +29,15 @@ public class WeiboImageRecycleViewAdapter extends RecyclerView.Adapter<WeiboImag
     private Set<WeakReference<OnRecycleViewItemClickListener>> mImagesSetClickObserverSet;
     private Fragment mFragment;
 
-    public WeiboImageRecycleViewAdapter(Context context, List<String> data) {
-        mContext = context;
-        mUrls = data;
+    public WeiboImageRecycleViewAdapter(List<String> urls, Fragment fragment) {
+        mUrls = urls;
+        mFragment = fragment;
+        mContext = mFragment.getActivity();
     }
 
-    public void setFragment(Fragment fragment) {
-        mFragment = fragment;
+    public WeiboImageRecycleViewAdapter(Context context, List<String> urls) {
+        mContext = context;
+        mUrls = urls;
     }
 
     public void addImagesUrls(List<String> data) {

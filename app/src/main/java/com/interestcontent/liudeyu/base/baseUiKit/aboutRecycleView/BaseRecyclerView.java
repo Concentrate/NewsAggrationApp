@@ -15,7 +15,7 @@ import android.view.View;
 public class BaseRecyclerView extends RecyclerView {
 
     private GestureDetectorCompat gestureDetector;
-    private BlankListener listener;
+    private OnBlankClickListener listener;
 
     public BaseRecyclerView(Context context) {
         super(context);
@@ -29,7 +29,7 @@ public class BaseRecyclerView extends RecyclerView {
         super(context, attrs, defStyle);
     }
 
-    public void setBlankListener(BlankListener listener) {
+    public void setBlankListener(OnBlankClickListener listener) {
         this.listener = listener;
         this.gestureDetector = new GestureDetectorCompat(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
@@ -39,7 +39,7 @@ public class BaseRecyclerView extends RecyclerView {
         });
     }
 
-    public interface BlankListener {
+    public interface OnBlankClickListener {
         //这里加上RecycleView 是为了获取点击上一级的点击位置，这里比较奇淫巧技
         void onBlankClick(RecyclerView recyclerView);
 
