@@ -45,62 +45,6 @@ public class ZhihuJournayListRequest extends BaseRequest {
         this.top_stories = top_stories;
     }
 
-    public static class StoriesBean extends FeedBaseBean {
-        /**
-         * images : ["https://pic1.zhimg.com/v2-4d9e250f4ab5bcc383323728295309a0.jpg"]
-         * type : 0
-         * id : 9670282
-         * ga_prefix : 020715
-         * title : 为什么部分中国女性不刮腋毛？
-         */
-
-        private int type;
-        private int id;
-        private String ga_prefix;
-        private String title;
-        private List<String> images;
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getGa_prefix() {
-            return ga_prefix;
-        }
-
-        public void setGa_prefix(String ga_prefix) {
-            this.ga_prefix = ga_prefix;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public List<String> getImages() {
-            return images;
-        }
-
-        public void setImages(List<String> images) {
-            this.images = images;
-        }
-    }
-
     public static class TopStoriesBean extends FeedBaseBean{
         /**
          * image : https://pic4.zhimg.com/v2-a0a38c2677aa0b5c9c1ce2078daf3f83.jpg

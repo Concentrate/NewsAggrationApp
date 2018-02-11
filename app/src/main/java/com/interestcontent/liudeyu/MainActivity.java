@@ -88,8 +88,8 @@ public class MainActivity extends BaseActivity {
         List<ItemTab> itemTabs = new ArrayList<>();
         String[] nameArrays = getResources().getStringArray(R.array.main_tabs_title);
         int[] itemKey = getResources().getIntArray(R.array.main_tabs_key);
-        int []iconArray=new int[]{
-                R.drawable.tab_opinion_selector,R.drawable.tab_weibo_selector,R.drawable.tab_news_selector,R.drawable.tab_setting_selector
+        int[] iconArray = new int[]{
+                R.drawable.tab_opinion_selector, R.drawable.tab_weibo_selector, R.drawable.tab_news_selector, R.drawable.tab_setting_selector
         };
         for (int i = 0; i < nameArrays.length; i++) {
             itemTabs.add(new ItemTab(itemKey[i], iconArray[i], nameArrays[i]));

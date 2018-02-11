@@ -102,7 +102,7 @@ public class ZhihuContentActivity extends BaseActivity {
         mAgentWeb.getAgentWebSettings().getWebSettings().setAppCachePath(PathUtils.getWebViewCachePath());
         mAgentWeb.getAgentWebSettings().getWebSettings().setAppCacheEnabled(true);
         mAgentWeb.getLoader().loadData(HtmlUtil.createHtmlData(response.getBody(),
-                response.getCss(),response.getJs()), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
+                response.getCss(), response.getJs()), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
         mAgentWeb.getAgentWebSettings().getWebSettings().setSupportZoom(true);
         mAgentWeb.getWebCreator().get().setInitialScale(170);
     }

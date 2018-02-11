@@ -82,7 +82,8 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
     @Override
     public void onReceivedTitle(WebView view, String title) {
         if (mToolbar.getVisibility() != View.GONE) {
-            mToolbarTitle.setText(title);
+            String tmp=title;
+            mToolbarTitle.setText(tmp);
         }
     }
 

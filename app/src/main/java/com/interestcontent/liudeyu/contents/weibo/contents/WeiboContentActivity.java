@@ -196,10 +196,11 @@ public class WeiboContentActivity extends BaseActivity {
     }
 
     private void initCommentRecycleViews() {
+        mCommentRecycleView.setBackgroundColor(getResources().getColor(R.color.white));
         mCommentRecycleView.getRecyclerView().setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mCommentRecycleView.getRecyclerView().setItemAnimator(new DefaultItemAnimator());
         HorizontalDividerItemDecoration.Builder builder = new HorizontalDividerItemDecoration.Builder(this);
-        builder.size(SizeUtils.dp2px(5)).color(getResources().getColor(R.color.md_grey_200));
+        builder.size(SizeUtils.dp2px(5)).color(getResources().getColor(R.color.md_grey_100));
         HorizontalDividerItemDecoration itemdecration = builder.build();
         mCommentRecycleView.getRecyclerView().addItemDecoration(itemdecration);
         mCommentRecycleView.setPullRefreshEnable(false);

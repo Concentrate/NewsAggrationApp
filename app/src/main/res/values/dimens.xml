@@ -9,7 +9,7 @@
     <item name="wb_create_time_size" type="dimen">10sp</item>
     <item name="wb_header_guide_line_begin" type="dimen">70dp</item>
     <item name="wb_avater_size" type="dimen">30dp</item>
-    <item name="back_arrow_size" type="dimen">45dp</item>
+    <item name="back_arrow_size" type="dimen">30dp</item>
     <item name="wb_browse_image_garally_height_size" type="dimen">300dp</item>
     <item name="wb_cell_height" type="dimen">400dp</item>
     <item name="wb_cell_image_size" type="dimen">110dp</item>

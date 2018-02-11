@@ -34,14 +34,14 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_activity_layout);
-        initUiData();
+        initBaseUiData();
         mFrameLayout.addView(getResourceLayout());
         if (!isUseToolBar()) {
             mToolbar.setVisibility(View.GONE);
         }
     }
 
-    private void initUiData() {
+    protected void initBaseUiData() {
         mToolbar = findViewById(R.id.tool_bar);
         mBackButton = findViewById(R.id.back_iv);
         mToolbarTitle = findViewById(R.id.title_tv);
@@ -50,11 +50,14 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
         mToolbarTitle.setOnClickListener(this);
         mToolbar.setBackgroundColor(setToolbarColor());
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("");
     }
 
-    protected @ColorInt int setToolbarColor(){
+    protected @ColorInt
+    int setToolbarColor() {
         return getResources().getColor(R.color.md_white_1000);
     }
+
     protected void onTitleTextClick() {
     }
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
@@ -12,6 +13,7 @@ import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutGlide.GlideRoundTransform;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.contents.zhihu.bean.ZhihuThemeRequest;
+import com.interestcontent.liudeyu.contents.zhihu.contents.ZhihuThemeGarallyActivity;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 
@@ -48,5 +50,11 @@ public class ZhihuThemeCell extends RVBaseCell<ZhihuThemeRequest.ThemeBean> {
         }
         holder.getTextView(R.id.theme_title).setText(mData.getName());
         holder.getTextView(R.id.theme_des).setText(mData.getDescription());
+        holder.getItemView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ZhihuThemeGarallyActivity.start(mActivity,mData.getId()+"");
+            }
+        });
     }
 }
