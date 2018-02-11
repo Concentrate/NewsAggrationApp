@@ -2,13 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="@dimen/wb_cell_image_size"
+    android:layout_height="@dimen/wb_cell_image_size">
 
     <ImageView
         android:id="@+id/image_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/wb_cell_image_size"
+        android:layout_height="@dimen/wb_cell_image_size"
         android:layout_centerInParent="true"
         tools:src="@mipmap/ic_launcher" />
 

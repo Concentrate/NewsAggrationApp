@@ -24,9 +24,11 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
+import com.interestcontent.liudeyu.base.baseUiKit.aboutGlide.GlideRoundTransform;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.GridManagerSpaceItemDecoration;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.dataManager.FeedDataManager;
@@ -64,7 +66,6 @@ import static com.interestcontent.liudeyu.contents.weibo.util.WeiboUrlsUtils.MID
 
 public class WeiboContentActivity extends BaseActivity {
 
-    private static final String WEIBO_ID = "WEIBO_ID";
     public static final String WEIBO_ITEM = "WEIBO_ITEM".toLowerCase();
     public static final int WHAT = 2;
 
@@ -200,7 +201,7 @@ public class WeiboContentActivity extends BaseActivity {
         mCommentRecycleView.getRecyclerView().setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mCommentRecycleView.getRecyclerView().setItemAnimator(new DefaultItemAnimator());
         HorizontalDividerItemDecoration.Builder builder = new HorizontalDividerItemDecoration.Builder(this);
-        builder.size(SizeUtils.dp2px(5)).color(getResources().getColor(R.color.md_grey_100));
+        builder.size(SizeUtils.dp2px(1)).color(getResources().getColor(R.color.md_grey_100));
         HorizontalDividerItemDecoration itemdecration = builder.build();
         mCommentRecycleView.getRecyclerView().addItemDecoration(itemdecration);
         mCommentRecycleView.setPullRefreshEnable(false);
@@ -216,6 +217,7 @@ public class WeiboContentActivity extends BaseActivity {
             }
         });
         mCommentRecycleView.setFooterViewText("加载中...");
+
 
 
     }
@@ -238,6 +240,7 @@ public class WeiboContentActivity extends BaseActivity {
 
     private void initViews() {
         mCommentRecycleView = findViewById(R.id.comment_recycle_view);
+        mCommentRecycleView.setBackgroundColor(getResources().getColor(R.color.white));
         AutoLinkTextView autoLinkTextView = mWbContentView;
         autoLinkTextView.addAutoLinkMode(
                 AutoLinkMode.MODE_HASHTAG,
@@ -366,6 +369,7 @@ public class WeiboContentActivity extends BaseActivity {
             mAuthor.setText(res.getUser().getName());
             mToolbarTitle.setText(res.getUser().getName());
         }
+        showComments(new ArrayList<WeiboCommontBean>());
         mCreateTime.setText(res.getCreated_at());
         mWbContentView.setAutoLinkText(TextUtils.isEmpty(res.getText()) ? "" : res.getText());
         mResendTv.setText(res.getReposts_count() + "");
@@ -382,8 +386,8 @@ public class WeiboContentActivity extends BaseActivity {
 
                 @Override
                 protected void convert(ViewHolder holder, final String s, int position) {
-                    Glide.with(mContext).load(s)
-                            .centerCrop().into((ImageView) holder.getView(R.id.image_iv));
+                    Glide.with(mContext).load(s).transform(new GlideRoundTransform(mContext, 5), new CenterCrop(mContext))
+                            .into((ImageView) holder.getView(R.id.image_iv));
                     holder.getView(R.id.image_iv).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

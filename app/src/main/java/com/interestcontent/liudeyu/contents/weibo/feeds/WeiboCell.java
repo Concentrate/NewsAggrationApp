@@ -15,7 +15,9 @@ import android.widget.ImageView;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.base.baseUiKit.aboutGlide.GlideRoundTransform;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.BaseRecyclerView;
 import com.interestcontent.liudeyu.base.baseUiKit.aboutRecycleView.GridManagerSpaceItemDecoration;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
@@ -177,8 +179,8 @@ public class WeiboCell extends RVBaseCell<WeiboBean> {
                 recyclerView.setAdapter(new CommonAdapter<String>(mActivity, R.layout.weibo_images_gallery, urls) {
                     @Override
                     protected void convert(ViewHolder holder, final String s, final int position) {
-                        Glide.with(mContext).load(s)
-                                .centerCrop().into((ImageView) holder.getView(R.id.image_iv));
+                        Glide.with(mFragment).load(s).transform(new GlideRoundTransform(mContext, 5), new CenterCrop(mContext))
+                                .into((ImageView) holder.getView(R.id.image_iv));
                         holder.getView(R.id.image_iv).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -187,6 +189,7 @@ public class WeiboCell extends RVBaseCell<WeiboBean> {
                         });
                     }
                 });
+                recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3, GridLayoutManager.VERTICAL, false));
 
             } else {
                 recyclerView.setVisibility(View.GONE);
@@ -207,7 +210,7 @@ public class WeiboCell extends RVBaseCell<WeiboBean> {
 //                .getAuthInfo()).startWeiboDetailPage(mData.get(position).getMid(),
 //                mData.get(position).getUser().getIdstr(), true);
         Intent intent = new Intent(mActivity, WeiboContentActivity.class);
-        intent.putExtra(WeiboContentActivity.WEIBO_ITEM, id);
+        intent.putExtra(WeiboContentActivity.WEIBO_ITEM, mData);
         mActivity.startActivity(intent);
     }
 
