@@ -31,7 +31,7 @@ public class ZhihuJournalListFragment extends AbsFeedFragment implements IMvpVie
         mPresenter.attachView(this);
         HorizontalDividerItemDecoration.Builder builder = new HorizontalDividerItemDecoration.Builder(getContext());
         HorizontalDividerItemDecoration itemDecoration = builder.margin(SizeUtils.dp2px(10))
-                .size(SizeUtils.dp2px(1)).colorResId(R.color.md_grey_50).build();
+                .size(SizeUtils.dp2px(1)).colorResId(R.color.md_grey_100).build();
         mRecyclerView.addItemDecoration(itemDecoration);
         startRequestData(false);
     }

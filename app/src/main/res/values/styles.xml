@@ -7,4 +7,13 @@
         <item name="android:textColorSecondary">#ffffff</item>
     </style>
 
+    <style name="TabLayout.TopTabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
+
+    <style name="TabLayout.BottomIconTabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

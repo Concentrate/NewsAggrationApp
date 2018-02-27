@@ -16,6 +16,7 @@ import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
 import com.interestcontent.liudeyu.base.tabs.BasePageAdapter;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
+import com.interestcontent.liudeyu.settings.ThemeDataManager;
 
 import java.util.List;
 
@@ -69,7 +70,7 @@ public abstract class AbsTopTabFragment extends AbsFragment implements LifeCycle
         mViewPager.setVisibility(View.VISIBLE);
     }
 
-    protected int provideInitShowItem(){
+    protected int provideInitShowItem() {
         return 0;
     }
 
@@ -83,10 +84,16 @@ public abstract class AbsTopTabFragment extends AbsFragment implements LifeCycle
         mTabLayout.setSelectedTabIndicatorHeight(getActivity().getResources().getDimensionPixelSize(R.dimen.selected_tab_color_height));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         mTabLayout.setTabMode(provideTabMode());
-        mTabLayout.setBackgroundColor(getActivity().getResources().getColor(R.color.md_red_A100));
         mTabLayout.setTabTextColors(getActivity().getResources().getColor(R.color.md_white_1000), getActivity()
                 .getResources().getColor(R.color.md_yellow_100));
         mViewPager.setCurrentItem(provideInitShowItem());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTabLayout.setBackgroundColor(ThemeDataManager.getInstance().getThemeColorInt());
+
     }
 
     protected int provideTabMode() {

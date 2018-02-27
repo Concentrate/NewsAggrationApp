@@ -30,6 +30,9 @@
         app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/md_orange_A700"
+        app:tabPaddingTop="5dp"
+        app:tabTextAppearance="@style/TabLayout.BottomIconTabTextStyle"
+        app:tabBackground="@color/md_grey_100"
         app:tabTextColor="@color/md_black_1000"></android.support.design.widget.TabLayout>
 
 

@@ -45,6 +45,7 @@
         <activity android:name=".contents.weibo.contents.WeiboContentBrowseActivity"/>
         <activity android:name=".contents.zhihu.contents.ZhihuContentActivity"/>
         <activity android:name=".contents.zhihu.contents.ZhihuThemeGarallyActivity"/>
+        <activity android:name=".settings.activitys.ThemeSettingActivity"/>
     </application>
 
 </manifest>

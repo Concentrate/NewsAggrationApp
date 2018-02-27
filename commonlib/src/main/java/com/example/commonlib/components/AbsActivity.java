@@ -21,9 +21,7 @@ import com.example.commonlib.utils.Logger;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Base class of activity. This class handle some common tasks such as MobClick.
- */
+
 public abstract class AbsActivity extends AppCompatActivity implements IComponent {
 
     public static final String ACTION_EXIT_APP = "com.ss.android.common.app.action.exit_app";

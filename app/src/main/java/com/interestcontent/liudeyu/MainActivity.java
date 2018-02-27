@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -13,6 +12,7 @@ import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
 import com.interestcontent.liudeyu.base.tabs.BasePageAdapter;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
+import com.interestcontent.liudeyu.settings.ThemeDataManager;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
 
@@ -32,7 +32,6 @@ public class MainActivity extends BaseActivity {
     AdvanceViewPager mViewPager;
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
-    private List<Fragment> mFragments = new ArrayList<>();
 
     @Override
     protected boolean isUseToolBar() {
@@ -97,14 +96,18 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(new BasePageAdapter(getSupportFragmentManager(), itemTabs));
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.setTabTextColors(getResources().getColor(R.color.md_blue_grey_200), getResources().getColor(R.color
-                .md_black_1000));
-        mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.md_orange_A700));
+        mTabLayout.setTabTextColors(getResources().getColor(R.color.md_blue_grey_200), ThemeDataManager.getInstance().getThemeColorInt());
         for (int i = 0; i < itemTabs.size(); i++) {
             mTabLayout.getTabAt(i).setIcon(itemTabs.get(i).getResourceId());
         }
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTabLayout.setSelectedTabIndicatorColor(ThemeDataManager.getInstance().getThemeColorInt());
+    }
 
     /**
      * 这里跟验证登录接入第三方sdk密切相关

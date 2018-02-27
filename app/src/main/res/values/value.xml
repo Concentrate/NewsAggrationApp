@@ -15,7 +15,6 @@
     </integer-array>
 
 
-
     <string-array name="weibo_top_tab">
         <item>关注</item>
         <item>发现</item>
@@ -53,6 +52,38 @@
         <item>主题</item>
     </string-array>
 
+
+    <integer-array name="theme_color_array">
+        <item>@color/md_red_200</item>
+        <item>@color/md_red_300</item>
+        <item>@color/md_red_400</item>
+        <item>@color/md_green_200</item>
+        <item>@color/md_green_300</item>
+        <item>@color/md_green_400</item>
+        <item>@color/md_blue_200</item>
+        <item>@color/md_blue_300</item>
+        <item>@color/md_blue_400</item>
+        <item>@color/md_cyan_100</item>
+        <item>@color/md_cyan_200</item>
+        <item>@color/md_cyan_300</item>
+        <item>@color/md_cyan_400</item>
+        <item>@color/md_yellow_200</item>
+        <item>@color/md_yellow_300</item>
+        <item>@color/md_orange_100</item>
+        <item>@color/md_orange_200</item>
+        <item>@color/md_orange_300</item>
+        <item>@color/md_orange_400</item>
+        <item>@color/md_deep_orange_200</item>
+        <item>@color/md_deep_orange_300</item>
+        <item>@color/md_deep_orange_400</item>
+        <item>@color/md_purple_100</item>
+        <item>@color/md_purple_200</item>
+        <item>@color/md_purple_300</item>
+        <item>@color/md_grey_100</item>
+        <item>@color/md_grey_200</item>
+        <item>@color/md_grey_300</item>
+        <item>@color/md_grey_600</item>
+    </integer-array>
 
 
 </resources>

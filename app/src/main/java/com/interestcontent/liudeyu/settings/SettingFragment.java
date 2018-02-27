@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.commonlib.components.AbsFragment;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
+import com.interestcontent.liudeyu.settings.activitys.ThemeSettingActivity;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -113,6 +114,13 @@ public class SettingFragment extends AbsFragment {
                 }).show();
             }
         };
+        SettingItem themeSetting = new SettingItem(R.drawable.theme_change_item, "改变主题颜色") {
+            @Override
+            public void onClick(View view) {
+                ThemeSettingActivity.start(getActivity());
+            }
+        };
+        settingItems.add(themeSetting);
         settingItems.add(settingItem);
         return settingItems;
 
