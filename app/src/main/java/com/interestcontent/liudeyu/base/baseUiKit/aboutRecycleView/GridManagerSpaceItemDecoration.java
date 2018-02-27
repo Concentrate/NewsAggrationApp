@@ -5,6 +5,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.example.commonlib.utils.Logger;
+
 /**
  * Created by liudeyu on 2018/1/15.
  */
@@ -31,6 +33,9 @@ public class GridManagerSpaceItemDecoration extends RecyclerView.ItemDecoration 
         if (parent.getChildAdapterPosition(view) >= spanCount) {
             outRect.top = itemTopBottomSpace;
         }
+        outRect.right = outRect.bottom = 0;
+        Logger.d("GridManagerSpaceItemDecoration", String.format("cloumnIndex: %d,and res is %d %d %d %d ", cloumnIndex, outRect.left, outRect.top,
+                outRect.right, outRect.bottom));
 
         // TODO: 2018/2/1 下面注释效果是，第一个上没space，下面都有space,然后左右都有space
 //        int topBottom = itemTopBottomSpace;

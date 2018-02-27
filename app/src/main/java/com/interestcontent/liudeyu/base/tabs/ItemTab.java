@@ -38,6 +38,11 @@ public class ItemTab implements Serializable {
     public static final int TAB_ZHIHU_THEME = 19;
 
 
+
+    //video
+    public static final int VIDEO_MAIN_TAB=20;
+    public static final int VIDEO_RECOMEND_TAB=21;
+
     private int mItemKey;
     private int mResourceId;
     private String mTitle;

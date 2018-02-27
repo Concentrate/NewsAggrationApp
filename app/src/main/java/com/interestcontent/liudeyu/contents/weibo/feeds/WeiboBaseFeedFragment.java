@@ -17,7 +17,6 @@ import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.contents.weibo.feeds.presents.WeiboFeedPresenter;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
-import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
 
 import java.util.ArrayList;
@@ -28,9 +27,6 @@ import java.util.List;
  */
 
 public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements IMvpView<List<WeiboBean>>, LifeCycleMonitor {
-
-
-    private RVBaseCell mCell;
 
 
     private WeiboFeedPresenter mFeedPresenter;
@@ -46,7 +42,7 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         HorizontalDividerItemDecoration itemDecoration = new HorizontalDividerItemDecoration.Builder(getContext())
                 .margin(SizeUtils.dp2px(10))
-                .size(SizeUtils.dp2px(1)).colorResId(R.color.md_grey_200).build();
+                .size(SizeUtils.dp2px(8)).colorResId(R.color.md_grey_50).build();
         mRecyclerView.addItemDecoration(itemDecoration);
     }
 

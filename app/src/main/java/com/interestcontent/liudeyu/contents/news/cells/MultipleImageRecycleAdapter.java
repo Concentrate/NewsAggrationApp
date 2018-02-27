@@ -35,7 +35,6 @@ public class MultipleImageRecycleAdapter extends RecyclerView.Adapter<RVBaseView
 
     @Override
     public RVBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         return new RVBaseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.multiple_imageview_display, parent, false));
     }
 

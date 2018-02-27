@@ -42,7 +42,6 @@ public class ZhihuItemCell extends RVBaseCell<StoriesBean> {
 
     @Override
     public void onBindViewHolder(RVBaseViewHolder holder, final int position) {
-
         if (mData.getImages().isEmpty()) {
             holder.getImageView(R.id.image_iv).setVisibility(View.GONE);
         }

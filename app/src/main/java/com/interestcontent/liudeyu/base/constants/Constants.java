@@ -75,5 +75,11 @@ public class Constants {
     public static final String ZHIHU_THEME_LIST = "https://news-at.zhihu.com/api/4/themes";
     public static final String ZHIHU_THEME_ID_LIST_BASE = "https://news-at.zhihu.com/api/4/theme/";
 
+
+
+//    video about
+    public static final String VIDEO_REQUEST_LIST_API="http://baobab.kaiyanapp.com/api/v4/tabs/selected";
+
+
 }
 

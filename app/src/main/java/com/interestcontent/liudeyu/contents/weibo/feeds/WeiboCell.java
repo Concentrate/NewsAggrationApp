@@ -107,20 +107,12 @@ public class WeiboCell extends RVBaseCell<WeiboBean> {
         final BaseRecyclerView recyclerView = view.findViewById(R.id.wb_image_recyle_view);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3, GridLayoutManager.VERTICAL, false));
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                int itemDecortWidth = (int) ((view.getWidth() - mActivity.getResources().
-                        getDimension(R.dimen.wb_cell_image_size) * 3) / 2);
-                recyclerView.addItemDecoration(new GridManagerSpaceItemDecoration(itemDecortWidth, SizeUtils.dp2px(10)));
-            }
-        });
 
     }
 
 
     @Override
-    public void onBindViewHolder(RVBaseViewHolder holder, int position) {
+    public void onBindViewHolder(final RVBaseViewHolder holder, int position) {
         if (holder.getItemViewType() == FeedConstants.FEED_NORMAL_WEIBO_TYPE) {
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
@@ -170,13 +162,13 @@ public class WeiboCell extends RVBaseCell<WeiboBean> {
                 Glide.with(mFragment).load(userBean.getProfile_image_url()).into(holder.getImageView(R.id.avater_iv));
             }
             List<WeiboBean.PicUrlsBean> picUrlsBeans = mData.getPic_urls();
-            RecyclerView recyclerView = (RecyclerView) holder.getView(R.id.wb_image_recyle_view);
+            final RecyclerView imageRecyclerView = (RecyclerView) holder.getView(R.id.wb_image_recyle_view);
             String originPicDomen = WeiboUrlsUtils.getOriginPicHost(mData.getOriginal_pic());
             if (picUrlsBeans != null && !picUrlsBeans.isEmpty()) {
                 int limitPreivewSize = WeiboUrlsUtils.getLimitPreivewSize(picUrlsBeans);
-                recyclerView.setVisibility(View.VISIBLE);
+                imageRecyclerView.setVisibility(View.VISIBLE);
                 List<String> urls = WeiboUrlsUtils.getOriginPicUrls(picUrlsBeans, originPicDomen, limitPreivewSize, MIDDLE);
-                recyclerView.setAdapter(new CommonAdapter<String>(mActivity, R.layout.weibo_images_gallery, urls) {
+                imageRecyclerView.setAdapter(new CommonAdapter<String>(mActivity, R.layout.weibo_images_gallery, urls) {
                     @Override
                     protected void convert(ViewHolder holder, final String s, final int position) {
                         Glide.with(mFragment).load(s).transform(new GlideRoundTransform(mContext, 5), new CenterCrop(mContext))
@@ -189,10 +181,19 @@ public class WeiboCell extends RVBaseCell<WeiboBean> {
                         });
                     }
                 });
-                recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3, GridLayoutManager.VERTICAL, false));
+                imageRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3, GridLayoutManager.VERTICAL, false));
+                if (imageRecyclerView.getItemDecorationCount() == 0) {
+                    holder.getItemView().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageRecyclerView.addItemDecoration(new GridManagerSpaceItemDecoration(0, SizeUtils.dp2px(10)));
+                        }
+                    });
+
+                }
 
             } else {
-                recyclerView.setVisibility(View.GONE);
+                imageRecyclerView.setVisibility(View.GONE);
             }
         }
 

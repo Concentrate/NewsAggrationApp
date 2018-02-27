@@ -69,7 +69,8 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
             bundle.putString(BaseWebBrowseFragment.LOAD_URL, url);
             Fragment fragment = new BrowseFragmentRemoveAd();
             fragment.setArguments(bundle);
-            fragmentManager.beginTransaction().add(R.id.parent_container, fragment).commit();
+            fragmentManager.beginTransaction().add(R.id.parent_container, fragment)
+                    .commitAllowingStateLoss();
         }
     }
 
@@ -78,6 +79,7 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
         super.onBackButtonEvent();
         onBackPressed();
     }
+
 
     @Override
     public void onReceivedTitle(WebView view, String title) {

@@ -130,6 +130,10 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
         loadFirstPageUrl(getUserVisibleHint(), true);
     }
 
+    protected boolean isNeedScrollAndFullScreen() {
+        return true;
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -161,6 +165,9 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
 
     @Override
     public void onScroll(int dx, int dy) {
+        if (!isNeedScrollAndFullScreen()) {
+            return;
+        }
         // 说明下滑
         int touchMinum = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 7;
         int touchMaxum = (int) (ViewConfiguration.get(getContext()).getScaledPagingTouchSlop() * 9);

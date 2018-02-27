@@ -8,15 +8,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.blankj.utilcode.util.SizeUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.contents.news.beans.NewsTechnoBean;
-import com.interestcontent.liudeyu.base.constants.FeedConstants;
+import com.interestcontent.liudeyu.contents.weibo.contents.PictureBrowseActivity;
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
+import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,21 +32,13 @@ import java.util.Date;
 
 public class MutilepleImageNewsCell extends RVBaseCell<NewsTechnoBean> {
 
-    private Context mContext;
+    private Context mActivity;
     private Fragment mFragment;
 
-    public MutilepleImageNewsCell(Context context, NewsTechnoBean newsTechnoBean) {
+    public MutilepleImageNewsCell(Fragment fragment, NewsTechnoBean newsTechnoBean) {
         super(newsTechnoBean);
-        mContext = context;
-    }
-
-    public MutilepleImageNewsCell setFragment(Fragment fragment) {
         mFragment = fragment;
-        return this;
-    }
-
-    public MutilepleImageNewsCell(NewsTechnoBean newsTechnoBean) {
-        super(newsTechnoBean);
+        mActivity = mFragment.getActivity();
     }
 
     @Override
@@ -51,7 +48,7 @@ public class MutilepleImageNewsCell extends RVBaseCell<NewsTechnoBean> {
 
     @Override
     public RVBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.news_item_multiple_image_display_cell, parent, false);
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.news_item_multiple_image_display_cell, parent, false);
         return new RVBaseViewHolder(view);
 
     }
@@ -69,17 +66,33 @@ public class MutilepleImageNewsCell extends RVBaseCell<NewsTechnoBean> {
             @Override
             public void onClick(View view) {
                 Intent intent = BrowseActivity.getIntent(mData.getUrl(), true);
-                intent.setClass(mContext, BrowseActivity.class);
-                mContext.startActivity(intent);
+                intent.setClass(mActivity, BrowseActivity.class);
+                mActivity.startActivity(intent);
             }
         });
-        RecyclerView recycleView = (RecyclerView) holder.getView(R.id.news_image_preview_listview);
-        MultipleImageRecycleAdapter adapter = new MultipleImageRecycleAdapter(mContext, mData.getImageUrls());
-        adapter.setFragment(mFragment);
-        recycleView.setAdapter(adapter);
-        VerticalDividerItemDecoration verticalDividerItemDecoration = new VerticalDividerItemDecoration.Builder(mContext)
-                .size(SizeUtils.dp2px(6)).colorResId(R.color.white).build();
-        recycleView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false));
-        recycleView.addItemDecoration(verticalDividerItemDecoration);
+        RecyclerView imaveRecycleView = (RecyclerView) holder.getView(R.id.news_image_preview_listview);
+        imaveRecycleView.setAdapter(new CommonAdapter<String>(mActivity, R.layout.multiple_imageview_display, mData.getImageUrls()) {
+            @Override
+            protected void convert(ViewHolder holder, String s, int position) {
+                Glide.with(mContext).load(s).transform(new CenterCrop(mContext))
+                        .override(mContext.getResources().getDimensionPixelSize(R.dimen.news_mutiple_images_dis_size),
+                                mContext.getResources().getDimensionPixelSize(R.dimen.news_mutiple_images_dis_size))
+                        .into((ImageView) holder.getView(R.id.news_multi_image_iv));
+                final String picUrl = s;
+                holder.getView(R.id.news_multi_image_iv).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PictureBrowseActivity.start(mContext, picUrl);
+                    }
+                });
+
+            }
+        });
+        if (imaveRecycleView.getItemDecorationCount() == 0) {
+            VerticalDividerItemDecoration verticalDividerItemDecoration = new VerticalDividerItemDecoration.Builder(mActivity)
+                    .size(10).colorResId(R.color.white).build();
+            imaveRecycleView.setLayoutManager(new LinearLayoutManager(mActivity, RecyclerView.HORIZONTAL, false));
+            imaveRecycleView.addItemDecoration(verticalDividerItemDecoration);
+        }
     }
 }

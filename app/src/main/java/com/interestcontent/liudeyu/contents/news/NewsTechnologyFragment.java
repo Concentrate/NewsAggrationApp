@@ -95,9 +95,9 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
         for (NewsTechnoBean bean : mList) {
             Cell cell = null;
             if (bean.getImageUrls() != null && bean.getImageUrls().size() >= 3) {
-                cell = new MutilepleImageNewsCell(getActivity(), bean).setFragment(this);
+                cell = new MutilepleImageNewsCell(this, bean);
             } else {
-                cell = new SingeImageNewsCell(getActivity(), bean).setFragment(this);
+                cell = new SingeImageNewsCell(bean, this);
             }
             cellList.add(cell);
         }

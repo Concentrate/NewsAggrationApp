@@ -53,6 +53,11 @@ public class BrowseFragmentRemoveAd extends BaseWebBrowseFragment {
 
 
     @Override
+    protected boolean isNeedScrollAndFullScreen() {
+        return false;
+    }
+
+    @Override
     protected String provideUrl() {
         return null;
     }

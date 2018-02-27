@@ -2,6 +2,7 @@ package com.interestcontent.liudeyu.contents.news.cells;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,19 +26,15 @@ public class SingeImageNewsCell extends RVBaseCell<NewsTechnoBean> {
 
 
     private Activity mActivity;
-    private android.support.v4.app.Fragment mFragment;
-    private NewsTechnoBean mData;
+    private Fragment mFragment;
 
-    public SingeImageNewsCell(Activity activity, NewsTechnoBean data) {
-        super(data);
-        mActivity = activity;
-        mData = data;
-    }
 
-    public SingeImageNewsCell setFragment(android.support.v4.app.Fragment fragment) {
+    public SingeImageNewsCell(NewsTechnoBean newsTechnoBean, Fragment fragment) {
+        super(newsTechnoBean);
         mFragment = fragment;
-        return this;
+        mActivity = mFragment.getActivity();
     }
+
 
     @Override
     public void releaseResource() {
