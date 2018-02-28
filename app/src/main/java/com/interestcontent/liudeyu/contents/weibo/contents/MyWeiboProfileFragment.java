@@ -34,4 +34,9 @@ public class MyWeiboProfileFragment extends BrowseFragmentRemoveAd {
         }
     }
 
+    @Override
+    protected boolean isNeedScrollAndFullScreen() {
+        return true;
+    }
+
 }

@@ -11,6 +11,7 @@ import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
 import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
 import com.interestcontent.liudeyu.base.tabs.BasePageAdapter;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
+import com.interestcontent.liudeyu.base.utils.RamUtil;
 import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.settings.ThemeDataManager;
 import com.sina.weibo.sdk.WbSdk;
@@ -74,6 +75,7 @@ public class MainActivity extends BaseActivity {
         });
         mViewPager.setCurrentItem(0);
         mViewPager.setCanScroll(false);
+        RamUtil.LoogerMemoery();
 
     }
 
@@ -94,7 +96,11 @@ public class MainActivity extends BaseActivity {
             itemTabs.add(new ItemTab(itemKey[i], iconArray[i], nameArrays[i]));
         }
         mViewPager.setAdapter(new BasePageAdapter(getSupportFragmentManager(), itemTabs));
-        mViewPager.setOffscreenPageLimit(3);
+        if (RamUtil.getMaxMemoryCanGet() >= 256) {
+            mViewPager.setOffscreenPageLimit(3);
+        } else if (RamUtil.getMaxMemoryCanGet() >= 192) {
+            mViewPager.setOffscreenPageLimit(2);
+        }
         mTabLayout.setupWithViewPager(mViewPager);
         for (int i = 0; i < itemTabs.size(); i++) {
             mTabLayout.getTabAt(i).setIcon(itemTabs.get(i).getResourceId());

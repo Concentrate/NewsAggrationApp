@@ -13,4 +13,8 @@ public class MyWeiboMessageFragment extends BrowseFragmentRemoveAd {
         return WeiboUrlsUtils.getWeiboMessageUrl();
     }
 
+    @Override
+    protected boolean isNeedScrollAndFullScreen() {
+        return true;
+    }
 }

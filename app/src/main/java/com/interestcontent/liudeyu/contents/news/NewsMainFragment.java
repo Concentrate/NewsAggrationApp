@@ -3,6 +3,7 @@ package com.interestcontent.liudeyu.contents.news;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
+import com.interestcontent.liudeyu.base.utils.RamUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,9 @@ public class NewsMainFragment extends AbsTopTabFragment {
 
     @Override
     protected int viewpagerLimitNum() {
-        return 2;
+        if (RamUtil.getMaxMemoryCanGet() >= 192) {
+            return 2;
+        }
+        return 1;
     }
 }

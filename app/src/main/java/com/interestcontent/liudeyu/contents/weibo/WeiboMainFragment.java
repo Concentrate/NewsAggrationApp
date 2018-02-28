@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
+import com.interestcontent.liudeyu.base.utils.RamUtil;
 import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
 
 import java.util.ArrayList;
@@ -69,7 +70,10 @@ public class WeiboMainFragment extends AbsTopTabFragment {
 
     @Override
     protected int viewpagerLimitNum() {
-        return 2;
+        if(RamUtil.getMaxMemoryCanGet()>=192) {
+            return 2;
+        }
+        return 1;
     }
 
 
