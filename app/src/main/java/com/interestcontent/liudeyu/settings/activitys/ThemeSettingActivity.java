@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -77,28 +78,13 @@ public class ThemeSettingActivity extends BaseActivity {
         }
         mToolbarTitle.setText("设置主题");
         mListView = findViewById(R.id.listview);
-        // TODO: 2018/2/27 为了手快，这样写罢了 
-        mListView.setAdapter(new CommonAdapter<Integer>(this, R.layout.setting_theme_item_layout, array) {
-
+        final MyColorListAdapter myColorListAdapter = new MyColorListAdapter(this, R.layout.setting_theme_item_layout, array);
+        mListView.setAdapter(myColorListAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            protected void convert(ViewHolder viewHolder, Integer item, int position) {
-                ImageView imageView = viewHolder.getView(R.id.color_iv);
-                imageView.setBackgroundColor(item);
-                final ImageView selectView = viewHolder.getView(R.id.select_iv);
-                final int colorTmp = item;
-                viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        selectView.setSelected(!selectView.isSelected());
-                        if (selectView.isSelected()) {
-                            ThemeDataManager.getInstance().setThemeColor(colorTmp);
-                        }
-                    }
-                });
-                if (colorTmp == ThemeDataManager.getInstance().getThemeColorInt()) {
-                    selectView.setSelected(true);
-                }
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ThemeDataManager.getInstance().setThemeColor(array.get(i));
+                myColorListAdapter.setData(array);
             }
         });
 
@@ -108,5 +94,36 @@ public class ThemeSettingActivity extends BaseActivity {
     @Override
     protected void onBackButtonEvent() {
         finish();
+    }
+
+
+    private static class MyColorListAdapter extends CommonAdapter<Integer> {
+
+
+        private List<Integer> mData;
+
+        public MyColorListAdapter(Context context, int layoutId, List<Integer> datas) {
+            super(context, layoutId, datas);
+            mData = datas;
+        }
+
+
+        void setData(List<Integer> data) {
+            mData = data;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        protected void convert(ViewHolder viewHolder, Integer item, int position) {
+            ImageView imageView = viewHolder.getView(R.id.color_iv);
+            imageView.setBackgroundColor(item);
+            final ImageView selectView = viewHolder.getView(R.id.select_iv);
+            final int colorTmp = item;
+            if (colorTmp == ThemeDataManager.getInstance().getThemeColorInt()) {
+                selectView.setSelected(true);
+            } else {
+                selectView.setSelected(false);
+            }
+        }
     }
 }

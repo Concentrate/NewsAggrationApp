@@ -30,6 +30,6 @@ public class NewsMainFragment extends AbsTopTabFragment {
 
     @Override
     protected int viewpagerLimitNum() {
-        return 4;
+        return 2;
     }
 }

@@ -11,6 +11,7 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.interestcontent.liudeyu.R;
 import com.example.commonlib.components.AbsActivity;
+import com.interestcontent.liudeyu.settings.ThemeDataManager;
 import com.interestcontent.liudeyu.util.FileTypeUtils;
 import com.interestcontent.liudeyu.contents.weibo.component.GetImageCacheTask;
 
@@ -42,7 +43,7 @@ public class PictureBrowseActivity extends AbsActivity {
 
     @Override
     protected int getStatusBarColor() {
-        return getResources().getColor(R.color.md_amber_200);
+        return ThemeDataManager.getInstance().getThemeColorInt();
     }
 
     @Override

@@ -127,6 +127,13 @@ public abstract class AbsFeedFragment<T> extends AbsFragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+//        viewpager limit num重建后，重设标记
+        isFirstInitial = true;
+    }
+
     /**
      * 判断是否可以显示LoadMore
      *

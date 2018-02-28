@@ -44,14 +44,16 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
                 .margin(SizeUtils.dp2px(10))
                 .size(SizeUtils.dp2px(8)).colorResId(R.color.md_grey_50).build();
         mRecyclerView.addItemDecoration(itemDecoration);
+        mFeedPresenter = new WeiboFeedPresenter();
+        mFeedPresenter.attachView(this);
     }
 
     @Override
     protected List<Cell> getCells(List list) {
         List<Cell> cellList = new ArrayList<>();
-        List<WeiboBean>weiboBeans=list;
-        for(WeiboBean bean:weiboBeans){
-            cellList.add(new WeiboCell(bean,this));
+        List<WeiboBean> weiboBeans = list;
+        for (WeiboBean bean : weiboBeans) {
+            cellList.add(new WeiboCell(bean, this));
         }
         return cellList;
     }
@@ -103,10 +105,7 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
     protected abstract int provideItemTabKey();
 
     protected void startRequestWeiboFeed(WeiboFeedPresenter.FEED_QUEST_TYPE type) {
-        if (mFeedPresenter == null) {
-            mFeedPresenter = new WeiboFeedPresenter();
-        }
-        mFeedPresenter.attachView(this);
+
         String url = providedRequestDataUrl();
         int itemTabkey = provideItemTabKey();
         mFeedPresenter.execute(url, itemTabkey, type);

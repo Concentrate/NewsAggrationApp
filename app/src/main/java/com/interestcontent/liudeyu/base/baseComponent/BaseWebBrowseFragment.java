@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.widget.RelativeLayout;
 
-import com.blankj.utilcode.util.NetworkUtils;
 import com.example.commonlib.components.AbsActivity;
 import com.example.commonlib.components.AbsFragment;
 import com.example.commonlib.components.LifeCycleMonitor;
@@ -58,15 +57,12 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
         if (getActivity() instanceof ChromeClientCallbackManager.ReceivedTitleCallback) {
             mCommonBuilderForFragment.setReceivedTitleCallback((ChromeClientCallbackManager.ReceivedTitleCallback) getActivity());
         }
-        mWebView = new ObservableWebView(getContext());
+        mWebView = new ObservableWebView(MyApplication.sApplication);
+        mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);//开启硬件加速
         mWebView.setOnScrollChangedCallback(this);
         mCommonBuilderForFragment.setWebView(mWebView);
         mAgentWeb = mCommonBuilderForFragment.createAgentWeb().ready().go(null);
-        if (NetworkUtils.isAvailableByPing()) {
-            mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-        } else {
-            mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        }
+        mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         mAgentWeb.getAgentWebSettings().getWebSettings().setDomStorageEnabled(true);
         //开启 database storage API 功能
         mAgentWeb.getAgentWebSettings().getWebSettings().setDatabaseEnabled(true);

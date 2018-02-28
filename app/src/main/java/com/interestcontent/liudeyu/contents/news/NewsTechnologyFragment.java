@@ -46,16 +46,12 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
         if (bundle != null) {
             mItemTab = (ItemTab) bundle.getSerializable(ITEM_TAB);
         }
-
+        mNewsPresenter = new NewsPresenter();
+        mNewsPresenter.attachView(this);
     }
 
     @Override
     public void onRecyclerViewInitialized() {
-        if (mNewsPresenter == null) {
-            mNewsPresenter = new NewsPresenter();
-            mNewsPresenter.attachView(this);
-        }
-
         HorizontalDividerItemDecoration.Builder builder = new HorizontalDividerItemDecoration.Builder(getContext());
         HorizontalDividerItemDecoration itemDecoration = builder.margin(SizeUtils.dp2px(10))
                 .size(SizeUtils.dp2px(1)).colorResId(R.color.md_grey_100).build();

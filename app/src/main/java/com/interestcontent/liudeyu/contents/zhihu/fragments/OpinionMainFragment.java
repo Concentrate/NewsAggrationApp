@@ -31,4 +31,9 @@ public class OpinionMainFragment extends AbsTopTabFragment {
     protected int provideTabMode() {
         return TabLayout.MODE_FIXED;
     }
+
+    @Override
+    protected int viewpagerLimitNum() {
+        return 2;
+    }
 }

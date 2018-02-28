@@ -1,5 +1,9 @@
 package com.interestcontent.liudeyu.contents.zhihu.fragments;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
+
 import com.blankj.utilcode.util.SizeUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.Constants;
@@ -26,9 +30,15 @@ public class ZhihuJournalListFragment extends AbsFeedFragment implements IMvpVie
     private ZhihuJournalListPresenter mPresenter = new ZhihuJournalListPresenter();
     private boolean isLoadMore;
 
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPresenter.attachView(this);
+    }
+
     @Override
     public void onRecyclerViewInitialized() {
-        mPresenter.attachView(this);
         HorizontalDividerItemDecoration.Builder builder = new HorizontalDividerItemDecoration.Builder(getContext());
         HorizontalDividerItemDecoration itemDecoration = builder.margin(SizeUtils.dp2px(10))
                 .size(SizeUtils.dp2px(1)).colorResId(R.color.md_grey_100).build();

@@ -96,7 +96,6 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(new BasePageAdapter(getSupportFragmentManager(), itemTabs));
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.setTabTextColors(getResources().getColor(R.color.md_blue_grey_200), ThemeDataManager.getInstance().getThemeColorInt());
         for (int i = 0; i < itemTabs.size(); i++) {
             mTabLayout.getTabAt(i).setIcon(itemTabs.get(i).getResourceId());
         }
@@ -106,7 +105,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mTabLayout.setSelectedTabIndicatorColor(ThemeDataManager.getInstance().getThemeColorInt());
+        mTabLayout.setTabTextColors(getResources().getColor(R.color.md_blue_grey_200), ThemeDataManager.getInstance().getThemeColorInt());
     }
 
     /**
