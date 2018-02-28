@@ -20,6 +20,7 @@ public class FeedConstants {
 //    video
     public static final int VIDEO_CELL_TYPE=7;
 
+
     public enum FEED_REQUEST_EMUM {
         FIRST_FLUSH, NORMAL_BY_NET, REFLASH
     }

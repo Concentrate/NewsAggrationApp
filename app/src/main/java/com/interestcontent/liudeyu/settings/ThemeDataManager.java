@@ -24,7 +24,7 @@ public class ThemeDataManager {
 
     public @ColorInt
     int getThemeColorInt() {
-        int def = MyApplication.sApplication.getResources().getColor(R.color.md_orange_400);
+        int def = MyApplication.sApplication.getResources().getColor(R.color.md_deep_orange_A100);
         return SharePreferenceUtil.getIntegerPreference(MyApplication.sApplication, SpConstants.THEME_SP_COLOR, def);
     }
 

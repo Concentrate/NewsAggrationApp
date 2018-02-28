@@ -66,6 +66,8 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
             return;
         }
         mBaseAdapter.addAll(getCells(request.getItemList()));
+        mBaseAdapter.hideLoadMore();
+        setRefreshing(false);
     }
 
     @Override

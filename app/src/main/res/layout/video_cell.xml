@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp">
 
     <include
         android:id="@+id/video_player_layout"
@@ -18,20 +22,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:ellipsize="end"
+        android:lineSpacingMultiplier="0.5"
         android:maxLength="50"
         android:textColor="@color/Grey_800"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/video_player_layout"
-        tools:text="video title,dlkajljdakjkldj " />
+        tools:text="video title,dlkajljdakjkldj dlajdlajlkdjalkjdklajlkjalkjdlakjlkdjalkjkdjakljdlajjdaljkdjlkajkljdalkj" />
 
 
     <TextView
         android:id="@+id/video_des"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/Grey_800"
-        android:textSize="10sp"
+        android:layout_height="36dp"
+        android:layout_marginTop="2dp"
+        android:lineSpacingExtra="1dp"
+        android:textColor="@color/Grey_600"
+        android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/video_title"
+        tools:layout_editor_absoluteX="3dp"
         tools:text="dlajkljdlkajkldjaljkdljkladkaljdklajdkljajdjlakjdljalkjdlkajkljdkjakjdajlkdjalkjdlkjaljajljdakjdakjlajkljdjkljadkj" />
 
 

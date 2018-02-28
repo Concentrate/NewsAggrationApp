@@ -53,7 +53,7 @@
  }
 
 #加了视频库后需加入的混淆
-# -keep com.dou361.ijkplayer.** {
-# *;
-# }
-#
+ -keep com.dou361.ijkplayer.** {
+ *;
+ }
+

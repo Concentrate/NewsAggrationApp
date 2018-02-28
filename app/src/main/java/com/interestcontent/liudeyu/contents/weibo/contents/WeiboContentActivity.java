@@ -43,6 +43,7 @@ import com.interestcontent.liudeyu.contents.weibo.feeds.OnWeiboOperationBottomCl
 import com.interestcontent.liudeyu.contents.weibo.util.MyWeiboPageUtils;
 import com.interestcontent.liudeyu.contents.weibo.util.WeiboParameter;
 import com.interestcontent.liudeyu.contents.weibo.util.WeiboUrlsUtils;
+import com.interestcontent.liudeyu.settings.ThemeDataManager;
 import com.luseen.autolinklibrary.AutoLinkMode;
 import com.luseen.autolinklibrary.AutoLinkOnClickListener;
 import com.luseen.autolinklibrary.AutoLinkTextView;
@@ -219,7 +220,6 @@ public class WeiboContentActivity extends BaseActivity {
         mCommentRecycleView.setFooterViewText("加载中...");
 
 
-
     }
 
 
@@ -338,12 +338,12 @@ public class WeiboContentActivity extends BaseActivity {
 
     @Override
     protected int getStatusBarColor() {
-        return getResources().getColor(R.color.md_red_A100);
+        return ThemeDataManager.getInstance().getThemeColorInt();
     }
 
     @Override
     protected int setToolbarColor() {
-        return getResources().getColor(R.color.md_red_A100);
+        return ThemeDataManager.getInstance().getThemeColorInt();
     }
 
     @Override

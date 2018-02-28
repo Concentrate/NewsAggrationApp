@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 
 import com.interestcontent.liudeyu.contents.news.NewsMainFragment;
 import com.interestcontent.liudeyu.contents.news.NewsTechnologyFragment;
+import com.interestcontent.liudeyu.contents.videos.components.VideoBaseFeedFragment;
+import com.interestcontent.liudeyu.contents.videos.components.VideoMainFragments;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.OpinionMainFragment;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuJournalListFragment;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuThemeFragment;
@@ -57,10 +59,14 @@ public class FragmentFactory {
                 return fragment;
             case ItemTab.OPINION_ZHIHU_NEW_LEASTEST:
                 return new ZhihuJournalListFragment();
-            case ItemTab.TAB_OPINIONS:
+            case ItemTab.TAB_MAIN_OPINIONS:
                 return new OpinionMainFragment();
             case ItemTab.TAB_ZHIHU_THEME:
                 return new ZhihuThemeFragment();
+            case ItemTab.VIDEO_MAIN_TAB:
+                return new VideoMainFragments();
+            case ItemTab.VIDEO_RECOMEND_TAB:
+                return new VideoBaseFeedFragment();
         }
         return null;
     }
