@@ -70,26 +70,10 @@ public class WeiboMainFragment extends AbsTopTabFragment {
 
     @Override
     protected int viewpagerLimitNum() {
-        if(RamUtil.getMaxMemoryCanGet()>=192) {
+        if (RamUtil.getMaxMemoryCanGet() >= 192) {
             return 2;
         }
         return 1;
     }
 
-
-    private static class MyClickListener implements View.OnClickListener {
-        private Fragment mFragment;
-
-        private MyClickListener(Fragment fragment) {
-            mFragment = fragment;
-        }
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-
-
-            }
-        }
-    }
 }
