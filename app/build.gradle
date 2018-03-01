@@ -61,7 +61,8 @@ dependencies {
     implementation project(':rvadapterlib')
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
-    // https://mvnrepository.com/artifact/org.greenrobot/eventbus
+//     https://mvnrepository.com/artifact/org.greenrobot/eventbus
+    compile 'org.greenrobot:eventbus:3.1.1'
     compile 'com.just.agentweb:agentweb:3.0.0-rc'
     compile 'com.sina.weibo.sdk:core:4.1.4:openDefaultRelease@aar'
     // https://mvnrepository.com/artifact/com.google.code.gson/gson

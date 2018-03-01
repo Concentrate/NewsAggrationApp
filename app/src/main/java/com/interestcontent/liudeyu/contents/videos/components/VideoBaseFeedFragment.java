@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
+import com.interestcontent.liudeyu.contents.videos.VideoPlayEvent;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoBean;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoRequest;
 import com.interestcontent.liudeyu.contents.videos.cells.VideoCell;
@@ -18,6 +19,8 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
 import com.zhy.http.okhttp.OkHttpUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +62,11 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
     }
 
     private void onDataError() {
-        mBaseAdapter.hideLoadMore();
+        hideLoadingState();
+    }
+
+    private void hideLoadingState() {
+        hideLoadMore();
         setRefreshing(false);
     }
 
@@ -68,21 +75,20 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
         if (request.getItemList() == null || request.getItemList().isEmpty()) {
             return;
         }
+        hideLoadingState();
         mBaseAdapter.addAll(getCells(request.getItemList()));
-        mBaseAdapter.hideLoadMore();
-        setRefreshing(false);
     }
 
     @Override
     public void onRecyclerViewInitialized() {
-        startRequestData(mNextReUrl);
+        startRequestData(mNextReUrl, false);
         HorizontalDividerItemDecoration itemDecoration = new HorizontalDividerItemDecoration.Builder(getContext())
                 .margin(SizeUtils.dp2px(10))
                 .size(SizeUtils.dp2px(8)).colorResId(R.color.md_grey_100).build();
         mRecyclerView.addItemDecoration(itemDecoration);
     }
 
-    private void startRequestData(String url) {
+    private void startRequestData(String url, boolean isFirst) {
         TaskManager.inst().commit(mHandler, new Callable<VideoRequest>() {
             @Override
             public VideoRequest call() throws Exception {
@@ -92,17 +98,21 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
 
             }
         }, WHAT_INT);
-        mBaseAdapter.showLoading();
+        if (isFirst) {
+            mBaseAdapter.showLoading();
+        } else {
+            mBaseAdapter.showLoadMore();
+        }
     }
 
     @Override
     public void onPullRefresh() {
-        startRequestData(mNextReUrl = Constants.VIDEO_REQUEST_LIST_API);
+        startRequestData(mNextReUrl = Constants.VIDEO_REQUEST_LIST_API, true);
     }
 
     @Override
     public void onLoadMore() {
-        startRequestData(mNextReUrl);
+        startRequestData(mNextReUrl, false);
     }
 
     @Override
@@ -115,5 +125,19 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
             }
         }
         return cellList;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            EventBus.getDefault().post(new VideoPlayEvent(false));
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().post(new VideoPlayEvent(false));
     }
 }

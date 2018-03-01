@@ -2,6 +2,9 @@ package com.interestcontent.liudeyu.contents.videos.components;
 
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
+import com.interestcontent.liudeyu.contents.videos.VideoPlayEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,5 +27,13 @@ public class VideoMainFragments extends AbsTopTabFragment {
             itemTabs.add(new ItemTab(itemTabKeys[i], names[i]));
         }
         return itemTabs;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(!isVisibleToUser){
+            EventBus.getDefault().post(new VideoPlayEvent(false));
+        }
     }
 }
