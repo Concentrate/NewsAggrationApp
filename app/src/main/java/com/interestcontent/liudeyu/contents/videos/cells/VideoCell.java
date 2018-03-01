@@ -40,6 +40,7 @@ public class VideoCell extends RVBaseCell<VideoBean> {
         super(videoBean);
         mFragment = fragment;
         mActivity = mFragment.getActivity();
+
     }
 
     @Override
@@ -85,7 +86,10 @@ public class VideoCell extends RVBaseCell<VideoBean> {
         } else {
             view1 = (View) holder.getItemView().getTag();
         }
-        mPlayerView = new PlayerView(mActivity, view1)
+        if (mPlayerView == null) {
+            mPlayerView = new PlayerView(mActivity, view1);
+        }
+        mPlayerView
                 .setTitle(mData.getData().getTitle())
                 .setScaleType(PlayStateParams.fitparent)
                 .hideMenu(true)
@@ -127,11 +131,11 @@ public class VideoCell extends RVBaseCell<VideoBean> {
     public void onEvent(VideoPlayEvent event) {
         if (!event.isPlay) {
             if (event.playUrl == null) {
-                mPlayerView.onPause();
+                mPlayerView.pausePlay();
             } else {
                 String beforeUrl = (String) mPlayerView.getPlayerView().getTag(STOP_PLAY_MEDIA);
                 if (!event.playUrl.equals(beforeUrl)) {
-                    mPlayerView.onPause();
+                    mPlayerView.pausePlay();
                 }
             }
         }
@@ -140,8 +144,7 @@ public class VideoCell extends RVBaseCell<VideoBean> {
     @Override
     public void releaseResource() {
         super.releaseResource();
-        mPlayerView.onPause();
-        mPlayerView.seekTo(0);
+        mPlayerView.pausePlay();
         EventBus.getDefault().unregister(this);
     }
 
