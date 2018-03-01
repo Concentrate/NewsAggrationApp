@@ -192,4 +192,10 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
             ((AbsTopTabFragment) fragment).setTabLayoutVisible(b ? View.VISIBLE : View.GONE);
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isWebInit = false;
+    }
 }

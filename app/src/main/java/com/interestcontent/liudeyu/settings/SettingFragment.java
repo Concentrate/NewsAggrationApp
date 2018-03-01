@@ -94,6 +94,7 @@ public class SettingFragment extends AbsFragment {
     private List<SettingItem> provideAuthenedSettings() {
 
         List<SettingItem> settingItems = new ArrayList<>();
+        addCommonSettingItems(settingItems);
         SettingItem settingItem = new SettingItem(R.drawable.login_out, "退出当前微博") {
             @Override
             public void onClick(View view) {
@@ -114,13 +115,6 @@ public class SettingFragment extends AbsFragment {
                 }).show();
             }
         };
-        SettingItem themeSetting = new SettingItem(R.drawable.theme_change_item, "改变主题颜色") {
-            @Override
-            public void onClick(View view) {
-                ThemeSettingActivity.start(getActivity());
-            }
-        };
-        settingItems.add(themeSetting);
         settingItems.add(settingItem);
         return settingItems;
 
@@ -128,6 +122,7 @@ public class SettingFragment extends AbsFragment {
 
     private List<SettingItem> provideNotAuthenSettings() {
         List<SettingItem> settingItems = new ArrayList<>();
+        addCommonSettingItems(settingItems);
         SettingItem settingItem = new SettingItem(R.drawable.login_user, "请登录微博,查看微博精彩") {
             @Override
             public void onClick(View view) {
@@ -138,5 +133,20 @@ public class SettingFragment extends AbsFragment {
         return settingItems;
     }
 
+    private void addCommonSettingItems(List<SettingItem> settingItems) {
+        SettingItem themeSetting = new SettingItem(R.drawable.theme_change_item, "改变主题颜色") {
+            @Override
+            public void onClick(View view) {
+                ThemeSettingActivity.start(getActivity());
+            }
+        };
+        settingItems.add(themeSetting);
+    }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isFirstTime = true;
+    }
 }
