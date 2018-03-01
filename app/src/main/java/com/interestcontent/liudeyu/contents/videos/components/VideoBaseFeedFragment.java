@@ -6,12 +6,15 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.google.gson.Gson;
+import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoBean;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoRequest;
 import com.interestcontent.liudeyu.contents.videos.cells.VideoCell;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -73,6 +76,10 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
     @Override
     public void onRecyclerViewInitialized() {
         startRequestData(mNextReUrl);
+        HorizontalDividerItemDecoration itemDecoration = new HorizontalDividerItemDecoration.Builder(getContext())
+                .margin(SizeUtils.dp2px(10))
+                .size(SizeUtils.dp2px(8)).colorResId(R.color.md_grey_100).build();
+        mRecyclerView.addItemDecoration(itemDecoration);
     }
 
     private void startRequestData(String url) {

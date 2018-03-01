@@ -5,8 +5,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.widget.ImageView;
 
 import com.blankj.utilcode.util.NetworkUtils;
+import com.bumptech.glide.Glide;
+import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
+import com.dou361.ijkplayer.widget.PlayStateParams;
+import com.dou361.ijkplayer.widget.PlayerView;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoBean;
@@ -59,20 +65,23 @@ public class VideoCell extends RVBaseCell<VideoBean> {
             }
         }
         final String finalCoverUrl = coverUrl;
-        View tmpVideoView = holder.getView(R.id.video_player_layout);
-//        PlayerView playerView = new PlayerView(mActivity, view1)
-//                .setTitle(mData.getData().getTitle())
-//                .setScaleType(PlayStateParams.fitparent)
-//                .hideMenu(true)
-//                .forbidTouch(false)
-//                .showThumbnail(new OnShowThumbnailListener() {
-//                    @Override
-//                    public void onShowThumbnail(ImageView ivThumbnail) {
-//
-//                        Glide.with(mFragment).load(finalCoverUrl).into(ivThumbnail);
-//                    }
-//
-//                })
-//                .setPlaySource(playUrl);
+        ViewStub viewStub = (ViewStub) holder.getView(R.id.video_player_viewstub);
+        if (viewStub.getParent() != null) {
+            View view1 = viewStub.inflate();
+            PlayerView playerView = new PlayerView(mActivity, view1)
+                    .setTitle(mData.getData().getTitle())
+                    .setScaleType(PlayStateParams.fitparent)
+                    .hideMenu(true)
+                    .forbidTouch(false)
+                    .showThumbnail(new OnShowThumbnailListener() {
+                        @Override
+                        public void onShowThumbnail(ImageView ivThumbnail) {
+                            Glide.with(mFragment).load(finalCoverUrl).into(ivThumbnail);
+                        }
+
+                    })
+                    .setPlaySource(playUrl);
+            playerView.setBrightness(50);
+        }
     }
 }
