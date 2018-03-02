@@ -64,7 +64,7 @@ public class VideoBean extends FeedBaseBean {
         this.adIndex = adIndex;
     }
 
-    public static class DataBean {
+    public static class DataBean extends FeedBaseBean{
         /**
          * dataType : VideoBeanForClient
          * id : 38709
@@ -676,7 +676,7 @@ public class VideoBean extends FeedBaseBean {
                 this.ifPgc = ifPgc;
             }
 
-            public static class FollowBean {
+            public static class FollowBean extends FeedBaseBean{
                 /**
                  * itemType : author
                  * itemId : 1027
@@ -712,7 +712,7 @@ public class VideoBean extends FeedBaseBean {
                 }
             }
 
-            public static class ShieldBean {
+            public static class ShieldBean extends FeedBaseBean{
                 /**
                  * itemType : author
                  * itemId : 1027
@@ -982,7 +982,7 @@ public class VideoBean extends FeedBaseBean {
                 this.urlList = urlList;
             }
 
-            public static class UrlListBean {
+            public static class UrlListBean extends FeedBaseBean {
                 /**
                  * name : aliyun
                  * url : http://baobab.kaiyanapp.com/api/v1/playUrl?vid=38709&editionType=normal&source=aliyun

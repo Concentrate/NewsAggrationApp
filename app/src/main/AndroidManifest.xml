@@ -47,7 +47,10 @@
         <activity android:name=".contents.zhihu.contents.ZhihuContentActivity"/>
         <activity android:name=".contents.zhihu.contents.ZhihuThemeGarallyActivity"/>
         <activity android:name=".settings.activitys.ThemeSettingActivity"/>
-        <activity android:name=".contents.videos.components.VideoDisplayActivity"/>
+        <activity android:name=".contents.videos.components.VideoDisplayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

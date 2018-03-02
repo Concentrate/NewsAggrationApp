@@ -17,6 +17,7 @@ import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoBean;
+import com.interestcontent.liudeyu.contents.videos.components.VideoDisplayActivity;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 
@@ -80,6 +81,7 @@ public class VideoCell extends RVBaseCell<VideoBean> {
         holder.getView(R.id.author_ll).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                VideoDisplayActivity.start(mActivity, mData);
 
             }
         });
@@ -152,7 +154,7 @@ public class VideoCell extends RVBaseCell<VideoBean> {
     @Override
     public void releaseResource() {
         super.releaseResource();
-        mPlayerView.stopPlay();
+        mPlayerView.onDestroy();
     }
 
     private static class MyViewHodler extends RVBaseViewHolder {

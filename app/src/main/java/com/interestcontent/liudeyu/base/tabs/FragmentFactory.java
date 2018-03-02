@@ -3,6 +3,7 @@ package com.interestcontent.liudeyu.base.tabs;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.contents.news.NewsMainFragment;
 import com.interestcontent.liudeyu.contents.news.NewsTechnologyFragment;
 import com.interestcontent.liudeyu.contents.videos.components.VideoBaseFeedFragment;
@@ -25,6 +26,7 @@ import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboHotFragment;
 public class FragmentFactory {
     public static Fragment getFragmentByItemTab(ItemTab itemTab) {
         Bundle bundle = new Bundle();
+        String url = "";
         Fragment fragment = null;
         switch (itemTab.getItemKey()) {
             case ItemTab.TAB_WEIBO:
@@ -66,7 +68,20 @@ public class FragmentFactory {
             case ItemTab.VIDEO_MAIN_TAB:
                 return new VideoMainFragments();
             case ItemTab.VIDEO_RECOMEND_TAB:
-                return new VideoBaseFeedFragment();
+                url = Constants.VIDEO_RECOMAND_LIST_API;
+                bundle.putString(VideoBaseFeedFragment.ORIGIN_URL, url);
+                fragment = new VideoBaseFeedFragment();
+                fragment.setArguments(bundle);
+                return fragment;
+            case ItemTab.VIDEO_HOT_TAB:
+                url = Constants.VIDEO_HOT_API;
+                bundle.putString(VideoBaseFeedFragment.ORIGIN_URL, url);
+                fragment = new VideoBaseFeedFragment();
+                fragment.setArguments(bundle);
+                return fragment;
+
+
+
         }
         return null;
     }

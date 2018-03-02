@@ -9,7 +9,6 @@ import android.view.View;
 import com.blankj.utilcode.util.SizeUtils;
 import com.google.gson.Gson;
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoBean;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoRequest;
@@ -29,8 +28,9 @@ import java.util.concurrent.Callable;
 
 public class VideoBaseFeedFragment extends AbsFeedFragment {
     private static final int WHAT_INT = 18;
-    private static final String RE_URL = "RE_URL".toLowerCase();
-    private String mNextReUrl = Constants.VIDEO_REQUEST_LIST_API;
+    public static final String ORIGIN_URL = "ORIGIN_URL".toLowerCase();
+    private String mNextReUrl = "";
+    private String mOriginUrl = "";
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -53,7 +53,8 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mNextReUrl = bundle.getString(RE_URL);
+            mOriginUrl = bundle.getString(ORIGIN_URL);
+            mNextReUrl = mOriginUrl;
         }
 
     }
@@ -104,7 +105,7 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
 
     @Override
     public void onPullRefresh() {
-        startRequestData(mNextReUrl = Constants.VIDEO_REQUEST_LIST_API, true);
+        startRequestData(mNextReUrl=mOriginUrl, true);
     }
 
     @Override
@@ -124,12 +125,5 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
         return cellList;
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (!isVisibleToUser) {
-            VideoCell.destoryAllPlayerView();
-        }
-    }
 
 }

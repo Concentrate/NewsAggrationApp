@@ -6,7 +6,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
@@ -62,10 +61,6 @@ public class WeiboMainFragment extends AbsTopTabFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (!WeiboLoginManager.getInstance().isLogin) {
-            ToastUtils.setBgColor(getActivity().getResources().getColor(R.color.md_blue_200));
-            ToastUtils.showShort("请关联应用");
-        }
     }
 
     @Override

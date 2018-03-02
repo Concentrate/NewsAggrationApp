@@ -76,9 +76,11 @@ public class Constants {
     public static final String ZHIHU_THEME_ID_LIST_BASE = "https://news-at.zhihu.com/api/4/theme/";
 
 
-
-//    video about
-    public static final String VIDEO_REQUEST_LIST_API="http://baobab.kaiyanapp.com/api/v4/tabs/selected";
+    //    video about
+    public static final String VIDEO_RECOMAND_LIST_API = "http://baobab.kaiyanapp.com/api/v4/tabs/selected";
+    public static final String VIDEO_HOT_API = "http://baobab.kaiyanapp.com/api/v4/discovery/hot";
+    public static final String VIDEO_AUTHOR_API = "http://baobab.kaiyanapp.com/api/v4/pgcs/all";
+    public static final String VIDEO_CATEORY_API = "http://baobab.kaiyanapp.com/api/v4/discovery/category";
 
 
 }

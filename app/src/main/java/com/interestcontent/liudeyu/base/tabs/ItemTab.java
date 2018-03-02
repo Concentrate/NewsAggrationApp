@@ -42,6 +42,8 @@ public class ItemTab implements Serializable {
 
     //video,现在到了21,注意要和上面没有重复
     public static final int VIDEO_RECOMEND_TAB = 21;
+    public static final int VIDEO_HOT_TAB=22;
+    public static final int VIDEO_AUTHOR_TAB=23;
 
 
 

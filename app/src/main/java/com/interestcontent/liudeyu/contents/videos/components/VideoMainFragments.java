@@ -15,10 +15,10 @@ public class VideoMainFragments extends AbsTopTabFragment {
     @Override
     protected List<ItemTab> provideItemTabs() {
         int[] itemTabKeys = new int[]{
-                ItemTab.VIDEO_RECOMEND_TAB
+                ItemTab.VIDEO_RECOMEND_TAB, ItemTab.VIDEO_HOT_TAB
         };
         String[] names = new String[]{
-                "推荐"
+                "推荐", "热门"
         };
         List<ItemTab> itemTabs = new ArrayList<>();
         for (int i = 0; i < itemTabKeys.length; i++) {
@@ -30,7 +30,7 @@ public class VideoMainFragments extends AbsTopTabFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(!isVisibleToUser){
+        if (!isVisibleToUser) {
             VideoCell.destoryAllPlayerView();
         }
     }

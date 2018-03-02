@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ViewStub
+        android:id="@+id/view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/video_display_height"
+        android:layout="@layout/simple_player_view_player" />
+
+
+    <LinearLayout
+        android:id="@+id/author_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="@dimen/video_display_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avater_iv"
+            android:layout_width="@dimen/video_display_avater_size"
+            android:layout_height="@dimen/video_display_avater_size"
+            android:layout_below="@id/view_stub"
+            tools:src="@drawable/tab_videos_selector" />
+
+        <TextView
+            android:id="@+id/author_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/Grey_700"
+            android:textSize="13sp"
+            tools:text="author" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/video_title"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@id/author_ll"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/Grey_700"
+        android:textSize="15sp"
+        tools:text="title aljdkjdkljkjakjdj" />
+
+    <TextView
+        android:id="@+id/video_des"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@id/video_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/Grey_700"
+        android:textSize="14sp"
+        tools:text="des" />
+
+</RelativeLayout>
