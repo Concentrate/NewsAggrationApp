@@ -1,6 +1,6 @@
 package com.interestcontent.liudeyu.contents.videos;
 
-import android.support.annotation.Nullable;
+import com.dou361.ijkplayer.widget.PlayerView;
 
 /**
  * Created by liudeyu on 2018/3/1.
@@ -8,9 +8,10 @@ import android.support.annotation.Nullable;
 
 public class VideoPlayEvent {
     public  boolean isPlay;
-    public @Nullable String playUrl; // 辨别是否是当前播放视频可为null
 
     public VideoPlayEvent(boolean isPlay) {
         this.isPlay = isPlay;
     }
+
+    public PlayerView mPlayerView;
 }

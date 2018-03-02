@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
-import com.interestcontent.liudeyu.contents.videos.VideoPlayEvent;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoBean;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoRequest;
 import com.interestcontent.liudeyu.contents.videos.cells.VideoCell;
@@ -19,8 +18,6 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
 import com.zhy.http.okhttp.OkHttpUtils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,13 +128,8 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (!isVisibleToUser) {
-            EventBus.getDefault().post(new VideoPlayEvent(false));
+            VideoCell.destoryAllPlayerView();
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        EventBus.getDefault().post(new VideoPlayEvent(false));
-    }
 }

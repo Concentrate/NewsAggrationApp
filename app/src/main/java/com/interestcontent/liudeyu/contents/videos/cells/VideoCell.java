@@ -13,16 +13,15 @@ import com.bumptech.glide.Glide;
 import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.widget.PlayStateParams;
 import com.dou361.ijkplayer.widget.PlayerView;
+import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
-import com.interestcontent.liudeyu.contents.videos.VideoPlayEvent;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoBean;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import java.util.HashSet;
+import java.util.Set;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
@@ -31,10 +30,12 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
  */
 
 public class VideoCell extends RVBaseCell<VideoBean> {
+    private static final String TAG = "VideoCell";
+    private static int createHoldercount = 0;
     private android.support.v4.app.Fragment mFragment;
     private Activity mActivity;
+    private static Set<PlayerView> mPlayerViewSet = new HashSet<>();
     private PlayerView mPlayerView;
-    private static final int STOP_PLAY_MEDIA = R.layout.video_cell;
 
     public VideoCell(VideoBean videoBean, Fragment fragment) {
         super(videoBean);
@@ -50,19 +51,38 @@ public class VideoCell extends RVBaseCell<VideoBean> {
 
     @Override
     public RVBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RVBaseViewHolder(LayoutInflater.from(mActivity).inflate(R.layout.video_cell, parent, false));
+        Logger.d(TAG, "onCreateViewHolder times is " + (++createHoldercount));
+        MyViewHodler holder = new MyViewHodler(LayoutInflater.from(mActivity).inflate(R.layout.video_cell, parent, false));
+        initViews(holder);
+        return holder;
+    }
+
+    private void initViews(MyViewHodler holder) {
+        ViewStub viewStub = (ViewStub) holder.getView(R.id.video_player_viewstub);
+        View view1 = null;
+        view1 = viewStub.inflate();
+        PlayerView mPlayerView = new PlayerView(mActivity, view1);
+        mPlayerViewSet.add(mPlayerView);
+        holder.setPlayerView(mPlayerView);
     }
 
     @Override
     public void onBindViewHolder(RVBaseViewHolder holder, int position) {
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
         if (mData.getData() == null) {
             return;
         }
+        String avaterUrl = "";
+        if (mData.getData().getAuthor() != null) {
+            avaterUrl = mData.getData().getAuthor().getIcon();
+        }
+        Glide.with(mFragment).load(avaterUrl).placeholder(R.drawable.tab_videos_selector).into(holder.getImageView(R.id.author_iv));
         holder.getTextView(R.id.video_title).setText(mData.getData().getTitle());
-        holder.getTextView(R.id.video_des).setText(mData.getData().getDescription());
+        holder.getView(R.id.author_ll).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         String coverUrl = "";
         String mPlayUrl = mData.getData().getPlayUrl();
         if (mData.getData().getCover() != null) {
@@ -78,17 +98,8 @@ public class VideoCell extends RVBaseCell<VideoBean> {
             }
         }
         final String finalCoverUrl = coverUrl;
-        ViewStub viewStub = (ViewStub) holder.getView(R.id.video_player_viewstub);
-        View view1 = null;
-        if (viewStub.getParent() != null) {
-            view1 = viewStub.inflate();
-            holder.getItemView().setTag(view1);
-        } else {
-            view1 = (View) holder.getItemView().getTag();
-        }
-        if (mPlayerView == null) {
-            mPlayerView = new PlayerView(mActivity, view1);
-        }
+        mPlayerView = ((MyViewHodler) holder).getPlayerView();
+        Logger.d(TAG, "set size is " + mPlayerViewSet.size());
         mPlayerView
                 .setTitle(mData.getData().getTitle())
                 .setScaleType(PlayStateParams.fitparent)
@@ -106,47 +117,58 @@ public class VideoCell extends RVBaseCell<VideoBean> {
                 .hideRotation(true)
                 .setForbidDoulbeUp(true)
                 .setPlaySource(mPlayUrl)
+                .setForbidHideControlPanl(true)
+                .seekTo(0)
                 .hideCenterPlayer(false);
-        mPlayerView.setBrightness(50);
-        mPlayerView.getPlayerView().setTag(STOP_PLAY_MEDIA, mPlayUrl);
+        mPlayerView.setBrightness(40);
 
-        final String finalPlayUrl = mPlayUrl;
         mPlayerView.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
-                if (i == IMediaPlayer.MEDIA_INFO_AUDIO_RENDERING_START) {
-                    //让其他视频停止播放
-                    VideoPlayEvent event = new VideoPlayEvent(false);
-                    event.playUrl = finalPlayUrl;
-                    EventBus.getDefault().post(event);
-                }
+                mPlayerView.hideAllUI();
+                mPlayerView.hideCenterPlayer(true);
                 return false;
             }
         });
-
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(VideoPlayEvent event) {
-        if (!event.isPlay) {
-            if (event.playUrl == null) {
-                mPlayerView.pausePlay();
-            } else {
-                String beforeUrl = (String) mPlayerView.getPlayerView().getTag(STOP_PLAY_MEDIA);
-                if (!event.playUrl.equals(beforeUrl)) {
-                    mPlayerView.pausePlay();
-                }
+    private void onPauseOthersPlayerViewExcept(PlayerView mPlayerView) {
+        for (PlayerView playerView : mPlayerViewSet) {
+            if (playerView != mPlayerView) {
+                mPlayerView.stopPlay();
             }
         }
+    }
+
+
+    public static void destoryAllPlayerView() {
+        for (PlayerView playerView : mPlayerViewSet) {
+            playerView.onDestroy();
+        }
+        mPlayerViewSet.clear();
     }
 
     @Override
     public void releaseResource() {
         super.releaseResource();
-        mPlayerView.pausePlay();
-        EventBus.getDefault().unregister(this);
+        mPlayerView.stopPlay();
     }
 
+    private static class MyViewHodler extends RVBaseViewHolder {
 
+        private PlayerView mPlayerView;
+
+        public MyViewHodler(View itemView) {
+            super(itemView);
+        }
+
+        private PlayerView getPlayerView() {
+            return mPlayerView;
+        }
+
+        private void setPlayerView(PlayerView playerView) {
+            mPlayerView = playerView;
+        }
+    }
 }

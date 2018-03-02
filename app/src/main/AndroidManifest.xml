@@ -47,6 +47,7 @@
         <activity android:name=".contents.zhihu.contents.ZhihuContentActivity"/>
         <activity android:name=".contents.zhihu.contents.ZhihuThemeGarallyActivity"/>
         <activity android:name=".settings.activitys.ThemeSettingActivity"/>
+        <activity android:name=".contents.videos.components.VideoDisplayActivity"/>
     </application>
 
 </manifest>

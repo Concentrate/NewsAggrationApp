@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="320dp"
-    android:layout_marginBottom="5dp"
-    android:layout_marginTop="5dp"
+    android:layout_height="300dp"
     android:paddingLeft="3dp"
     android:paddingRight="3dp">
 
@@ -14,39 +12,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout="@layout/simple_player_view_player"
-        app:layout_constraintBottom_toTopOf="@id/video_title" />
+        app:layout_constraintBottom_toTopOf="@id/author_ll" />
 
 
-    <TextView
-        android:id="@+id/video_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:lineSpacingMultiplier="0.5"
-        android:maxLength="50"
-        android:maxLines="1"
-        android:textColor="@color/Grey_800"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@id/video_des"
-        tools:text="video titldakdjke,dlkajljdakjkldj dlajdlajlkdjalkjdklajlkjalkjdlakjlkdjalkjkdjakljdlajjdaljkdjlkajkljdalkj" />
+    <LinearLayout
+        android:id="@+id/author_ll"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/author_iv"
+            android:layout_width="@dimen/wb_avater_size"
+            android:layout_height="@dimen/wb_avater_size" />
 
-    <TextView
-        android:id="@+id/video_des"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:ellipsize="none"
-        android:lineSpacingExtra="1.5dp"
-        android:maxLines="3"
-        android:textColor="@color/Grey_600"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteX="3dp"
-        tools:text="abcdakljdlkajdljakljdlkjakjdkajjdkaljkdljalkjdklajkdjkajlkakdjalkjkdajljakjakjlkajldkjalkjdkaj
-aljalkjdljalkjdkjaljakjdklajjlkdjkjdljkajdlakjklajlkajldajljdaljdjkkjdkjdljakajdjj" />
+        <TextView
+            android:id="@+id/video_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:lineSpacingMultiplier="0.5"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:textColor="@color/Grey_800"
+            android:textSize="14sp"
+            tools:text="video titldakdjke,dlkajljdakjkldj dlajdlajlkdjalkjdklajlkjalkjdlakjlkdjalkjkdjakljdlajjdaljkdjlkajkljdalkj" />
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>
