@@ -16,6 +16,7 @@ import java.util.Date;
 
 public class ZhihuJournalListPresenter extends MvpPresenter<ZhihuJournayListRequest, IMvpView<ZhihuJournayListRequest>> {
 
+    private static final String TAG = "ZhihuJournalListPresenter";
     private Date lastUrlDate; //上一个请求回来的date
 
     @Override
