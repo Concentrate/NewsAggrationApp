@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.google.gson.Gson;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
+import com.interestcontent.liudeyu.contents.videos.VideoPlayManager;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoBean;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoRequest;
 import com.interestcontent.liudeyu.contents.videos.cells.VideoCell;
@@ -56,7 +57,21 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
             mOriginUrl = bundle.getString(ORIGIN_URL);
             mNextReUrl = mOriginUrl;
         }
+    }
 
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            VideoPlayManager.getInstance().onDestoryVideoPlayView();
+        }
+    }
+
+    @Override
+    protected void onScrollAndStateChange(int firstVisible) {
+        super.onScrollAndStateChange(firstVisible);
+        VideoPlayManager.getInstance().onJudgeIfStopPlayVideo(firstVisible);
     }
 
     private void onDataError() {
@@ -105,7 +120,7 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
 
     @Override
     public void onPullRefresh() {
-        startRequestData(mNextReUrl=mOriginUrl, true);
+        startRequestData(mNextReUrl = mOriginUrl, true);
     }
 
     @Override

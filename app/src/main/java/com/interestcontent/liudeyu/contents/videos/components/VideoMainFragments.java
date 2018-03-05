@@ -2,7 +2,7 @@ package com.interestcontent.liudeyu.contents.videos.components;
 
 import com.interestcontent.liudeyu.base.baseComponent.AbsTopTabFragment;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
-import com.interestcontent.liudeyu.contents.videos.cells.VideoCell;
+import com.interestcontent.liudeyu.contents.videos.VideoPlayManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +31,13 @@ public class VideoMainFragments extends AbsTopTabFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (!isVisibleToUser) {
-            VideoCell.destoryAllPlayerView();
+            VideoPlayManager.getInstance().onDestoryVideoPlayView();
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        VideoCell.destoryAllPlayerView();
+        VideoPlayManager.getInstance().onDestoryVideoPlayView();
     }
 }

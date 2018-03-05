@@ -66,16 +66,23 @@ public abstract class AbsFeedFragment<T> extends AbsFragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                int firstVisiblePosition=-1;
                 if (layoutManager instanceof LinearLayoutManager) {
                     mLastVisiblePosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                    firstVisiblePosition=((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
                 } else if (layoutManager instanceof GridLayoutManager) {
                     mLastVisiblePosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
+                    firstVisiblePosition=((GridLayoutManager) layoutManager).findFirstVisibleItemPosition();
                 } else if (layoutManager instanceof StaggeredGridLayoutManager) {
                     StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
                     int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                    int []firstVisArray=new int[staggeredGridLayoutManager.getSpanCount()];
                     staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
                     mLastVisiblePosition = findMax(lastPositions);
+                    ((StaggeredGridLayoutManager) layoutManager).findFirstCompletelyVisibleItemPositions(firstVisArray);
+                    firstVisiblePosition=findMax(firstVisArray);
                 }
+                onScrollAndStateChange(firstVisiblePosition);
             }
 
             @Override
@@ -106,6 +113,14 @@ public abstract class AbsFeedFragment<T> extends AbsFragment {
             mToolbarContainer.addView(toolbarView);
         }
     }
+
+    /**
+     * 滑动状态改变，这里主要回调
+     */
+    protected void onScrollAndStateChange(int firstVisible) {
+
+    }
+
 
     @Override
     public void onResume() {

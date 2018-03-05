@@ -7,12 +7,31 @@
     android:paddingLeft="3dp"
     android:paddingRight="3dp">
 
-    <ViewStub
-        android:id="@+id/video_player_viewstub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout="@layout/simple_player_view_player"
-        app:layout_constraintBottom_toTopOf="@id/author_ll" />
+
+    <RelativeLayout
+        android:id="@+id/video_play_zoom_rl"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/author_ll"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/video_image_pre_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@drawable/interest_logo" />
+
+        <ImageView
+            android:id="@+id/video_play_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/simple_player_center_play" />
+
+    </RelativeLayout>
 
 
     <LinearLayout
