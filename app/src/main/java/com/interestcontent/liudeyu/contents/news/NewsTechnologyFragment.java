@@ -6,10 +6,11 @@ import android.view.View;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.mvp.IMvpView;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
-import com.interestcontent.liudeyu.contents.news.beans.NewsTechnoBean;
+import com.interestcontent.liudeyu.contents.news.beans.NewsTechBean;
 import com.interestcontent.liudeyu.contents.news.cells.MutilepleImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.cells.SingeImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.newsUtil.NewsUrlUtils;
@@ -27,7 +28,7 @@ import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
  * Created by liudeyu on 2018/2/4.
  */
 
-public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<List<NewsTechnoBean>> {
+public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<List<NewsTechBean>> {
     public static final String SCIENCE = "科技";
     private NewsPresenter mNewsPresenter;
     public static final String ITEM_TAB = "ITEM_TAB".toLowerCase();
@@ -67,7 +68,7 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
 
     private void startRequestData(FeedConstants.FEED_REQUEST_EMUM type) {
         int itemTabKey = mItemTab == null ? ItemTab.NEWS_TECHNOLEGE : mItemTab.getItemKey();
-        String url = NewsUrlUtils.get36krNewsTypeUrl(provideInterestTag());
+        String url = NewsUrlUtils.getNewsTypeUrl(provideInterestTag(), Constants.NEWS_LEIFENG_NET_BASE);
         mNewsPresenter.execute(url, itemTabKey, type);
     }
 
@@ -87,8 +88,8 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
             return new ArrayList<>();
         }
         List<Cell> cellList = new ArrayList<>();
-        List<NewsTechnoBean> mList = list;
-        for (NewsTechnoBean bean : mList) {
+        List<NewsTechBean> mList = list;
+        for (NewsTechBean bean : mList) {
             Cell cell = null;
             if (bean.getImageUrls() != null && bean.getImageUrls().size() >= 3) {
                 cell = new MutilepleImageNewsCell(this, bean);
@@ -102,7 +103,7 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
 
 
     @Override
-    public void onQueryResult(List<NewsTechnoBean> result) {
+    public void onQueryResult(List<NewsTechBean> result) {
         mBaseAdapter.setData(getCells(result));
         hideLoadMore();
         setRefreshing(false);

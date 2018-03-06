@@ -9,9 +9,8 @@ import com.interestcontent.liudeyu.base.constants.Constants;
  */
 
 public class NewsUrlUtils {
-    public static String get36krNewsTypeUrl(String type) {
-        String tmp = Constants.NES_TECH_REQUEST_DOMAIN;
-        Uri.Builder builder = Uri.parse(Constants.NEWS_TECH_BASE).buildUpon();
+    public static String getNewsTypeUrl(String type, String url) {
+        Uri.Builder builder = Uri.parse(url).buildUpon();
         builder.appendQueryParameter(Constants.NEWS_TECH_PARAMETER.APIKEY, Constants.NEWS_TECH_API_KEY)
                 .appendQueryParameter(Constants.NEWS_TECH_PARAMETER.THEME_PARA, type);
         return builder.build().toString();

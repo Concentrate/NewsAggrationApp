@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
-import com.interestcontent.liudeyu.contents.news.beans.NewsTechnoBean;
+import com.interestcontent.liudeyu.contents.news.beans.NewsTechBean;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
@@ -22,14 +22,14 @@ import java.util.Date;
  * Created by liudeyu on 2018/2/4.
  */
 
-public class SingeImageNewsCell extends RVBaseCell<NewsTechnoBean> {
+public class SingeImageNewsCell extends RVBaseCell<NewsTechBean> {
 
 
     private Activity mActivity;
     private Fragment mFragment;
 
 
-    public SingeImageNewsCell(NewsTechnoBean newsTechnoBean, Fragment fragment) {
+    public SingeImageNewsCell(NewsTechBean newsTechnoBean, Fragment fragment) {
         super(newsTechnoBean);
         mFragment = fragment;
         mActivity = mFragment.getActivity();

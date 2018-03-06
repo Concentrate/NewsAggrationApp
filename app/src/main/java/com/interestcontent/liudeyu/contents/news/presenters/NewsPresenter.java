@@ -4,7 +4,7 @@ import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.dataManager.FeedDataManager;
 import com.interestcontent.liudeyu.base.mvp.IMvpView;
 import com.interestcontent.liudeyu.base.mvp.MvpPresenter;
-import com.interestcontent.liudeyu.contents.news.beans.NewsTechnoBean;
+import com.interestcontent.liudeyu.contents.news.beans.NewsTechBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,10 @@ import java.util.List;
  * Created by liudeyu on 2018/2/4.
  */
 
-public class NewsPresenter extends MvpPresenter<List<NewsTechnoBean>, IMvpView<List<NewsTechnoBean>>> {
+public class NewsPresenter extends MvpPresenter<List<NewsTechBean>, IMvpView<List<NewsTechBean>>> {
 
     @Override
-    public List<NewsTechnoBean> doWork(Object... params) throws Exception {
+    public List<NewsTechBean> doWork(Object... params) throws Exception {
         if (params == null || params.length < 3) {
             throw new IllegalArgumentException("wrong argument num");
         }
@@ -31,7 +31,7 @@ public class NewsPresenter extends MvpPresenter<List<NewsTechnoBean>, IMvpView<L
             case NORMAL_BY_NET:
                 return FeedDataManager.getInstance().getNewsTechListByNet(itemTab, url, false);
             default:
-                return new ArrayList<NewsTechnoBean>();
+                return new ArrayList<NewsTechBean>();
         }
 
     }
