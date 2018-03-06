@@ -11,6 +11,7 @@ import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
 import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
 import com.interestcontent.liudeyu.base.tabs.BasePageAdapter;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
+import com.interestcontent.liudeyu.base.utils.BrightnessUtil;
 import com.interestcontent.liudeyu.base.utils.RamUtil;
 import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.settings.ThemeDataManager;
@@ -112,6 +113,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         mTabLayout.setTabTextColors(getResources().getColor(R.color.md_blue_grey_200), ThemeDataManager.getInstance().getThemeColorInt());
+        BrightnessUtil.saveBrightnessState(this);
     }
 
     /**

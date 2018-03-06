@@ -11,6 +11,10 @@ import android.view.WindowManager;
  */
 
 public class BrightnessUtil {
+
+
+    private static final String BRIGHTNESS_SP = "BRIGHTNESS_SP".toLowerCase();
+
     /**
      * 判断是否开启了自动亮度调节
      */
@@ -36,7 +40,7 @@ public class BrightnessUtil {
         ContentResolver resolver = activity.getContentResolver();
         try {
             float brightness = activity.getWindow().getAttributes().screenBrightness;
-            nowBrightnessValue = (int) (100 * brightness);
+            nowBrightnessValue = (int) (255 * brightness);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,6 +60,15 @@ public class BrightnessUtil {
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
         lp.screenBrightness = Float.valueOf(brightness) * (1f / 255f);
         activity.getWindow().setAttributes(lp);
+    }
+
+
+    public static void saveBrightnessState(Activity activity) {
+        SharePreferenceUtil.setIntegerPreference(activity, BRIGHTNESS_SP, getScreenBrightness(activity));
+    }
+
+    public static void restoreOriginBrightnessState(Activity activity) {
+        setBrightness(activity, SharePreferenceUtil.getIntegerPreference(activity, BRIGHTNESS_SP, getScreenBrightness(activity)));
     }
 
     /**

@@ -1,9 +1,11 @@
 package com.interestcontent.liudeyu.contents.videos;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.util.NetworkUtils;
@@ -12,6 +14,7 @@ import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.widget.PlayStateParams;
 import com.dou361.ijkplayer.widget.PlayerView;
 import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.base.utils.BrightnessUtil;
 import com.interestcontent.liudeyu.contents.videos.beans.VideoBean;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
@@ -25,6 +28,7 @@ public class VideoPlayManager {
     private int mLastPlayPosition;
     private PlayerView mPlayerView;
     private View mLastVideoView;
+    private Activity mActivity;
 
     private VideoPlayManager() {
     }
@@ -40,10 +44,12 @@ public class VideoPlayManager {
         return sVideoPlayManager;
     }
 
-    public void setPlayerView(final Activity activity, final ViewGroup contentViewRoot, VideoBean bean, int position) {
+    public void setPlayerView(@NonNull final Activity activity, final ViewGroup contentViewRoot, VideoBean bean, int position) {
         if (mPlayerView != null) {
             destoryAllVideoViews();
         }
+        mActivity = activity;
+        mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mLastPlayPosition = position;
         mLastVideoView = LayoutInflater.from(activity).inflate(R.layout.simple_player_view_player, null);
         contentViewRoot.addView(mLastVideoView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -93,6 +99,7 @@ public class VideoPlayManager {
         mPlayerView.startPlay();
     }
 
+
     private void destoryAllVideoViews() {
         mPlayerView.onDestroy();
         mPlayerView = null;
@@ -100,6 +107,10 @@ public class VideoPlayManager {
         if (viewGroup != null) {
             viewGroup.removeView(mLastVideoView);
         }
+        BrightnessUtil.restoreOriginBrightnessState(mActivity);
+        mActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        mActivity = null;
+        mLastVideoView = null;
     }
 
 
@@ -108,7 +119,7 @@ public class VideoPlayManager {
     }
 
     public void onJudgeIfStopPlayVideo(int firstVisiblePosition) {
-        if ((firstVisiblePosition - mLastPlayPosition >= 1 || mLastPlayPosition - firstVisiblePosition >1) && mPlayerView != null) {
+        if ((firstVisiblePosition - mLastPlayPosition >= 1 || mLastPlayPosition - firstVisiblePosition > 1) && mPlayerView != null) {
             destoryAllVideoViews();
         }
     }
