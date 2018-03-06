@@ -140,7 +140,10 @@ public class SettingFragment extends AbsFragment {
                 ThemeSettingActivity.start(getActivity());
             }
         };
+
+
         settingItems.add(themeSetting);
+
     }
 
 

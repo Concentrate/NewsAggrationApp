@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.pchmn.materialchips.ChipsInput
+        android:id="@+id/chips_input"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/news_setting_topic_edittext_height"
+        app:hint="输入一个新闻标签名" />
+
+
+
+
+</RelativeLayout>
