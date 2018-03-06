@@ -3,6 +3,7 @@ package com.interestcontent.liudeyu.base.dataManager;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
+import com.example.commonlib.utils.Logger;
 import com.google.gson.Gson;
 import com.interestcontent.liudeyu.base.baseBeans.FeedBaseBean;
 import com.interestcontent.liudeyu.base.baseBeans.BaseRequest;
@@ -29,7 +30,7 @@ import java.util.Map;
  */
 
 public class FeedDataManager {
-
+    private static final String TAG = "FeedDataManager";
     private static int WB_REQUEST_EVERY_PAGE_NUM = 15;
     private static int WB_MEMORY_STORGE_SAVE_TIME = 60 * 60 * 1000;
     private SparseArray<List<? extends FeedBaseBean>> feedRamCacheData = new SparseArray<>();
@@ -72,6 +73,7 @@ public class FeedDataManager {
                 return saveToListCache(itemTabKey, request.getWeiboLists(), isReflash);
             }
         } catch (Exception e) {
+            Logger.d(TAG, e.getMessage());
             e.printStackTrace();
         }
         return new ArrayList<WeiboBean>();

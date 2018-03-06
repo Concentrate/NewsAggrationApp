@@ -13,7 +13,11 @@ public class PathUtils {
     static String TAG = "PathUtils";
 
     public static String getExternalCacheFileDir() {
-        return MyApplication.sApplication.getExternalCacheDir().getAbsolutePath();
+        File file = MyApplication.sApplication.getExternalCacheDir();
+        if (file == null) {
+            file = MyApplication.sApplication.getCacheDir();
+        }
+        return file.getAbsolutePath();
     }
 
 
