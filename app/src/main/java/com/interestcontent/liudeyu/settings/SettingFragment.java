@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.commonlib.components.AbsFragment;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
+import com.interestcontent.liudeyu.settings.activitys.NewsTopicSettingActivity;
 import com.interestcontent.liudeyu.settings.activitys.ThemeSettingActivity;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
@@ -142,7 +143,13 @@ public class SettingFragment extends AbsFragment {
             }
         };
 
-
+        SettingItem newsTopicSetting = new SettingItem(R.drawable.topic_setting_icon, "新闻话题设置") {
+            @Override
+            public void onClick(View view) {
+                NewsTopicSettingActivity.start(getActivity());
+            }
+        };
+        settingItems.add(newsTopicSetting);
         settingItems.add(themeSetting);
 
     }

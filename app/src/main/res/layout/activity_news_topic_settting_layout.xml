@@ -1,15 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    >
+
     <com.pchmn.materialchips.ChipsInput
         android:id="@+id/chips_input"
         android:layout_width="match_parent"
         android:layout_height="@dimen/news_setting_topic_edittext_height"
+        app:chip_backgroundColor="@color/Grey_100"
         app:hint="输入一个新闻标签名" />
 
 
+    <Button
+        android:id="@+id/reset_default_topic_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chips_input"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/confirm_btn"
+        android:background="@drawable/button_shape"
+        android:text="重置默认话题"
+        android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/confirm_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/chips_input"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_shape"
+        android:text="确定"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tip_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/confirm_btn"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:text="下列是新闻标签的排序，左滑可删除，长按后可拖曳进行排序"
+        android:textColor="@color/Grey_700"
+        android:textSize="14sp" />
+
+    <com.yydcdut.sdlv.SlideAndDragListView
+        android:id="@+id/slide_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tip_tv">
+
+    </com.yydcdut.sdlv.SlideAndDragListView>
 
 </RelativeLayout>

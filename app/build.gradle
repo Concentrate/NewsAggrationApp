@@ -102,5 +102,6 @@ dependencies {
 //对应ijkplayer的  compile 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.6.0'
     compile 'com.dou361.ijkplayer-x86_64:jjdxm-ijkplayer-x86_64:1.0.0'
     compile 'com.github.pchmn:MaterialChipsInput:1.0.8'
+    compile 'com.yydcdut.sdlv:sdlv:0.7.0'
 
 }
