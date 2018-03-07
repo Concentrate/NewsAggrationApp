@@ -1,5 +1,7 @@
 package com.interestcontent.liudeyu.settings.components;
 
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -8,9 +10,12 @@ import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
+import com.pchmn.materialchips.model.ChipInterface;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by liudeyu on 2018/3/7.
@@ -118,5 +123,76 @@ public class NewsTopicManager {
 
     }
 
+
+    /**
+     * 所有的默认主题
+     */
+    private List<String> getAllNewsTopicFilter() {
+        List<String> list = new ArrayList<>();
+        String[] topic = MyApplication.sApplication.getResources().getStringArray(R.array.news_top_tab_name);
+        for (String t : topic) {
+            list.add(t);
+        }
+        return list;
+    }
+
+    /**
+     * 未被选中的可以再选的主题
+     */
+    public List<String> getNotBeSelectedTopicLabel() {
+        List<String> beSelectedTopic = getNewsCatetory();
+        Set<String> allSelectedCatoriesSet = new HashSet<>();
+        allSelectedCatoriesSet.addAll(beSelectedTopic);
+        List<String> canBeSelectedCatories = getAllNewsTopicFilter();
+        List<String> result = new ArrayList<>();
+        for (String m : canBeSelectedCatories) {
+            if (!allSelectedCatoriesSet.contains(m)) {
+                result.add(m);
+            }
+        }
+        return result;
+    }
+
+    public List<ChipInterface> getNotBeSelectedChipInterfaces() {
+        List<ChipInterface> chipInterfaceList = new ArrayList<>();
+        List<String> stringList = getNotBeSelectedTopicLabel();
+        for (String t1 : stringList) {
+            chipInterfaceList.add(new MyChipInterface(t1));
+        }
+        return chipInterfaceList;
+    }
+
+    public static class MyChipInterface implements ChipInterface {
+        private String title;
+
+        private MyChipInterface(String title) {
+            this.title = title;
+        }
+
+        @Override
+        public Object getId() {
+            return title;
+        }
+
+        @Override
+        public Uri getAvatarUri() {
+            return null;
+        }
+
+        @Override
+        public Drawable getAvatarDrawable() {
+            return null;
+        }
+
+        @Override
+        public String getLabel() {
+            return title;
+        }
+
+        @Override
+        public String getInfo() {
+            return title;
+        }
+    }
 
 }

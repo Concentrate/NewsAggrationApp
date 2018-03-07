@@ -1,20 +1,24 @@
 package com.interestcontent.liudeyu.settings.activitys;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
 import com.interestcontent.liudeyu.settings.components.NewsTopicManager;
-import com.interestcontent.liudeyu.settings.utils.TopicProviderHelper;
+import com.pchmn.materialchips.ChipView;
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
 import com.yydcdut.sdlv.Menu;
@@ -42,6 +46,8 @@ public class NewsTopicSettingActivity extends BaseActivity {
     private SlideAndDragListView mSlideAndDragListView;
     @BindView(R.id.reset_default_topic_btn)
     Button mRestDefaultButton;
+    @BindView(R.id.topic_show_ll)
+    LinearLayout mTopicShowContainer;
     private MyListViewAdapter mAdapter;
     private String dragItem;//拖动的item
 
@@ -71,6 +77,7 @@ public class NewsTopicSettingActivity extends BaseActivity {
         mSlideAndDragListView = findViewById(R.id.slide_list_view);
         initTopicTipInput();
         initDragAndDeleteListView();
+        initTopicShowTipViews();
         mRestDefaultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,12 +86,33 @@ public class NewsTopicSettingActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private void initTopicShowTipViews() {
+        mTopicShowContainer.removeAllViews();
+        List<ChipInterface> chipInterfaceList = NewsTopicManager.getInstance().getNotBeSelectedChipInterfaces();
+        for (ChipInterface chipInterface : chipInterfaceList) {
+            final ChipView chipView = new ChipView(this);
+            chipView.setChip(chipInterface);
+            chipView.setDeletable(false);
+            chipView.setLabel(chipInterface.getLabel());
+            chipView.setHasAvatarIcon(true);
+            chipView.setOnChipClicked(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mChipsInput.addChip(chipView.getLabel(), chipView.getLabel());
+                }
+            });
+            chipView.setClickable(true);
+            mTopicShowContainer.addView(chipView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
 
     }
 
     private void reInitListViewState(List<String> newsCatetory) {
         setMenus(newsCatetory);
         mAdapter.setData(newsCatetory);
+        initTopicShowTipViews();
     }
 
     private void initDragAndDeleteListView() {
@@ -105,6 +133,7 @@ public class NewsTopicSettingActivity extends BaseActivity {
                         if (buttonPosition == 0) {
                             List<String> data = NewsTopicManager.getInstance().deleteNewsCateory(itemPosition);
                             mAdapter.setData(NewsTopicManager.getInstance().getNewsCatetory());
+                            initTopicShowTipViews();
                             return Menu.ITEM_NOTHING;
                         }
                         break;
@@ -135,6 +164,8 @@ public class NewsTopicSettingActivity extends BaseActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mSlideAndDragListView.startDrag(i);
+                Vibrator vib = (Vibrator) NewsTopicSettingActivity.this.getSystemService(Service.VIBRATOR_SERVICE);
+                vib.vibrate(100);
                 return true;
             }
         });
@@ -160,8 +191,7 @@ public class NewsTopicSettingActivity extends BaseActivity {
     }
 
     private void initTopicTipInput() {
-        TopicProviderHelper providerHelper = new TopicProviderHelper();
-        mChipsInput.setFilterableList(providerHelper.getNewsTopicFilter());
+        mChipsInput.setFilterableList(NewsTopicManager.getInstance().getNotBeSelectedChipInterfaces());
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,9 +209,11 @@ public class NewsTopicSettingActivity extends BaseActivity {
                     }
                 }
             }
+
         });
 
     }
+
 
     @Override
     protected void onResume() {

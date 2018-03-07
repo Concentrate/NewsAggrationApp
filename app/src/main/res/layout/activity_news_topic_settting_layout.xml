@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <com.pchmn.materialchips.ChipsInput
         android:id="@+id/chips_input"
@@ -13,11 +12,31 @@
         app:hint="输入一个新闻标签名" />
 
 
+    <TextView
+        android:id="@+id/topic_tip_have_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chips_input"
+        android:layout_marginTop="3dp"
+        android:text="已有主题标签:"
+        android:textColor="@color/Grey_600"
+        android:textSize="9sp" />
+
+    <com.interestcontent.liudeyu.base.baseUiKit.baseUiComponent.AutoNextLineLinearlayout
+        android:id="@+id/topic_show_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topic_tip_have_tv"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="3dp"
+        android:clickable="false"
+        android:orientation="horizontal"></com.interestcontent.liudeyu.base.baseUiKit.baseUiComponent.AutoNextLineLinearlayout>
+
     <Button
         android:id="@+id/reset_default_topic_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/chips_input"
+        android:layout_below="@id/topic_show_ll"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/confirm_btn"
         android:background="@drawable/button_shape"
@@ -29,11 +48,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/chips_input"
+        android:layout_below="@id/topic_show_ll"
         android:layout_marginRight="10dp"
         android:background="@drawable/button_shape"
         android:text="确定"
         android:textColor="@color/white" />
+
 
     <TextView
         android:id="@+id/tip_tv"
