@@ -64,10 +64,11 @@ public class SettingFragment extends AbsFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isFirstTime) {
+        if (isVisibleToUser && isFirstTime && mSettingList != null) {
             initViews();
             isFirstTime = false;
         }
+
     }
 
     private void initViews() {
