@@ -2,6 +2,7 @@ package com.interestcontent.liudeyu.base.utils;
 
 import android.os.Environment;
 
+import com.blankj.utilcode.util.FileUtils;
 import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 
@@ -26,6 +27,18 @@ public class FilePathUtils {
     public static String getWebViewCachePath() {
         String path = getExternalCacheFileDir() + File.separator + "webViewCache";
         Logger.d(TAG, String.format("webview cache path is %s", path));
+        return path;
+    }
+
+    public static String getPicCacheFileDir() {
+        File file = MyApplication.sApplication.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        String path;
+        if (file == null) {
+            path = MyApplication.sApplication.getCacheDir() + File.separator + "pic";
+        } else {
+            path = file.getAbsolutePath();
+        }
+        FileUtils.createOrExistsDir(path);
         return path;
     }
 

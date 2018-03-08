@@ -100,6 +100,7 @@ public class PictureBrowseActivity extends AbsActivity {
                 }
             }
         });
+
     }
 
 
