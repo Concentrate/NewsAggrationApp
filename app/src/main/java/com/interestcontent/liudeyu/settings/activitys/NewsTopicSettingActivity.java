@@ -1,22 +1,27 @@
 package com.interestcontent.liudeyu.settings.activitys;
 
+import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
+import com.interestcontent.liudeyu.base.utils.AppRestartUtil;
 import com.interestcontent.liudeyu.settings.components.NewsTopicManager;
 import com.pchmn.materialchips.ChipView;
 import com.pchmn.materialchips.ChipsInput;
@@ -28,6 +33,7 @@ import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,6 +54,8 @@ public class NewsTopicSettingActivity extends BaseActivity {
     Button mRestDefaultButton;
     @BindView(R.id.topic_show_ll)
     LinearLayout mTopicShowContainer;
+    @BindView(R.id.add_new_topic_btn)
+    Button mAddNewCustomTopicButton;
     private MyListViewAdapter mAdapter;
     private String dragItem;//拖动的item
 
@@ -86,6 +94,51 @@ public class NewsTopicSettingActivity extends BaseActivity {
             }
         });
 
+        initAddCustomNewTopic();
+        mToolbarRightBtn.setVisibility(View.VISIBLE);
+
+    }
+
+    private void initAddCustomNewTopic() {
+        mAddNewCustomTopicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View view1 = LayoutInflater.from(NewsTopicSettingActivity.this).inflate(R.layout.news_topic_dialog_edit_layout,
+                        null);
+                final EditText editText = view1.findViewById(R.id.edittext);
+                AlertDialog alertDialog = new AlertDialog.Builder(NewsTopicSettingActivity.this).setView(view1)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dealWithNewTopicText(editText.getText().toString());
+
+                            }
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+            }
+        });
+    }
+
+    private void dealWithNewTopicText(String s) {
+        if (TextUtils.isEmpty(s)) {
+            return;
+        }
+        String[] array = s.split("\\s+");
+        if (array != null && array.length > 0) {
+            List<String> list = Arrays.asList(array);
+            NewsTopicManager.getInstance().addNewsCatetory(list);
+            reInitListViewState(NewsTopicManager.getInstance().getNewsCatetory());
+        }
+    }
+
+    @Override
+    protected void onToolbarRightBtnClick() {
+        confirmBtnClick();
+        finish();
     }
 
     private void initTopicShowTipViews() {
@@ -195,25 +248,36 @@ public class NewsTopicSettingActivity extends BaseActivity {
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<ChipInterface> list = (List<ChipInterface>) mChipsInput.getSelectedChipList();
-                if (list != null && !list.isEmpty()) {
-                    List<String> allNewsCate = new ArrayList<>();
-                    for (ChipInterface chipInterface : list) {
-                        allNewsCate.add(chipInterface.getLabel());
-                    }
-                    NewsTopicManager.getInstance().addNewsCatetory(allNewsCate);
-                    reInitListViewState(NewsTopicManager.getInstance().getNewsCatetory());
-                    mChipsInput.clearFocus();
-                    for (String t : allNewsCate) {
-                        mChipsInput.removeChipByLabel(t);
-                    }
-                }
+                confirmBtnClick();
             }
 
         });
 
     }
 
+    private void confirmBtnClick() {
+        List<ChipInterface> list = (List<ChipInterface>) mChipsInput.getSelectedChipList();
+        if (list != null && !list.isEmpty()) {
+            List<String> allNewsCate = new ArrayList<>();
+            for (ChipInterface chipInterface : list) {
+                allNewsCate.add(chipInterface.getLabel());
+            }
+            NewsTopicManager.getInstance().addNewsCatetory(allNewsCate);
+            reInitListViewState(NewsTopicManager.getInstance().getNewsCatetory());
+            mChipsInput.clearFocus();
+            for (String t : allNewsCate) {
+                mChipsInput.removeChipByLabel(t);
+            }
+        }
+        //这里为了设置的tab主题生效
+        AppRestartUtil.restartAppWithoutKillProcess(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AppRestartUtil.restartAppWithoutKillProcess(this);
+    }
 
     @Override
     protected void onResume() {

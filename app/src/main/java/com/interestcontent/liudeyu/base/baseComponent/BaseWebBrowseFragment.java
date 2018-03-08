@@ -19,7 +19,7 @@ import com.example.commonlib.components.LifeCycleMonitor;
 import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.MainActivity;
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.utils.PathUtils;
+import com.interestcontent.liudeyu.base.utils.FilePathUtils;
 import com.interestcontent.liudeyu.contents.weibo.component.ObservableWebView;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.ChromeClientCallbackManager;
@@ -67,9 +67,9 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
         //开启 database storage API 功能
         mAgentWeb.getAgentWebSettings().getWebSettings().setDatabaseEnabled(true);
         mAgentWeb.getAgentWebSettings().getWebSettings().setJavaScriptEnabled(true);
-        boolean isOk = com.blankj.utilcode.util.FileUtils.createOrExistsDir(PathUtils.getWebViewCachePath());
+        boolean isOk = com.blankj.utilcode.util.FileUtils.createOrExistsDir(FilePathUtils.getWebViewCachePath());
         Logger.d("createDir", "create is ok " + isOk);
-        mAgentWeb.getAgentWebSettings().getWebSettings().setAppCachePath(PathUtils.getWebViewCachePath());
+        mAgentWeb.getAgentWebSettings().getWebSettings().setAppCachePath(FilePathUtils.getWebViewCachePath());
         mAgentWeb.getAgentWebSettings().getWebSettings().setAppCacheEnabled(true);
         Fragment fragment = getParentFragment();
         if (fragment != null && fragment instanceof AbsTopTabFragment) {

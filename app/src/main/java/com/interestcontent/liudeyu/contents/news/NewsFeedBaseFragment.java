@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.blankj.utilcode.util.SizeUtils;
+import com.example.commonlib.utils.Logger;
+import com.interestcontent.liudeyu.BuildConfig;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
@@ -28,7 +30,7 @@ import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
  * Created by liudeyu on 2018/2/4.
  */
 
-public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<List<NewsTechBean>> {
+public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<List<NewsTechBean>> {
     public static final String SCIENCE = "科技";
     private NewsPresenter mNewsPresenter;
     public static final String ITEM_TAB = "ITEM_TAB".toLowerCase();
@@ -67,7 +69,8 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
     }
 
     private void startRequestData(FeedConstants.FEED_REQUEST_EMUM type) {
-        int itemTabKey = mItemTab == null ? ItemTab.NEWS_TECHNOLEGE : mItemTab.getItemKey();
+        //这里mItemTab不应该为null
+        int itemTabKey = mItemTab == null ? 99 : mItemTab.getItemKey();
         String url = NewsUrlUtils.getNewsTypeUrl(provideInterestTag(), Constants.NEWS_LEIFENG_NET_BASE);
         mNewsPresenter.execute(url, itemTabKey, type);
     }
@@ -92,6 +95,7 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
         for (NewsTechBean bean : mList) {
             Cell cell = null;
             if (bean.getImageUrls() != null && bean.getImageUrls().size() >= 3) {
+                loggerImageUrls(bean.getImageUrls());
                 cell = new MutilepleImageNewsCell(this, bean);
             } else {
                 cell = new SingeImageNewsCell(bean, this);
@@ -99,6 +103,14 @@ public class NewsTechnologyFragment extends AbsFeedFragment implements IMvpView<
             cellList.add(cell);
         }
         return cellList;
+    }
+
+    private void loggerImageUrls(List<String> imageUrls) {
+        if(BuildConfig.DEBUG){
+            for(String a1:imageUrls){
+                Logger.d("ImageUrls",a1);
+            }
+        }
     }
 
 

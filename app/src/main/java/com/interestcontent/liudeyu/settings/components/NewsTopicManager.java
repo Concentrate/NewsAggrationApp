@@ -24,11 +24,31 @@ import java.util.Set;
 public class NewsTopicManager {
     public static NewsTopicManager sNewsTopicManager;
     private List<String> mList;
+    private List<Integer> mNewsItemIds;
+    private Set<Integer> mNewsItemKeySets;
 
 
     private NewsTopicManager() {
+        getNewsItemTabKeys();
+    }
+
+
+    public boolean isNewsItemKey(int key) {
+        return mNewsItemKeySets.contains(key);
+    }
+
+    public List<Integer> getNewsItemTabKeys() {
+        mList = getNewsCatetory();
+        mNewsItemIds = new ArrayList<>();
+        mNewsItemKeySets = new HashSet<>();
+        for (String t : mList) {
+            mNewsItemIds.add(t.hashCode());
+            mNewsItemKeySets.add(t.hashCode());
+        }
+        return mNewsItemIds;
 
     }
+
 
     public static synchronized NewsTopicManager getInstance() {
         if (sNewsTopicManager == null) {

@@ -26,13 +26,7 @@ public class ItemTab implements Serializable {
     public static final int WEIBO_COMMENT = 9;
 
     //    news
-    public static final int NEWS_TECHNOLEGE = 10; //科技，选用36kr api
-    public static final int NEWS_PHONE = 11;
-    public static final int NEWS_PROGRAM = 12;
-    public static final int NEWS_TENCENT = 13;
-    public static final int NEWS_GOOGLE = 14;
-    public static final int NEWS_LIFE = 15;
-    public static final int NEWS_APPLE = 16;
+//    重构后这里的ItemTab key可以自动生成，依赖于名称
 
 
     // 见解 ，知乎

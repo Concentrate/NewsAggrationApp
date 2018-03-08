@@ -21,6 +21,7 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
     protected ImageView mBackButton;
     protected TextView mToolbarTitle;
     private FrameLayout mFrameLayout;
+    protected TextView mToolbarRightBtn;
 
     protected abstract boolean isUseToolBar();
 
@@ -46,11 +47,14 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
         mBackButton = findViewById(R.id.back_iv);
         mToolbarTitle = findViewById(R.id.title_tv);
         mFrameLayout = findViewById(R.id.content_container_layout);
+        mToolbarRightBtn = findViewById(R.id.tool_bar_right_btn);
         mBackButton.setOnClickListener(this);
         mToolbarTitle.setOnClickListener(this);
+        mToolbarRightBtn.setOnClickListener(this);
         mToolbar.setBackgroundColor(setToolbarColor());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("");
+        mToolbarRightBtn.setVisibility(View.GONE);
     }
 
     protected @ColorInt
@@ -75,6 +79,12 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
             case R.id.title_tv:
                 onTitleTextClick();
                 break;
+            case R.id.tool_bar_right_btn:
+                onToolbarRightBtnClick();
+                break;
         }
+    }
+
+    protected void onToolbarRightBtnClick() {
     }
 }

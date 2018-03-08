@@ -5,19 +5,20 @@ import android.support.v4.app.Fragment;
 
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.contents.news.NewsMainFragment;
-import com.interestcontent.liudeyu.contents.news.NewsTechnologyFragment;
+import com.interestcontent.liudeyu.contents.news.NewsFeedBaseFragment;
 import com.interestcontent.liudeyu.contents.videos.components.VideoBaseFeedFragment;
 import com.interestcontent.liudeyu.contents.videos.components.VideoMainFragments;
-import com.interestcontent.liudeyu.contents.zhihu.fragments.OpinionMainFragment;
-import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuJournalListFragment;
-import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuThemeFragment;
-import com.interestcontent.liudeyu.settings.SettingFragment;
 import com.interestcontent.liudeyu.contents.weibo.WeiboMainFragment;
 import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboMessageFragment;
 import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboProfileFragment;
 import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboSettingFragment;
 import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboFollowFragment;
 import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboHotFragment;
+import com.interestcontent.liudeyu.contents.zhihu.fragments.OpinionMainFragment;
+import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuJournalListFragment;
+import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuThemeFragment;
+import com.interestcontent.liudeyu.settings.SettingFragment;
+import com.interestcontent.liudeyu.settings.components.NewsTopicManager;
 
 /**
  * Created by liudeyu on 2018/1/12.
@@ -28,6 +29,12 @@ public class FragmentFactory {
         Bundle bundle = new Bundle();
         String url = "";
         Fragment fragment = null;
+        if (NewsTopicManager.getInstance().isNewsItemKey(itemTab.getItemKey())) {
+            bundle = NewsFeedBaseFragment.getTopicBundle(itemTab);
+            fragment = new NewsFeedBaseFragment();
+            fragment.setArguments(bundle);
+            return fragment;
+        }
         switch (itemTab.getItemKey()) {
             case ItemTab.TAB_WEIBO:
                 return new WeiboMainFragment();
@@ -47,17 +54,6 @@ public class FragmentFactory {
                 return fragment;
             case ItemTab.WEIBO_SUB_PERSON_SETTING:
                 fragment = new MyWeiboSettingFragment();
-                return fragment;
-            case ItemTab.NEWS_TECHNOLEGE:
-            case ItemTab.NEWS_GOOGLE:
-            case ItemTab.NEWS_PHONE:
-            case ItemTab.NEWS_APPLE:
-            case ItemTab.NEWS_LIFE:
-            case ItemTab.NEWS_PROGRAM:
-            case ItemTab.NEWS_TENCENT:
-                bundle = NewsTechnologyFragment.getTopicBundle(itemTab);
-                fragment = new NewsTechnologyFragment();
-                fragment.setArguments(bundle);
                 return fragment;
             case ItemTab.OPINION_ZHIHU_NEW_LEASTEST:
                 return new ZhihuJournalListFragment();
@@ -79,7 +75,6 @@ public class FragmentFactory {
                 fragment = new VideoBaseFeedFragment();
                 fragment.setArguments(bundle);
                 return fragment;
-
 
 
         }

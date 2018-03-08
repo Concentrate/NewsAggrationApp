@@ -71,7 +71,6 @@ public abstract class WeiboBaseFeedFragment extends AbsFeedFragment implements I
 
     @Override
     public void onQueryError(Exception e) {
-        ToastUtils.setBgResource(R.color.md_deep_orange_300);
         ToastUtils.showShort("网络错误");
         hideLoadMore();
         setRefreshing(false);

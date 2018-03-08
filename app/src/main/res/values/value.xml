@@ -3,15 +3,15 @@
     <!--主页主tab-->
     <string-array name="main_tabs_title">
         <item>见解</item>
-        <item>视频</item>
         <item>新闻</item>
+        <item>视频</item>
         <item>微博</item>
         <item>设置</item>
     </string-array>
     <integer-array name="main_tabs_key">
         <item>18</item>
-        <item>20</item>
         <item>2</item>
+        <item>20</item>
         <item>1</item>
         <item>3</item>
     </integer-array>
@@ -25,7 +25,17 @@
     </string-array>
 
     <string-array name="news_top_tab_name">
+        <item>人工智能</item>
         <item>科技</item>
+        <item>AI+</item>
+        <item>区块链</item>
+        <item>网络安全</item>
+        <item>AR/VR</item>
+        <item>开发者</item>
+        <item>无人机</item>
+        <item>智能硬件</item>
+        <item>物联网</item>
+        <item>评测</item>
         <item>手机</item>
         <item>编程</item>
         <item>Tencent</item>
@@ -33,16 +43,6 @@
         <item>Life</item>
         <item>Apple</item>
     </string-array>
-
-    <integer-array name="news_item_tab">
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
-        <item>16</item>
-    </integer-array>
 
 
     <integer-array name="opinion_item_key">

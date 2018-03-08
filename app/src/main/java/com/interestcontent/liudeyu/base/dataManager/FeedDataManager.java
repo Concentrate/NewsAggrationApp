@@ -5,12 +5,11 @@ import android.util.SparseArray;
 
 import com.example.commonlib.utils.Logger;
 import com.google.gson.Gson;
-import com.interestcontent.liudeyu.base.baseBeans.FeedBaseBean;
 import com.interestcontent.liudeyu.base.baseBeans.BaseRequest;
+import com.interestcontent.liudeyu.base.baseBeans.FeedBaseBean;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
-import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.contents.news.beans.NewsTechBean;
 import com.interestcontent.liudeyu.contents.news.beans.NewsTechoRequest;
@@ -108,7 +107,7 @@ public class FeedDataManager {
     public List<NewsTechBean> getNewsTechListByNet(int itemTabKey, String url, boolean reflash) {
         try {
             if (reflash) {
-                feedTabCurrentPageMap.put(ItemTab.NEWS_TECHNOLEGE, 0);
+                feedTabCurrentPageMap.put(itemTabKey, 0);
             }
             NewsTechoRequest request = getFeedRequestByNet(itemTabKey, url, Constants.NEWS_TECH_PARAMETER.PAGE_COUNT,
                     null, NewsTechoRequest.class);

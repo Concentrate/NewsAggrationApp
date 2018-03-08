@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
 import com.interestcontent.liudeyu.base.constants.Constants;
-import com.interestcontent.liudeyu.base.utils.PathUtils;
+import com.interestcontent.liudeyu.base.utils.FilePathUtils;
 import com.interestcontent.liudeyu.contents.zhihu.bean.ZhihuContentRequest;
 import com.interestcontent.liudeyu.contents.zhihu.util.HtmlUtil;
 import com.just.agentweb.AgentWeb;
@@ -97,9 +97,9 @@ public class ZhihuContentActivity extends BaseActivity {
         //开启 database storage API 功能
         mAgentWeb.getAgentWebSettings().getWebSettings().setDatabaseEnabled(true);
         mAgentWeb.getAgentWebSettings().getWebSettings().setJavaScriptEnabled(true);
-        boolean isOk = com.blankj.utilcode.util.FileUtils.createOrExistsDir(PathUtils.getWebViewCachePath());
+        boolean isOk = com.blankj.utilcode.util.FileUtils.createOrExistsDir(FilePathUtils.getWebViewCachePath());
         Logger.d("createDir", "create is ok " + isOk);
-        mAgentWeb.getAgentWebSettings().getWebSettings().setAppCachePath(PathUtils.getWebViewCachePath());
+        mAgentWeb.getAgentWebSettings().getWebSettings().setAppCachePath(FilePathUtils.getWebViewCachePath());
         mAgentWeb.getAgentWebSettings().getWebSettings().setAppCacheEnabled(true);
         mAgentWeb.getLoader().loadData(HtmlUtil.createHtmlData(response.getBody(),
                 response.getCss(), response.getJs()), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);

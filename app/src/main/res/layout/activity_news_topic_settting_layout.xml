@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/chips_input"
         android:layout_marginTop="3dp"
-        android:text="已有主题标签:"
+        android:text="可选主题标签:"
         android:textColor="@color/Grey_600"
         android:textSize="9sp" />
 
@@ -40,7 +40,7 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/confirm_btn"
         android:background="@drawable/button_shape"
-        android:text="重置默认话题"
+        android:text="重置默认主题"
         android:textColor="@color/white" />
 
     <Button
@@ -51,7 +51,18 @@
         android:layout_below="@id/topic_show_ll"
         android:layout_marginRight="10dp"
         android:background="@drawable/button_shape"
-        android:text="确定"
+        android:text="增加新闻主题"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/add_new_topic_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topic_show_ll"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/reset_default_topic_btn"
+        android:background="@drawable/button_shape"
+        android:text="自定义主题"
         android:textColor="@color/white" />
 
 

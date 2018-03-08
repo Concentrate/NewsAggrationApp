@@ -91,17 +91,13 @@ public class MainActivity extends BaseActivity {
         String[] nameArrays = getResources().getStringArray(R.array.main_tabs_title);
         int[] itemKey = getResources().getIntArray(R.array.main_tabs_key);
         int[] iconArray = new int[]{
-                R.drawable.tab_opinion_selector, R.drawable.tab_videos_selector, R.drawable.tab_news_selector, R.drawable.tab_weibo_selector, R.drawable.tab_setting_selector
+                R.drawable.tab_opinion_selector, R.drawable.tab_news_selector, R.drawable.tab_videos_selector, R.drawable.tab_weibo_selector, R.drawable.tab_setting_selector
         };
         for (int i = 0; i < nameArrays.length; i++) {
             itemTabs.add(new ItemTab(itemKey[i], iconArray[i], nameArrays[i]));
         }
         mViewPager.setAdapter(new BasePageAdapter(getSupportFragmentManager(), itemTabs));
-        if (RamUtil.getMaxMemoryCanGet() >= 256) {
-            mViewPager.setOffscreenPageLimit(3);
-        } else if (RamUtil.getMaxMemoryCanGet() >= 192) {
-            mViewPager.setOffscreenPageLimit(2);
-        }
+        mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
         for (int i = 0; i < itemTabs.size(); i++) {
             mTabLayout.getTabAt(i).setIcon(itemTabs.get(i).getResourceId());
