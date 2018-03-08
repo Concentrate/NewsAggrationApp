@@ -53,12 +53,20 @@ public class Constants {
     }
 
 
-    //  36kr  news
-    public static final String NEWS_36Kr_BASE = "http://120.76.205.241:8000/news/kr36";
-    public static final String NEWS_LEIFENG_NET_BASE ="http://api01.bitspaceman.com:8000/post/leifeng";
+    //  36kr  news Deprecated的刷不出来数据
+    public static final String NEWS_36Kr_BASE = "http://120.76.205.241:8000/news/kr36";//收费api
+    public static final String NEWS_LEIFENG_NET_BASE = "http://api01.bitspaceman.com:8000/post/leifeng";
     public static final String NEWS_TECH_API_KEY = "oUqVYxWWMrP5HEMrzN5CfOnEpNEpD5tDvtgYZV6nPyEemzs9P80k81FVDSpfNeK2";
     public static final String NES_TECH_REQUEST_DOMAIN = "http://120.76.205.241:8000/news/kr36?apikey=oUqVYxWWMrP5HEMrzN5CfOnEpNEpD5tDvtgYZV6nPyEemzs9P80k81FVDSpfNeK2&kw=%E7%8B%AC%E8%A7%92%E5%85%BD";
     public static final String NEWS_36KR_BASE_WEB_DOMAIN = "36kr.com/";
+    public static final @Deprecated
+    String NEWS_CCTV_PLUS_DOMAIN = "http://api01.bitspaceman.com:8000/news/cctvplus"; //央视新闻plus
+    public static final @Deprecated
+    String NEWS_SINA_SPORT_DOMAIN = "http://api01.bitspaceman.com:8000/comment/sina_sport"; //新浪体育
+    public static final String NEWS_YAHOO_DOMAIN = "https://api02.bitspaceman.com/news/yahoo"; //雅虎新闻
+    public static final String NEWS_360_DOMAIN = "http://api01.bitspaceman.com:8000/news/qihoo?";//360新闻
+    public static final @Deprecated
+    String NEWS_SOUGO_DOMAIN = "http://api01.bitspaceman.com:8000/news/sogou"; //搜狗新闻,没图片,不好看
 
     public static class NEWS_TECH_PARAMETER {
         public static final String THEME_PARA = "kw";

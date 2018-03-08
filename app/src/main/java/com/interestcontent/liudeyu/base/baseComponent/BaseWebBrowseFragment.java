@@ -67,6 +67,11 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
         //开启 database storage API 功能
         mAgentWeb.getAgentWebSettings().getWebSettings().setDatabaseEnabled(true);
         mAgentWeb.getAgentWebSettings().getWebSettings().setJavaScriptEnabled(true);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setSupportZoom(true);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setBuiltInZoomControls(true);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setDisplayZoomControls(false);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setLoadWithOverviewMode(true);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setUseWideViewPort(true);
         boolean isOk = com.blankj.utilcode.util.FileUtils.createOrExistsDir(FilePathUtils.getWebViewCachePath());
         Logger.d("createDir", "create is ok " + isOk);
         mAgentWeb.getAgentWebSettings().getWebSettings().setAppCachePath(FilePathUtils.getWebViewCachePath());

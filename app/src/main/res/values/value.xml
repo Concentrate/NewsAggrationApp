@@ -24,7 +24,51 @@
         <item>个人</item>
     </string-array>
 
-    <string-array name="news_top_tab_name">
+
+    <string-array name="news_cctv_plus">
+        <item>热点</item>
+        <item>民生</item>
+        <item>生活</item>
+        <item>房价</item>
+        <item>生活</item>
+        <item>家居</item>
+        <item>教育</item>
+        <item>网民</item>
+        <item>网络</item>
+        <item>互联网产业</item>
+        <item>宅着</item>
+    </string-array>
+
+    <string-array name="news_sina_sport">
+        <item>体育</item>
+        <item>篮球</item>
+        <item>足球</item>
+        <item>排球</item>
+        <item>乒乓球</item>
+        <item>网球</item>
+        <item>奥运会</item>
+        <item>冬奥会</item>
+        <item>运动员</item>
+        <item>NBA</item>
+        <item>CBA</item>
+        <item>湖人</item>
+        <item>骑士</item>
+    </string-array>
+
+    <string-array name="news_topic_default">
+        <item>科技</item>
+        <item>AI+</item>
+        <item>区块链</item>
+        <item>网络安全</item>
+        <item>热点</item>
+        <item>民生</item>
+        <item>科学</item>
+        <item>电影</item>
+        <item>篮球</item>
+        <item>旅游</item>
+    </string-array>
+
+    <string-array name="news_leifeng_techno">
         <item>人工智能</item>
         <item>科技</item>
         <item>AI+</item>
@@ -38,12 +82,31 @@
         <item>评测</item>
         <item>手机</item>
         <item>编程</item>
-        <item>Tencent</item>
-        <item>Google</item>
-        <item>Life</item>
-        <item>Apple</item>
-    </string-array>
+        <item>比特币</item>
+        <item>大公司</item>
+        <item>独角兽</item>
+        <item>腾讯</item>
+        <item>阿里</item>
+        <item>tmd</item>
+        <item>红杉资本</item>
+        <item>投资圈</item>
+        <item>IT大佬</item>
 
+    </string-array>
+    <string-array name="news_360news">
+        <item>美国</item>
+        <item>科技</item>
+        <item>apple</item>
+        <item>微软</item>
+        <item>英国</item>
+        <item>外交</item>
+        <item>旅游</item>
+        <item>境外游</item>
+        <item>google</item>
+        <item>facebook</item>
+        <item>股价</item>
+
+    </string-array>
 
     <integer-array name="opinion_item_key">
         <item>17</item>

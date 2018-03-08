@@ -71,6 +71,9 @@ public class PictureBrowseActivity extends AbsActivity {
             new GetImageCacheTask(this, new GetImageCacheTask.FilePathCallback() {
                 @Override
                 public void fileCachePath(String path) {
+                    if (!PictureBrowseActivity.this.isActive()) {
+                        return;
+                    }
                     mFile = new File(path);
                     if (mFile.isFile() && mFile.exists()) {
                         if ("gif".equals(FileTypeUtils.getFileType(mFile.getAbsolutePath()))) {

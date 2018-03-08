@@ -8,7 +8,6 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.BuildConfig;
 import com.interestcontent.liudeyu.R;
-import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.mvp.IMvpView;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
@@ -17,6 +16,7 @@ import com.interestcontent.liudeyu.contents.news.cells.MutilepleImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.cells.SingeImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.newsUtil.NewsUrlUtils;
 import com.interestcontent.liudeyu.contents.news.presenters.NewsPresenter;
+import com.interestcontent.liudeyu.settings.utils.BestUrlSourceFilterUtil;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
@@ -71,7 +71,7 @@ public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<Li
     private void startRequestData(FeedConstants.FEED_REQUEST_EMUM type) {
         //这里mItemTab不应该为null
         int itemTabKey = mItemTab == null ? 99 : mItemTab.getItemKey();
-        String url = NewsUrlUtils.getNewsTypeUrl(provideInterestTag(), Constants.NEWS_LEIFENG_NET_BASE);
+        String url = NewsUrlUtils.getNewsTypeUrl(provideInterestTag(), BestUrlSourceFilterUtil.getBestUrlForTopic(mItemTab.getTitle()));
         mNewsPresenter.execute(url, itemTabKey, type);
     }
 
@@ -106,9 +106,9 @@ public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<Li
     }
 
     private void loggerImageUrls(List<String> imageUrls) {
-        if(BuildConfig.DEBUG){
-            for(String a1:imageUrls){
-                Logger.d("ImageUrls",a1);
+        if (BuildConfig.DEBUG) {
+            for (String a1 : imageUrls) {
+                Logger.d("ImageUrls", a1);
             }
         }
     }

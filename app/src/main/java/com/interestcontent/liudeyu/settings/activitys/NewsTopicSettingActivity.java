@@ -19,9 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SizeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
+import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.AppRestartUtil;
+import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.settings.components.NewsTopicManager;
 import com.pchmn.materialchips.ChipView;
 import com.pchmn.materialchips.ChipsInput;
@@ -127,10 +130,14 @@ public class NewsTopicSettingActivity extends BaseActivity {
         if (TextUtils.isEmpty(s)) {
             return;
         }
+        if (SharePreferenceUtil.getBooleanPreference(this, SpConstants.NEWS_CUSTOM_TAG_FIRST_SHOW_TIP, true)) {
+            ToastUtils.showLong("太奇怪的新闻主题可能会没有数据或者数据不完全符合要求哦!!");
+            SharePreferenceUtil.setBooleanPreference(this, SpConstants.NEWS_CUSTOM_TAG_FIRST_SHOW_TIP, false);
+        }
         String[] array = s.split("\\s+");
         if (array != null && array.length > 0) {
             List<String> list = Arrays.asList(array);
-            NewsTopicManager.getInstance().addNewsCatetory(list);
+            NewsTopicManager.getInstance().addCustomCreateTopicTag(list);
             reInitListViewState(NewsTopicManager.getInstance().getNewsCatetory());
         }
     }
@@ -138,7 +145,7 @@ public class NewsTopicSettingActivity extends BaseActivity {
     @Override
     protected void onToolbarRightBtnClick() {
         confirmBtnClick();
-        finish();
+        AppRestartUtil.restartAppWithoutKillProcess(this);
     }
 
     private void initTopicShowTipViews() {
@@ -270,7 +277,6 @@ public class NewsTopicSettingActivity extends BaseActivity {
             }
         }
         //这里为了设置的tab主题生效
-        AppRestartUtil.restartAppWithoutKillProcess(this);
     }
 
     @Override
@@ -284,11 +290,6 @@ public class NewsTopicSettingActivity extends BaseActivity {
         super.onResume();
     }
 
-    @Override
-    protected void onBackButtonEvent() {
-        super.onBackButtonEvent();
-        finish();
-    }
 
     private static class MyListViewAdapter extends CommonAdapter<String> {
         public MyListViewAdapter(Context context, int layoutId, List<String> datas) {

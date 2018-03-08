@@ -6,10 +6,10 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
+import com.interestcontent.liudeyu.settings.utils.BestUrlSourceFilterUtil;
 import com.pchmn.materialchips.model.ChipInterface;
 
 import java.util.ArrayList;
@@ -23,9 +23,10 @@ import java.util.Set;
 
 public class NewsTopicManager {
     public static NewsTopicManager sNewsTopicManager;
-    private List<String> mList;
+    private List<String> mCurrentShowNewsTopicList;
     private List<Integer> mNewsItemIds;
     private Set<Integer> mNewsItemKeySets;
+    private Set<String> deleteTopicSet = new HashSet<>();
 
 
     private NewsTopicManager() {
@@ -38,10 +39,10 @@ public class NewsTopicManager {
     }
 
     public List<Integer> getNewsItemTabKeys() {
-        mList = getNewsCatetory();
+        mCurrentShowNewsTopicList = getNewsCatetory();
         mNewsItemIds = new ArrayList<>();
         mNewsItemKeySets = new HashSet<>();
-        for (String t : mList) {
+        for (String t : mCurrentShowNewsTopicList) {
             mNewsItemIds.add(t.hashCode());
             mNewsItemKeySets.add(t.hashCode());
         }
@@ -83,26 +84,26 @@ public class NewsTopicManager {
     public List<String> deleteNewsCateory(int position) {
         List<String> topics = getNewsCatetory();
         if (position < 0 || position >= topics.size()) {
-            return mList;
+            return mCurrentShowNewsTopicList;
         }
-        topics.remove(position);
+        String reTopic = topics.remove(position);
         setNewsCategories(topics);
         return getNewsCatetory();
     }
 
     public List<String> getNewsCatetory() {
-        if (mList != null) {
-            return mList;
+        if (mCurrentShowNewsTopicList != null) {
+            return mCurrentShowNewsTopicList;
         }
-        mList = new ArrayList<>();
-        String tmp = SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.NEWS_CATEGORY_SP);
+        mCurrentShowNewsTopicList = new ArrayList<>();
+        String tmp = SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.NEWS_SELECTED_CATEGORY_SP);
         if (TextUtils.isEmpty(tmp)) {
-            mList = getDefaultCategories();
+            mCurrentShowNewsTopicList = getDefaultCategories();
         } else {
             Gson gson = new Gson();
-            mList = gson.fromJson(tmp, mList.getClass());
+            mCurrentShowNewsTopicList = gson.fromJson(tmp, mCurrentShowNewsTopicList.getClass());
         }
-        return mList;
+        return mCurrentShowNewsTopicList;
     }
 
 
@@ -110,14 +111,19 @@ public class NewsTopicManager {
      * 返回默认的新闻主题
      */
     public List<String> getDefaultCategories() {
-        List<String> aList = new ArrayList<>();
-        String[] topic = MyApplication.sApplication.getResources().getStringArray(R.array.news_top_tab_name);
-        for (String t : topic) {
-            aList.add(t);
-        }
+        List<String> aList = BestUrlSourceFilterUtil.getDefaultNewsTopic();
         return aList;
     }
 
+    /**
+     * 用户自定义产生的新闻标签
+     */
+    public void addCustomCreateTopicTag(@NonNull List<String> custom) {
+        addNewsCatetory(custom);
+        BestUrlSourceFilterUtil.addCustomCreateTopic(custom);
+    }
+
+    /**增加已有的新闻标签*/
     public void addNewsCatetory(@NonNull List<String> newsTopic) {
         List<String> oldCategory = getNewsCatetory();
         for (String tmp : newsTopic) {
@@ -129,17 +135,17 @@ public class NewsTopicManager {
 
     public void setNewsCategories(List<String> newsCategories) {
         if (newsCategories == null || newsCategories.isEmpty()) {
-            mList = new ArrayList<>();
+            mCurrentShowNewsTopicList = new ArrayList<>();
         } else {
-            mList = newsCategories;
+            mCurrentShowNewsTopicList = newsCategories;
         }
-        saveNewsCatetory(mList);
+        saveNewsCatetory(mCurrentShowNewsTopicList);
     }
 
     private boolean saveNewsCatetory(List<String> allCategories) {
         Gson gson = new Gson();
         return SharePreferenceUtil.setStringPreference(MyApplication.sApplication,
-                SpConstants.NEWS_CATEGORY_SP, gson.toJson(allCategories));
+                SpConstants.NEWS_SELECTED_CATEGORY_SP, gson.toJson(allCategories));
 
     }
 
@@ -148,12 +154,7 @@ public class NewsTopicManager {
      * 所有的默认主题
      */
     private List<String> getAllNewsTopicFilter() {
-        List<String> list = new ArrayList<>();
-        String[] topic = MyApplication.sApplication.getResources().getStringArray(R.array.news_top_tab_name);
-        for (String t : topic) {
-            list.add(t);
-        }
-        return list;
+        return BestUrlSourceFilterUtil.getAllTopic();
     }
 
     /**

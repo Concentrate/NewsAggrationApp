@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <com.pchmn.materialchips.ChipsInput
         android:id="@+id/chips_input"
@@ -22,48 +24,57 @@
         android:textColor="@color/Grey_600"
         android:textSize="9sp" />
 
-    <com.interestcontent.liudeyu.base.baseUiKit.baseUiComponent.AutoNextLineLinearlayout
-        android:id="@+id/topic_show_ll"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_below="@id/topic_tip_have_tv"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="3dp"
-        android:clickable="false"
-        android:orientation="horizontal"></com.interestcontent.liudeyu.base.baseUiKit.baseUiComponent.AutoNextLineLinearlayout>
+        android:layout_marginTop="3dp">
+
+        <com.interestcontent.liudeyu.base.baseUiKit.baseUiComponent.AutoNextLineLinearlayout
+            android:id="@+id/topic_show_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:orientation="horizontal"></com.interestcontent.liudeyu.base.baseUiKit.baseUiComponent.AutoNextLineLinearlayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/reset_default_topic_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/topic_show_ll"
+        android:layout_width="@dimen/news_setting_topic_button_width"
+        android:layout_height="@dimen/news_setting_topic_button_height"
+        android:layout_below="@id/scrollView"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/confirm_btn"
         android:background="@drawable/button_shape"
         android:text="重置默认主题"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="9sp" />
 
     <Button
         android:id="@+id/confirm_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/news_setting_topic_button_width"
+        android:layout_height="@dimen/news_setting_topic_button_height"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/topic_show_ll"
+        android:layout_below="@id/scrollView"
         android:layout_marginRight="10dp"
         android:background="@drawable/button_shape"
         android:text="增加新闻主题"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="9sp" />
 
     <Button
         android:id="@+id/add_new_topic_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/topic_show_ll"
+        android:layout_width="@dimen/news_setting_topic_button_width"
+        android:layout_height="@dimen/news_setting_topic_button_height"
+        android:layout_below="@id/scrollView"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/reset_default_topic_btn"
         android:background="@drawable/button_shape"
         android:text="自定义主题"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="9sp" />
 
 
     <TextView
@@ -75,7 +86,7 @@
         android:layout_marginTop="10dp"
         android:text="下列是新闻标签的排序，左滑可删除，长按后可拖曳进行排序"
         android:textColor="@color/Grey_700"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
     <com.yydcdut.sdlv.SlideAndDragListView
         android:id="@+id/slide_list_view"

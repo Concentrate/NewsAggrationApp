@@ -66,7 +66,7 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
     }
 
     protected void onBackButtonEvent() {
-
+        onBackPressed();
     }
 
 

@@ -97,7 +97,11 @@ public class MainActivity extends BaseActivity {
             itemTabs.add(new ItemTab(itemKey[i], iconArray[i], nameArrays[i]));
         }
         mViewPager.setAdapter(new BasePageAdapter(getSupportFragmentManager(), itemTabs));
-        mViewPager.setOffscreenPageLimit(2);
+        if (RamUtil.getMaxMemoryCanGet() > 192) {
+            mViewPager.setOffscreenPageLimit(3);
+        } else {
+            mViewPager.setOffscreenPageLimit(2);
+        }
         mTabLayout.setupWithViewPager(mViewPager);
         for (int i = 0; i < itemTabs.size(); i++) {
             mTabLayout.getTabAt(i).setIcon(itemTabs.get(i).getResourceId());
