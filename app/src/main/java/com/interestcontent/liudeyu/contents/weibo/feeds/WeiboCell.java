@@ -37,9 +37,11 @@ import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.interestcontent.liudeyu.contents.weibo.util.WeiboUrlsUtils.MIDDLE;
+import static com.interestcontent.liudeyu.contents.weibo.util.WeiboUrlsUtils.ORIGIN;
 
 /**
  * Created by liudeyu on 2018/1/2.
@@ -167,7 +169,7 @@ public class WeiboCell extends RVBaseCell<WeiboBean> {
             if (picUrlsBeans != null && !picUrlsBeans.isEmpty()) {
                 int limitPreivewSize = WeiboUrlsUtils.getLimitPreivewSize(picUrlsBeans);
                 imageRecyclerView.setVisibility(View.VISIBLE);
-                List<String> urls = WeiboUrlsUtils.getOriginPicUrls(picUrlsBeans, originPicDomen, limitPreivewSize, MIDDLE);
+                final List<String> urls = WeiboUrlsUtils.getOriginPicUrls(picUrlsBeans, originPicDomen, limitPreivewSize, MIDDLE);
                 imageRecyclerView.setAdapter(new CommonAdapter<String>(mActivity, R.layout.weibo_images_gallery, urls) {
                     @Override
                     protected void convert(ViewHolder holder, final String s, final int position) {
@@ -176,7 +178,8 @@ public class WeiboCell extends RVBaseCell<WeiboBean> {
                         holder.getView(R.id.image_iv).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                PictureBrowseActivity.start(mContext, s.replace(WeiboUrlsUtils.MIDDLE, WeiboUrlsUtils.ORIGIN));
+                                PictureBrowseActivity.start(mContext, (ArrayList<String>) WeiboUrlsUtils.replacePictureSourceTag(
+                                        urls, MIDDLE, ORIGIN), position);
                             }
                         });
                     }

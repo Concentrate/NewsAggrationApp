@@ -30,7 +30,17 @@ public class WeiboUrlsUtils {
 
     public static int getLimitPreivewSize(List<WeiboBean.PicUrlsBean> picUrlsBeans) {
         int limitPreivewSize = picUrlsBeans.size();
-        return limitPreivewSize > 6 ? 6 : limitPreivewSize;
+//        return limitPreivewSize > 6 ? 6 : limitPreivewSize;
+        return limitPreivewSize;
+    }
+
+
+    public static List<String> replacePictureSourceTag(@NonNull List<String> array, String origin, String target) {
+        List<String> res = new ArrayList<>();
+        for (String a1 : array) {
+            res.add(a1.replace(origin, target));
+        }
+        return res;
     }
 
     @NonNull

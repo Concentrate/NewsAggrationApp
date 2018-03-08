@@ -24,6 +24,7 @@ import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -73,7 +74,7 @@ public class MutilepleImageNewsCell extends RVBaseCell<NewsTechBean> {
         RecyclerView imaveRecycleView = (RecyclerView) holder.getView(R.id.news_image_preview_listview);
         imaveRecycleView.setAdapter(new CommonAdapter<String>(mActivity, R.layout.multiple_imageview_display, mData.getImageUrls()) {
             @Override
-            protected void convert(ViewHolder holder, String s, int position) {
+            protected void convert(ViewHolder holder, String s, final int position) {
                 Glide.with(mContext).load(s).transform(new CenterCrop(mContext))
                         .override(mContext.getResources().getDimensionPixelSize(R.dimen.news_mutiple_images_dis_size),
                                 mContext.getResources().getDimensionPixelSize(R.dimen.news_mutiple_images_dis_size))
@@ -82,7 +83,9 @@ public class MutilepleImageNewsCell extends RVBaseCell<NewsTechBean> {
                 holder.getView(R.id.news_multi_image_iv).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        PictureBrowseActivity.start(mContext, picUrl);
+                        ArrayList<String> tmpImgs = new ArrayList<>();
+                        tmpImgs.addAll(mData.getImageUrls());
+                        PictureBrowseActivity.start(mContext, tmpImgs,position);
                     }
                 });
 
