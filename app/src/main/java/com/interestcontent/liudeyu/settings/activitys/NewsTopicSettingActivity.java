@@ -26,6 +26,7 @@ import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.AppRestartUtil;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.settings.components.NewsTopicManager;
+import com.interestcontent.liudeyu.settings.utils.NewsBestUrlSourceFilterUtil;
 import com.pchmn.materialchips.ChipView;
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
@@ -86,17 +87,23 @@ public class NewsTopicSettingActivity extends BaseActivity {
         mConfirm = findViewById(R.id.confirm_btn);
         mChipsInput = findViewById(R.id.chips_input);
         mSlideAndDragListView = findViewById(R.id.slide_list_view);
-        initTopicTipInput();
+        initTopicLableAndInputViews();
         initDragAndDeleteListView();
-        initTopicShowTipViews();
         mRestDefaultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NewsTopicManager.getInstance().setNewsCategories(NewsTopicManager.getInstance().getDefaultCategories());
-                reInitListViewState(NewsTopicManager.getInstance().getNewsCatetory());
+                reInitTopicViewState(NewsTopicManager.getInstance().getNewsCatetory());
             }
         });
 
+        mConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmBtnClick();
+            }
+
+        });
         initAddCustomNewTopic();
         mToolbarRightBtn.setVisibility(View.VISIBLE);
 
@@ -138,7 +145,7 @@ public class NewsTopicSettingActivity extends BaseActivity {
         if (array != null && array.length > 0) {
             List<String> list = Arrays.asList(array);
             NewsTopicManager.getInstance().addCustomCreateTopicTag(list);
-            reInitListViewState(NewsTopicManager.getInstance().getNewsCatetory());
+            reInitTopicViewState(NewsTopicManager.getInstance().getNewsCatetory());
         }
     }
 
@@ -148,13 +155,13 @@ public class NewsTopicSettingActivity extends BaseActivity {
         AppRestartUtil.restartAppWithoutKillProcess(this);
     }
 
-    private void initTopicShowTipViews() {
+    private void initTopicLableAndInputViews() {
         mTopicShowContainer.removeAllViews();
         List<ChipInterface> chipInterfaceList = NewsTopicManager.getInstance().getNotBeSelectedChipInterfaces();
-        for (ChipInterface chipInterface : chipInterfaceList) {
+        mChipsInput.setFilterableList(chipInterfaceList);
+        for (final ChipInterface chipInterface : chipInterfaceList) {
             final ChipView chipView = new ChipView(this);
             chipView.setChip(chipInterface);
-            chipView.setDeletable(false);
             chipView.setLabel(chipInterface.getLabel());
             chipView.setHasAvatarIcon(true);
             chipView.setOnChipClicked(new View.OnClickListener() {
@@ -164,15 +171,23 @@ public class NewsTopicSettingActivity extends BaseActivity {
                 }
             });
             chipView.setClickable(true);
+            chipView.setDeletable(NewsBestUrlSourceFilterUtil.isCustomCreateTopic(chipView.getLabel()));
+            chipView.setOnDeleteClicked(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NewsBestUrlSourceFilterUtil.deleteCustomTopic(chipView.getLabel());
+                    initTopicLableAndInputViews();
+                }
+            });
             mTopicShowContainer.addView(chipView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
-
     }
 
-    private void reInitListViewState(List<String> newsCatetory) {
+
+    private void reInitTopicViewState(List<String> newsCatetory) {
         setMenus(newsCatetory);
         mAdapter.setData(newsCatetory);
-        initTopicShowTipViews();
+        initTopicLableAndInputViews();
     }
 
     private void initDragAndDeleteListView() {
@@ -193,7 +208,7 @@ public class NewsTopicSettingActivity extends BaseActivity {
                         if (buttonPosition == 0) {
                             List<String> data = NewsTopicManager.getInstance().deleteNewsCateory(itemPosition);
                             mAdapter.setData(NewsTopicManager.getInstance().getNewsCatetory());
-                            initTopicShowTipViews();
+                            initTopicLableAndInputViews();
                             return Menu.ITEM_NOTHING;
                         }
                         break;
@@ -250,17 +265,6 @@ public class NewsTopicSettingActivity extends BaseActivity {
         mSlideAndDragListView.setMenu(menus);
     }
 
-    private void initTopicTipInput() {
-        mChipsInput.setFilterableList(NewsTopicManager.getInstance().getNotBeSelectedChipInterfaces());
-        mConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                confirmBtnClick();
-            }
-
-        });
-
-    }
 
     private void confirmBtnClick() {
         List<ChipInterface> list = (List<ChipInterface>) mChipsInput.getSelectedChipList();
@@ -270,7 +274,7 @@ public class NewsTopicSettingActivity extends BaseActivity {
                 allNewsCate.add(chipInterface.getLabel());
             }
             NewsTopicManager.getInstance().addNewsCatetory(allNewsCate);
-            reInitListViewState(NewsTopicManager.getInstance().getNewsCatetory());
+            reInitTopicViewState(NewsTopicManager.getInstance().getNewsCatetory());
             mChipsInput.clearFocus();
             for (String t : allNewsCate) {
                 mChipsInput.removeChipByLabel(t);

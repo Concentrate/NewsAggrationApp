@@ -16,7 +16,7 @@ import com.interestcontent.liudeyu.contents.news.cells.MutilepleImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.cells.SingeImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.newsUtil.NewsUrlUtils;
 import com.interestcontent.liudeyu.contents.news.presenters.NewsPresenter;
-import com.interestcontent.liudeyu.settings.utils.BestUrlSourceFilterUtil;
+import com.interestcontent.liudeyu.settings.utils.NewsBestUrlSourceFilterUtil;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
@@ -71,7 +71,7 @@ public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<Li
     private void startRequestData(FeedConstants.FEED_REQUEST_EMUM type) {
         //这里mItemTab不应该为null
         int itemTabKey = mItemTab == null ? 99 : mItemTab.getItemKey();
-        String url = NewsUrlUtils.getNewsTypeUrl(provideInterestTag(), BestUrlSourceFilterUtil.getBestUrlForTopic(mItemTab.getTitle()));
+        String url = NewsUrlUtils.getNewsTypeUrl(provideInterestTag(), NewsBestUrlSourceFilterUtil.getBestUrlForTopic(mItemTab.getTitle()));
         mNewsPresenter.execute(url, itemTabKey, type);
     }
 

@@ -25,7 +25,7 @@
     </string-array>
 
 
-    <string-array name="news_cctv_plus">
+    <string-array name="news_360_news">
         <item>热点</item>
         <item>民生</item>
         <item>生活</item>
@@ -39,7 +39,7 @@
         <item>宅着</item>
     </string-array>
 
-    <string-array name="news_sina_sport">
+    <string-array name="news_360search_news">
         <item>体育</item>
         <item>篮球</item>
         <item>足球</item>
@@ -54,7 +54,12 @@
         <item>湖人</item>
         <item>骑士</item>
     </string-array>
-
+    <string-array name="news_360news2">
+        <item>英国</item>
+        <item>外交</item>
+        <item>旅游</item>
+        <item>境外游</item>
+    </string-array>
     <string-array name="news_topic_default">
         <item>科技</item>
         <item>AI+</item>
@@ -86,26 +91,22 @@
         <item>大公司</item>
         <item>独角兽</item>
         <item>腾讯</item>
+        <item>大疆</item>
+        <item>百度</item>
+        <item>python</item>
         <item>阿里</item>
         <item>tmd</item>
         <item>红杉资本</item>
         <item>投资圈</item>
         <item>IT大佬</item>
-
-    </string-array>
-    <string-array name="news_360news">
         <item>美国</item>
         <item>科技</item>
         <item>apple</item>
-        <item>微软</item>
-        <item>英国</item>
-        <item>外交</item>
-        <item>旅游</item>
-        <item>境外游</item>
         <item>google</item>
         <item>facebook</item>
         <item>股价</item>
-
+        <item>微软</item>
+        <item>游戏</item>
     </string-array>
 
     <integer-array name="opinion_item_key">

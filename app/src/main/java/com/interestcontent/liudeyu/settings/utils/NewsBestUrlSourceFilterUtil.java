@@ -22,7 +22,7 @@ import java.util.Set;
 /**
  * 根据新闻话题，筛选出最适应的新闻源,并提供新闻tab标题
  */
-public class BestUrlSourceFilterUtil {
+public class NewsBestUrlSourceFilterUtil {
     public static Set<String> cctvTopicSet;
     public static Set<String> sinaSportSet;
     public static Set<String> qihuSet;
@@ -44,17 +44,17 @@ public class BestUrlSourceFilterUtil {
     private static void initAllNeedSets() {
         if (cctvTopicSet == null) {
             cctvTopicSet = new HashSet<>();
-            String[] cctvArr = MyApplication.sApplication.getResources().getStringArray(R.array.news_cctv_plus);
+            String[] cctvArr = MyApplication.sApplication.getResources().getStringArray(R.array.news_360_news);
             cctvTopicSet.addAll(Arrays.asList(cctvArr));
         }
         if (sinaSportSet == null) {
             sinaSportSet = new HashSet<>();
-            String[] cctvArr = MyApplication.sApplication.getResources().getStringArray(R.array.news_sina_sport);
+            String[] cctvArr = MyApplication.sApplication.getResources().getStringArray(R.array.news_360search_news);
             sinaSportSet.addAll(Arrays.asList(cctvArr));
         }
         if (qihuSet == null) {
             qihuSet = new HashSet<>();
-            String[] cctvArr = MyApplication.sApplication.getResources().getStringArray(R.array.news_360news);
+            String[] cctvArr = MyApplication.sApplication.getResources().getStringArray(R.array.news_360news2);
             qihuSet.addAll(Arrays.asList(cctvArr));
         }
 
@@ -65,25 +65,8 @@ public class BestUrlSourceFilterUtil {
         }
     }
 
-    /**
-     * 自定义产生的topic
-     */
-    public static void addCustomCreateTopic(List<String> topic) {
-        String tmp = SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.NEWS_CUSTOM_ADD_TAG_SP, "");
-        Set<String> set = new HashSet<>();
-        Gson gson = new Gson();
-        if (!TextUtils.isEmpty(tmp)) {
-            set = new HashSet<>();
-        }
-        set.addAll(topic);
-        SharePreferenceUtil.setStringPreference(MyApplication.sApplication, SpConstants.NEWS_CUSTOM_ADD_TAG_SP,
-                gson.toJson(set));
-    }
 
-    /**
-     * 得到用户自定义产生的新闻标签
-     */
-    public static Set<String> getCustomCreateTopics() {
+    private static Set<String> getCustomCreateTagSet() {
         String tmp = SharePreferenceUtil.getStringPreference(MyApplication.sApplication, SpConstants.NEWS_CUSTOM_ADD_TAG_SP, "");
         Set<String> set = new HashSet<>();
         Gson gson = new Gson();
@@ -91,6 +74,39 @@ public class BestUrlSourceFilterUtil {
             set = gson.fromJson(tmp, set.getClass());
         }
         return set;
+    }
+
+    /**
+     * 自定义产生的topic
+     */
+    public static void addCustomCreateTopic(List<String> topic) {
+        Set<String> set = getCustomCreateTagSet();
+        set.addAll(topic);
+        saveTopicSetToSp(set);
+    }
+
+    private static void saveTopicSetToSp(Set<String> set) {
+        Gson gson = new Gson();
+        SharePreferenceUtil.setStringPreference(MyApplication.sApplication, SpConstants.NEWS_CUSTOM_ADD_TAG_SP,
+                gson.toJson(set));
+    }
+
+    public static void deleteCustomTopic(String tag) {
+        Set<String> set = getCustomCreateTagSet();
+        set.remove(tag);
+        saveTopicSetToSp(set);
+    }
+
+    public static boolean isCustomCreateTopic(String topic) {
+        Set<String> set = getCustomCreateTagSet();
+        return set.contains(topic);
+    }
+
+    /**
+     * 得到用户自定义产生的新闻标签
+     */
+    public static Set<String> getCustomCreateTopics() {
+        return getCustomCreateTagSet();
     }
 
     public static List<String> getAllTopic() {
@@ -102,7 +118,7 @@ public class BestUrlSourceFilterUtil {
         allTopicSet.addAll(cctvTopicSet);
         allTopicSet.addAll(sinaSportSet);
         allTopicSet.addAll(qihuSet);
-        allTopicSet.addAll(getCustomCreateTopics());
+        allTopicSet.addAll(getCustomCreateTagSet());
         allNewsList.addAll(allTopicSet);
         return allNewsList;
     }

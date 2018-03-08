@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
-import com.interestcontent.liudeyu.settings.utils.BestUrlSourceFilterUtil;
+import com.interestcontent.liudeyu.settings.utils.NewsBestUrlSourceFilterUtil;
 import com.pchmn.materialchips.model.ChipInterface;
 
 import java.util.ArrayList;
@@ -111,7 +111,7 @@ public class NewsTopicManager {
      * 返回默认的新闻主题
      */
     public List<String> getDefaultCategories() {
-        List<String> aList = BestUrlSourceFilterUtil.getDefaultNewsTopic();
+        List<String> aList = NewsBestUrlSourceFilterUtil.getDefaultNewsTopic();
         return aList;
     }
 
@@ -120,7 +120,7 @@ public class NewsTopicManager {
      */
     public void addCustomCreateTopicTag(@NonNull List<String> custom) {
         addNewsCatetory(custom);
-        BestUrlSourceFilterUtil.addCustomCreateTopic(custom);
+        NewsBestUrlSourceFilterUtil.addCustomCreateTopic(custom);
     }
 
     /**增加已有的新闻标签*/
@@ -154,7 +154,7 @@ public class NewsTopicManager {
      * 所有的默认主题
      */
     private List<String> getAllNewsTopicFilter() {
-        return BestUrlSourceFilterUtil.getAllTopic();
+        return NewsBestUrlSourceFilterUtil.getAllTopic();
     }
 
     /**
