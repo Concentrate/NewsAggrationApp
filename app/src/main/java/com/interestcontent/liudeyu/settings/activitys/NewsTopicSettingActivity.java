@@ -143,7 +143,7 @@ public class NewsTopicSettingActivity extends BaseActivity {
         }
         String[] array = s.split("\\s+");
         if (array != null && array.length > 0) {
-            List<String> list = Arrays.asList(array);
+            List<String> list = new ArrayList<>(Arrays.asList(array));
             NewsTopicManager.getInstance().addCustomCreateTopicTag(list);
             reInitTopicViewState(NewsTopicManager.getInstance().getNewsCatetory());
         }

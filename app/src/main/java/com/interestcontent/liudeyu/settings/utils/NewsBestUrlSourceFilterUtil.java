@@ -125,7 +125,7 @@ public class NewsBestUrlSourceFilterUtil {
 
     public static List<String> getDefaultNewsTopic() {
         String[] array = MyApplication.sApplication.getResources().getStringArray(R.array.news_topic_default);
-        return Arrays.asList(array);
+        return new ArrayList<>(Arrays.asList(array));
     }
 
 }
