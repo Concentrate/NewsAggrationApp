@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.dsl.SigningConfig
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
@@ -15,7 +17,7 @@ print "my keystore property is " + keystoreProperties.toString() + "...\n"
 
 android {
     signingConfigs {
-        config {
+        release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile new File(keystoreProperties['storeFile'])
@@ -30,13 +32,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     sourceSets {
