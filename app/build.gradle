@@ -33,6 +33,7 @@ android {
     }
     buildTypes {
         release {
+//            这里混淆之所以不弄是因为有问题，混淆后播放器那里会crash，暂时没找对对策
 //            shrinkResources true
 //            minifyEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

@@ -36,5 +36,6 @@
     <dimen name="news_setting_topic_edittext_height">25dp</dimen>
     <dimen name="news_setting_topic_button_width">55dp</dimen>
     <dimen name="news_setting_topic_button_height">35dp</dimen>
+    <dimen name="news_share_icon_size">25dp</dimen>
 
 </resources>

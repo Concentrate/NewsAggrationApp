@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.dou361.ijkplayer.bean.VideoijkBean;
 import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
@@ -63,7 +65,35 @@ public class VideoDisplayActivity extends BaseActivity {
             mVideoBean = (VideoBean) intent.getSerializableExtra(VIDEOBEAN);
         }
         initViews();
+        initToolbarViews();
+    }
 
+
+    private void initToolbarViews() {
+        if (mToolbar.getVisibility() == View.VISIBLE && mVideoBean.getData().getWebUrl() != null) {
+            final String shareUrl = mVideoBean.getData().getWebUrl().getRaw();
+            ImageView shareImage = new ImageView(this);
+            shareImage.setImageResource(R.drawable.share_icon);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(getResources()
+                    .getDimensionPixelSize(R.dimen.news_share_icon_size), getResources()
+                    .getDimensionPixelSize(R.dimen.news_share_icon_size));
+            layoutParams.setMargins(0, 0, SizeUtils.dp2px(10), 0);
+            shareImage.setLayoutParams(layoutParams);
+            mToolbarCustomContainer.addView(shareImage);
+            shareImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    String des = "这有个视频，我想让你看看, ";
+                    intent.putExtra(Intent.EXTRA_SUBJECT, des);//添加分享内容标题
+                    intent.putExtra(Intent.EXTRA_TEXT, des + shareUrl);//添加分享内容
+                    Intent shareIntent = Intent.createChooser(intent, "选择分享方式");
+                    VideoDisplayActivity.this.startActivity(shareIntent);
+                }
+            });
+
+        }
     }
 
     private void initViews() {

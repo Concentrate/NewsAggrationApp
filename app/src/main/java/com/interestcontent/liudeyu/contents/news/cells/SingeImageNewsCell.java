@@ -59,7 +59,7 @@ public class SingeImageNewsCell extends RVBaseCell<NewsApiBean> {
             Glide.with(mFragment).load(mData.getImageUrls().get(0)).placeholder(R.drawable.vector_drawable_news_img_placeholder)
                     .centerCrop().into(holder.getImageView(R.id.news_display_image_iv));
         } else {
-            holder.getImageView(R.id.news_display_image_iv).setVisibility(View.GONE);
+            holder.getImageView(R.id.news_display_image_iv).setImageResource(R.drawable.vector_drawable_news_img_placeholder);
         }
         holder.getTextView(R.id.news_publish_source_tv).setText(mData.getPosterScreenName());
         holder.getTextView(R.id.news_comment_count_tv).setText("评论数:" + mData.getCommentCount());

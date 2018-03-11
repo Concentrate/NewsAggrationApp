@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.commonlib.components.AbsActivity;
@@ -22,6 +23,7 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
     protected TextView mToolbarTitle;
     private FrameLayout mFrameLayout;
     protected TextView mToolbarRightBtn;
+    protected LinearLayout mToolbarCustomContainer;
 
     protected abstract boolean isUseToolBar();
 
@@ -48,6 +50,7 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
         mToolbarTitle = findViewById(R.id.title_tv);
         mFrameLayout = findViewById(R.id.content_container_layout);
         mToolbarRightBtn = findViewById(R.id.tool_bar_right_btn);
+        mToolbarCustomContainer = findViewById(R.id.tool_bar_container_ll);
         mBackButton.setOnClickListener(this);
         mToolbarTitle.setOnClickListener(this);
         mToolbarRightBtn.setOnClickListener(this);
