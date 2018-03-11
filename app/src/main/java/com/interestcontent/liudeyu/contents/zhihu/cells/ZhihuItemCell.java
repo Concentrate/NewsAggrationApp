@@ -2,6 +2,7 @@ package com.interestcontent.liudeyu.contents.zhihu.cells;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,10 @@ import com.interestcontent.liudeyu.contents.zhihu.contents.ZhihuContentActivity;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by liudeyu on 2018/2/8.
  */
@@ -22,11 +27,16 @@ import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
 public class ZhihuItemCell extends RVBaseCell<StoriesBean> {
     private Activity mActivity;
     private android.support.v4.app.Fragment mFragment;
+    private String date;
 
     public ZhihuItemCell(StoriesBean storiesBean, Fragment fragment) {
         super(storiesBean);
         mFragment = fragment;
         mActivity = mFragment.getActivity();
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override
@@ -54,6 +64,17 @@ public class ZhihuItemCell extends RVBaseCell<StoriesBean> {
                 ZhihuContentActivity.start(mActivity, mData.getId() + "");
             }
         });
+        if (!TextUtils.isEmpty(date)) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat afterFormat=new SimpleDateFormat("yyyy年MM月dd日");
+            try {
+                Date aDate = format.parse(date);
+                holder.getTextView(R.id.date_tv).setText(afterFormat.format(aDate));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

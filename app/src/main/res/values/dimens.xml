@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="tab_size" type="dimen">55dp</item>
-    <item name="sub_top_tab_size" type="dimen">55dp</item>
+    <item name="sub_top_tab_size" type="dimen">30dp</item>
     <item name="selected_tab_color_height" type="dimen">3dp</item>
     <item name="login_button_size" type="dimen">70dp</item>
     <item name="feed_header_icon_size" type="dimen">50dp</item>

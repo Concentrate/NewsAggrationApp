@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by liudeyu on 2018/2/4.
  */
-public class NewsTechBean extends FeedBaseBean {
+public class NewsApiBean extends FeedBaseBean {
     /**
      * favoriteCount : 0
      * viewCount : 97

@@ -2,16 +2,16 @@
 <resources>
     <!--主页主tab-->
     <string-array name="main_tabs_title">
-        <item>见解</item>
         <item>新闻</item>
         <item>视频</item>
+        <item>见解</item>
         <item>微博</item>
         <item>设置</item>
     </string-array>
     <integer-array name="main_tabs_key">
-        <item>18</item>
         <item>2</item>
         <item>20</item>
+        <item>18</item>
         <item>1</item>
         <item>3</item>
     </integer-array>

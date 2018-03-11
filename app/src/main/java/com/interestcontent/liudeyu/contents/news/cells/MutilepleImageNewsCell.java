@@ -15,7 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
-import com.interestcontent.liudeyu.contents.news.beans.NewsTechBean;
+import com.interestcontent.liudeyu.contents.news.beans.NewsApiBean;
 import com.interestcontent.liudeyu.contents.weibo.contents.PictureBrowseActivity;
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
@@ -31,12 +31,12 @@ import java.util.Date;
  * Created by liudeyu on 2018/2/5.
  */
 
-public class MutilepleImageNewsCell extends RVBaseCell<NewsTechBean> {
+public class MutilepleImageNewsCell extends RVBaseCell<NewsApiBean> {
 
     private Context mActivity;
     private Fragment mFragment;
 
-    public MutilepleImageNewsCell(Fragment fragment, NewsTechBean newsTechnoBean) {
+    public MutilepleImageNewsCell(Fragment fragment, NewsApiBean newsTechnoBean) {
         super(newsTechnoBean);
         mFragment = fragment;
         mActivity = mFragment.getActivity();
@@ -60,8 +60,8 @@ public class MutilepleImageNewsCell extends RVBaseCell<NewsTechBean> {
         holder.getTextView(R.id.news_publish_source_tv).setText(mData.getPosterScreenName());
         holder.getTextView(R.id.news_comment_count_tv).setText("评论数:" + mData.getCommentCount());
         long publishTime = mData.getPublishDate();
-        Date date = new Date(publishTime);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE MMMMdd日");
+        Date date = new Date(publishTime*1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         holder.getTextView(R.id.news_publish_time_tv).setText(dateFormat.format(date));
         holder.getItemView().setOnClickListener(new View.OnClickListener() {
             @Override

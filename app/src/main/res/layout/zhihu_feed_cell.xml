@@ -2,9 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:layout_marginTop="10dp"
+    android:layout_height="100dp"
     android:paddingLeft="5dp"
     android:paddingRight="5dp">
 
@@ -25,8 +23,20 @@
         android:id="@+id/image_iv"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_centerVertical="true"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/Grey_500"
+        android:textSize="9sp"
+        tools:text="2017年" />
 
 
 </RelativeLayout>

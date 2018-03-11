@@ -84,6 +84,9 @@ public class VideoBaseFeedFragment extends AbsFeedFragment {
     }
 
     private void onDataSuccess(VideoRequest request) {
+        if(request==null){
+            return;
+        }
         mNextReUrl = request.getNextPageUrl();
         if (request.getItemList() == null || request.getItemList().isEmpty()) {
             return;

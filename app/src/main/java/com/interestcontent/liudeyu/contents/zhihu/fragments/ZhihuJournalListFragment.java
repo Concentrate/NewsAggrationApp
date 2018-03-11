@@ -85,7 +85,9 @@ public class ZhihuJournalListFragment extends AbsFeedFragment implements IMvpVie
         if (isLoadMore) {
             List<Cell> cellList = new ArrayList<>();
             for (int i = 0; i < result.getStories().size(); i++) {
-                cellList.add(new ZhihuItemCell(result.getStories().get(i), this));
+                ZhihuItemCell itemCell=new ZhihuItemCell(result.getStories().get(i), this);
+                itemCell.setDate(result.getDate());
+                cellList.add(itemCell);
             }
             mBaseAdapter.addAll(cellList);
             return;
@@ -95,7 +97,9 @@ public class ZhihuJournalListFragment extends AbsFeedFragment implements IMvpVie
         BannerCell bannerCell = new BannerCell(result.getTop_stories(), this);
         cellList.add(bannerCell);
         for (int i = 0; i < result.getStories().size(); i++) {
-            cellList.add(new ZhihuItemCell(result.getStories().get(i), this));
+            ZhihuItemCell itemCell=new ZhihuItemCell(result.getStories().get(i), this);
+            itemCell.setDate(result.getDate());
+            cellList.add(itemCell);
         }
         mBaseAdapter.setData(cellList);
     }

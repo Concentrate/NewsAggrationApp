@@ -11,7 +11,7 @@ import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
-import com.interestcontent.liudeyu.contents.news.beans.NewsTechBean;
+import com.interestcontent.liudeyu.contents.news.beans.NewsApiBean;
 import com.interestcontent.liudeyu.contents.news.beans.NewsTechoRequest;
 import com.interestcontent.liudeyu.contents.weibo.contents.comment.WeiboCommentRequet;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboBean;
@@ -97,14 +97,14 @@ public class FeedDataManager {
     }
 
     /****** news */
-    public List<NewsTechBean> getNewsTechListAtFirst(int itemTabKey, String url) {
+    public List<NewsApiBean> getNewsTechListAtFirst(int itemTabKey, String url) {
         if (feedRamCacheData.get(itemTabKey) != null && !feedRamCacheData.get(itemTabKey).isEmpty()) {
-            return (List<NewsTechBean>) feedRamCacheData.get(itemTabKey);
+            return (List<NewsApiBean>) feedRamCacheData.get(itemTabKey);
         }
         return getNewsTechListByNet(itemTabKey, url, true);
     }
 
-    public List<NewsTechBean> getNewsTechListByNet(int itemTabKey, String url, boolean reflash) {
+    public List<NewsApiBean> getNewsTechListByNet(int itemTabKey, String url, boolean reflash) {
         try {
             if (reflash) {
                 feedTabCurrentPageMap.put(itemTabKey, 0);
@@ -117,7 +117,7 @@ public class FeedDataManager {
         } catch (Exception e) {
 
         }
-        return new ArrayList<NewsTechBean>();
+        return new ArrayList<NewsApiBean>();
     }
 
 

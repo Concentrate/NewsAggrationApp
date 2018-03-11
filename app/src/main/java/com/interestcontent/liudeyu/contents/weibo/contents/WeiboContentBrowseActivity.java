@@ -24,7 +24,7 @@ public class WeiboContentBrowseActivity extends BrowseActivity {
 
 
     @Override
-    protected boolean isUseFullAScreenAndTransparent() {
+    protected boolean isUseFullAScreen() {
         return true;
     }
 

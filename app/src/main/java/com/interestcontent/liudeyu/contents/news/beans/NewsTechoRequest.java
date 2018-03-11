@@ -24,7 +24,7 @@ public class NewsTechoRequest extends BaseRequest {
     private String retcode;
     private String pageToken;
     private String appCode;
-    private List<NewsTechBean> data;
+    private List<NewsApiBean> data;
 
     public String getDataType() {
         return dataType;
@@ -66,11 +66,11 @@ public class NewsTechoRequest extends BaseRequest {
         this.appCode = appCode;
     }
 
-    public List<NewsTechBean> getData() {
+    public List<NewsApiBean> getData() {
         return data;
     }
 
-    public void setData(List<NewsTechBean> data) {
+    public void setData(List<NewsApiBean> data) {
         this.data = data;
     }
 

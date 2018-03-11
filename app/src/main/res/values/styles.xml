@@ -9,6 +9,7 @@
 
     <style name="TabLayout.TopTabTextStyle" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
 

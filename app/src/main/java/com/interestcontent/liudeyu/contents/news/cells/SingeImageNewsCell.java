@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
-import com.interestcontent.liudeyu.contents.news.beans.NewsTechBean;
+import com.interestcontent.liudeyu.contents.news.beans.NewsApiBean;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
@@ -22,14 +22,14 @@ import java.util.Date;
  * Created by liudeyu on 2018/2/4.
  */
 
-public class SingeImageNewsCell extends RVBaseCell<NewsTechBean> {
+public class SingeImageNewsCell extends RVBaseCell<NewsApiBean> {
 
 
     private Activity mActivity;
     private Fragment mFragment;
 
 
-    public SingeImageNewsCell(NewsTechBean newsTechnoBean, Fragment fragment) {
+    public SingeImageNewsCell(NewsApiBean newsTechnoBean, Fragment fragment) {
         super(newsTechnoBean);
         mFragment = fragment;
         mActivity = mFragment.getActivity();
@@ -56,15 +56,16 @@ public class SingeImageNewsCell extends RVBaseCell<NewsTechBean> {
     public void onBindViewHolder(RVBaseViewHolder holder, final int position) {
         holder.getTextView(R.id.news_title_tv).setText(mData.getTitle());
         if (mData.getImageUrls() != null) {
-            Glide.with(mFragment).load(mData.getImageUrls().get(0)).centerCrop().into(holder.getImageView(R.id.news_display_image_iv));
+            Glide.with(mFragment).load(mData.getImageUrls().get(0)).placeholder(R.drawable.vector_drawable_news_img_placeholder)
+                    .centerCrop().into(holder.getImageView(R.id.news_display_image_iv));
         } else {
             holder.getImageView(R.id.news_display_image_iv).setVisibility(View.GONE);
         }
         holder.getTextView(R.id.news_publish_source_tv).setText(mData.getPosterScreenName());
         holder.getTextView(R.id.news_comment_count_tv).setText("评论数:" + mData.getCommentCount());
         long publishTime = mData.getPublishDate();
-        Date date = new Date(publishTime);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE MMMMdd日");
+        Date date = new Date(publishTime * 1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         holder.getTextView(R.id.news_publish_time_tv).setText(dateFormat.format(date));
         holder.getItemView().setOnClickListener(new View.OnClickListener() {
             @Override

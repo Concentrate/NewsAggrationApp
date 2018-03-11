@@ -45,15 +45,16 @@ public class ZhihuThemeCell extends RVBaseCell<ZhihuThemeRequest.ThemeBean> {
     @Override
     public void onBindViewHolder(RVBaseViewHolder holder, int position) {
         if (!TextUtils.isEmpty(mData.getThumbnail())) {
-            Glide.with(mActivity).load(mData.getThumbnail()).transform(new GlideRoundTransform(mActivity, 5)
-                    , new CenterCrop(mActivity)).into(holder.getImageView(R.id.theme_avater));
+            Glide.with(mActivity).load(mData.getThumbnail()).placeholder(R.drawable.cat_img_placeholder)
+                    .transform(new GlideRoundTransform(mActivity, 5)
+                            , new CenterCrop(mActivity)).into(holder.getImageView(R.id.theme_avater));
         }
         holder.getTextView(R.id.theme_title).setText(mData.getName());
         holder.getTextView(R.id.theme_des).setText(mData.getDescription());
         holder.getItemView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ZhihuThemeGarallyActivity.start(mActivity,mData.getId()+"");
+                ZhihuThemeGarallyActivity.start(mActivity, mData.getId() + "");
             }
         });
     }

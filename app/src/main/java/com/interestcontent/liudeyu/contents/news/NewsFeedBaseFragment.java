@@ -9,9 +9,10 @@ import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.BuildConfig;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
+import com.interestcontent.liudeyu.base.constants.LoggerConstants;
 import com.interestcontent.liudeyu.base.mvp.IMvpView;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
-import com.interestcontent.liudeyu.contents.news.beans.NewsTechBean;
+import com.interestcontent.liudeyu.contents.news.beans.NewsApiBean;
 import com.interestcontent.liudeyu.contents.news.cells.MutilepleImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.cells.SingeImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.newsUtil.NewsUrlUtils;
@@ -30,7 +31,7 @@ import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
  * Created by liudeyu on 2018/2/4.
  */
 
-public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<List<NewsTechBean>> {
+public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<List<NewsApiBean>> {
     public static final String SCIENCE = "科技";
     private NewsPresenter mNewsPresenter;
     public static final String ITEM_TAB = "ITEM_TAB".toLowerCase();
@@ -91,8 +92,8 @@ public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<Li
             return new ArrayList<>();
         }
         List<Cell> cellList = new ArrayList<>();
-        List<NewsTechBean> mList = list;
-        for (NewsTechBean bean : mList) {
+        List<NewsApiBean> mList = list;
+        for (NewsApiBean bean : mList) {
             Cell cell = null;
             if (bean.getImageUrls() != null && bean.getImageUrls().size() >= 3) {
                 loggerImageUrls(bean.getImageUrls());
@@ -115,7 +116,7 @@ public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<Li
 
 
     @Override
-    public void onQueryResult(List<NewsTechBean> result) {
+    public void onQueryResult(List<NewsApiBean> result) {
         mBaseAdapter.setData(getCells(result));
         hideLoadMore();
         setRefreshing(false);
@@ -123,6 +124,7 @@ public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<Li
 
     @Override
     public void onQueryError(Exception e) {
+        Logger.d(LoggerConstants.RELEASE_DATA_PROBLEM,e.getMessage());
         hideLoadMore();
         setRefreshing(false);
     }

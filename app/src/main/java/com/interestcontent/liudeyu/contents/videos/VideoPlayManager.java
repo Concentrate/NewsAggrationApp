@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.blankj.utilcode.util.NetworkUtils;
 import com.bumptech.glide.Glide;
 import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.widget.PlayStateParams;
@@ -59,12 +58,10 @@ public class VideoPlayManager {
         if (bean.getData().getCover() != null) {
             coverUrl = bean.getData().getCover().getFeed();
         }
-        if (!NetworkUtils.isWifiConnected()) {
-            if (bean.getData().getPlayInfo() != null && !bean.getData().getPlayInfo().isEmpty()) {
-                for (VideoBean.DataBean.PlayInfoBean playInfoBean : bean.getData().getPlayInfo()) {
-                    if ("normal".equals(playInfoBean.getType())) {
-                        mPlayUrl = playInfoBean.getUrl();
-                    }
+        if (bean.getData().getPlayInfo() != null && !bean.getData().getPlayInfo().isEmpty()) {
+            for (VideoBean.DataBean.PlayInfoBean playInfoBean : bean.getData().getPlayInfo()) {
+                if ("normal".equals(playInfoBean.getType())) {
+                    mPlayUrl = playInfoBean.getUrl();
                 }
             }
         }

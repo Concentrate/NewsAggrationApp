@@ -155,6 +155,7 @@ public class ZhihuThemeGarallyActivity extends BaseActivity {
         });
         mPullReflashRv.setHasMore(false);
         mPullReflashRv.setSwipeRefreshEnable(false);
+        mPullReflashRv.setPullRefreshEnable(false);
         mPullReflashRv.setBackgroundColor(getResources().getColor(R.color.white));
     }
 

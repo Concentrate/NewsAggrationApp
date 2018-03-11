@@ -4,8 +4,8 @@ import android.app.Application;
 import android.util.Log;
 
 import com.blankj.utilcode.util.Utils;
-import com.interestcontent.liudeyu.BuildConfig;
 import com.example.commonlib.utils.Logger;
+import com.interestcontent.liudeyu.BuildConfig;
 import com.interestcontent.liudeyu.base.thread.TaskManager;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -26,12 +26,12 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sApplication = this;
-        if(!BuildConfig.DEBUG){
-            Logger.setLogLevel(Log.ASSERT+1);
+        if (!BuildConfig.DEBUG) {
+            Logger.setLogLevel(Log.ASSERT + 1);
         }
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(10*1000L, TimeUnit.MILLISECONDS)
-                .readTimeout(60*1000L, TimeUnit.MILLISECONDS)
+                .connectTimeout(10 * 1000L, TimeUnit.MILLISECONDS)
+                .readTimeout(60 * 1000L, TimeUnit.MILLISECONDS)
                 //其他配置
                 .build();
 
