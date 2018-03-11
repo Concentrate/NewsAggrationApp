@@ -10,29 +10,31 @@ import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.bumptech.glide.Glide;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.commonlib.components.AbsActivity;
 import com.example.commonlib.utils.Logger;
+import com.felipecsl.gifimageview.library.GifImageView;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.utils.FilePathUtils;
 import com.interestcontent.liudeyu.base.utils.MyPermissionDIalogRequetUtil;
 import com.interestcontent.liudeyu.contents.weibo.component.GetImageCacheTask;
-import com.interestcontent.liudeyu.settings.ThemeDataManager;
 import com.interestcontent.liudeyu.util.FileTypeUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by liudeyu on 2018/1/16.
@@ -46,13 +48,17 @@ public class PictureBrowseActivity extends AbsActivity implements View.OnTouchLi
     protected static final float FLIP_DISTANCE = 500;
 
     @BindView(R.id.imagebrowseView)
-    SubsamplingScaleImageView mImageView;
+    SubsamplingScaleImageView mScaleImageView;
     @BindView(R.id.gif_image_view)
-    ImageView mGifImageView;
+    GifImageView mGifImageView;
     @BindView(R.id.save_pic_tv)
     TextView mSaveTextView;
     @BindView(R.id.indictor_tv)
     TextView mIndicatorTv;
+    @BindView(R.id.nextpage_tv)
+    TextView mNextPage;
+    @BindView(R.id.lastpage_tv)
+    TextView mLastPage;
     public static final int SCALE_SIZE = (int) (1.2f * 1000 * 1000);
     private ArrayList<String> mUrlList;
     private File mFile;
@@ -69,7 +75,7 @@ public class PictureBrowseActivity extends AbsActivity implements View.OnTouchLi
 
     @Override
     protected int getStatusBarColor() {
-        return ThemeDataManager.getInstance().getThemeColorInt();
+        return getResources().getColor(R.color.black);
     }
 
     @Override
@@ -98,11 +104,11 @@ public class PictureBrowseActivity extends AbsActivity implements View.OnTouchLi
         });
         initGestore();
         mGifImageView.setOnTouchListener(this);
-        mImageView.setOnTouchListener(this);
+        mScaleImageView.setOnTouchListener(this);
     }
 
     private void loadImage(String url) {
-        mIndicatorTv.setText((mCurrentPicPosition+1)+"/"+mUrlList.size()+"");
+        mIndicatorTv.setText((mCurrentPicPosition + 1) + "/" + mUrlList.size() + "");
         new GetImageCacheTask(this, new GetImageCacheTask.FilePathCallback() {
             @Override
             public void fileCachePath(String path) {
@@ -112,17 +118,39 @@ public class PictureBrowseActivity extends AbsActivity implements View.OnTouchLi
                 mFile = new File(path);
                 if (mFile.isFile() && mFile.exists()) {
                     if ("gif".equals(FileTypeUtils.getFileType(mFile.getAbsolutePath()))) {
-                        mImageView.setVisibility(View.GONE);
+                        mScaleImageView.setVisibility(View.GONE);
                         mGifImageView.setVisibility(View.VISIBLE);
-                        Glide.with(PictureBrowseActivity.this).load(mFile).asGif().into(mGifImageView);
+                        try {
+                            FileInputStream inputStream = new FileInputStream(mFile);
+                            byte[] data = new byte[inputStream.available()];
+                            inputStream.read(data);
+                            mGifImageView.setBytes(data);
+                            mGifImageView.startAnimation();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         mGifImageView.setVisibility(View.GONE);
-                        mImageView.setVisibility(View.VISIBLE);
-                        mImageView.setImage(ImageSource.uri(path));
+                        mScaleImageView.setVisibility(View.VISIBLE);
+                        mScaleImageView.setImage(ImageSource.uri(path));
                     }
                 }
             }
         }).execute(url);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGifImageView.startAnimation();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGifImageView.stopAnimation();
     }
 
     private void initGestore() {
@@ -218,6 +246,23 @@ public class PictureBrowseActivity extends AbsActivity implements View.OnTouchLi
         }
     }
 
+    @OnClick(value = {R.id.nextpage_tv, R.id.lastpage_tv})
+    void onClickNext(View view) {
+        switch (view.getId()) {
+            case R.id.nextpage_tv:
+                if (mCurrentPicPosition >= mUrlList.size() - 1) {
+                    return;
+                }
+                loadImage(mUrlList.get(++mCurrentPicPosition));
+                break;
+            case R.id.lastpage_tv:
+                if (mCurrentPicPosition <= 0) {
+                    return;
+                }
+                loadImage(mUrlList.get(--mCurrentPicPosition));
+                break;
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

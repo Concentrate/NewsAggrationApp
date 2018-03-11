@@ -3,19 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    android:gravity="center">
+    android:background="@color/black">
 
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
         android:id="@+id/imagebrowseView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ImageView
+
+    <com.felipecsl.gifimageview.library.GifImageView
         android:id="@+id/gif_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:src="@drawable/interest_logo" />
+
 
     <TextView
         android:id="@+id/save_pic_tv"
@@ -39,8 +42,29 @@
         android:padding="15dp"
         android:textColor="@color/white"
         android:textSize="16sp"
-        tools:text="1/4"
+        tools:text="1/4" />
 
-        />
+    <TextView
+        android:id="@+id/lastpage_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="15dp"
+        android:text="上一张"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/nextpage_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:padding="15dp"
+        android:text="下一张"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
 
 </RelativeLayout>
