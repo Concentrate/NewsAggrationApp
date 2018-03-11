@@ -53,6 +53,7 @@
             android:screenOrientation="portrait"
             />
         <activity android:name=".settings.activitys.NewsTopicSettingActivity"/>
+        <activity android:name=".contents.search.SearchActivity"/>
     </application>
 
 </manifest>

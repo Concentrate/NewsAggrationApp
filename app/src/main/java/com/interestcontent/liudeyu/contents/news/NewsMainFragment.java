@@ -26,6 +26,8 @@ public class NewsMainFragment extends AbsTopTabFragment {
         return itemTabs;
     }
 
+
+
     @Override
     protected int viewpagerLimitNum() {
         if (RamUtil.getMaxMemoryCanGet() >= 192) {

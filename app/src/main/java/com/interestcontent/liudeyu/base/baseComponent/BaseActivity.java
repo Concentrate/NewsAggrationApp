@@ -1,7 +1,6 @@
 package com.interestcontent.liudeyu.base.baseComponent;
 
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -44,6 +43,13 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setStatusBarColor();
+        setToolbarColor();
+    }
+
     protected void initBaseUiData() {
         mToolbar = findViewById(R.id.tool_bar);
         mBackButton = findViewById(R.id.back_iv);
@@ -54,15 +60,18 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
         mBackButton.setOnClickListener(this);
         mToolbarTitle.setOnClickListener(this);
         mToolbarRightBtn.setOnClickListener(this);
-        mToolbar.setBackgroundColor(setToolbarColor());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("");
         mToolbarRightBtn.setVisibility(View.GONE);
     }
 
-    protected @ColorInt
-    int setToolbarColor() {
-        return getResources().getColor(R.color.md_white_1000);
+
+    protected int provideToolbarColor() {
+        return getResources().getColor(R.color.white);
+    }
+
+    private void setToolbarColor() {
+        mToolbar.setBackgroundColor(provideToolbarColor());
     }
 
     protected void onTitleTextClick() {

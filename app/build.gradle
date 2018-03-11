@@ -106,4 +106,5 @@ dependencies {
     compile 'com.github.pchmn:MaterialChipsInput:1.0.8'
     compile 'com.yydcdut.sdlv:sdlv:0.7.0'
     compile 'com.felipecsl:gifimageview:2.2.0'
+    compile 'com.carson_ho:Super_EditText:1.0.0'
 }

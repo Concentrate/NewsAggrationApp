@@ -227,7 +227,6 @@ public abstract class AbsActivity extends AppCompatActivity implements IComponen
     protected void onResume() {
         super.onResume();
         mStatusActive = true;
-        setStatusBarColor();
     }
 
     @Override

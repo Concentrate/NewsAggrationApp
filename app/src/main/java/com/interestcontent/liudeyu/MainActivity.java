@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
 import com.interestcontent.liudeyu.base.baseUiKit.AdvanceViewPager;
@@ -13,6 +15,7 @@ import com.interestcontent.liudeyu.base.tabs.BasePageAdapter;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.base.utils.BrightnessUtil;
 import com.interestcontent.liudeyu.base.utils.RamUtil;
+import com.interestcontent.liudeyu.contents.search.SearchActivity;
 import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.settings.ThemeDataManager;
 import com.sina.weibo.sdk.WbSdk;
@@ -34,6 +37,7 @@ public class MainActivity extends BaseActivity {
     AdvanceViewPager mViewPager;
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
+    private int mNewsTab = 0;
 
     @Override
     protected boolean isUseFullAScreen() {
@@ -42,7 +46,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected boolean isUseToolBar() {
-        return false;
+        return true;
     }
 
     @Override
@@ -79,9 +83,55 @@ public class MainActivity extends BaseActivity {
 
             }
         });
-        mViewPager.setCurrentItem(0);
         mViewPager.setCanScroll(false);
-        RamUtil.LoogerMemoery();
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setSearchBarState(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        mViewPager.setCurrentItem(0);
+        setSearchBarState(mViewPager.getCurrentItem());
+
+    }
+
+    @Override
+    protected int provideToolbarColor() {
+        return ThemeDataManager.getInstance().getThemeColorInt();
+    }
+
+    private void setSearchBarState(int position) {
+        if (position == mNewsTab) {
+            mToolbar.setVisibility(View.VISIBLE);
+            addSearchBar();
+
+        } else {
+            mToolbar.setVisibility(View.GONE);
+        }
+    }
+
+    private void addSearchBar() {
+        View view = LayoutInflater.from(this).inflate(R.layout.search_bar_layout, null);
+        mBackButton.setVisibility(View.GONE);
+        mToolbarCustomContainer.removeAllViews();
+        mToolbarCustomContainer.addView(view);
+        TextView search = view.findViewById(R.id.sear_tv);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SearchActivity.start(MainActivity.this);
+            }
+        });
 
     }
 

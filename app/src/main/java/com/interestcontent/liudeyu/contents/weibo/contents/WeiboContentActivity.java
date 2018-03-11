@@ -342,10 +342,7 @@ public class WeiboContentActivity extends BaseActivity {
         return ThemeDataManager.getInstance().getThemeColorInt();
     }
 
-    @Override
-    protected int setToolbarColor() {
-        return ThemeDataManager.getInstance().getThemeColorInt();
-    }
+
 
     @Override
     protected View getResourceLayout() {
