@@ -104,7 +104,6 @@ public class WeiboContentActivity extends BaseActivity {
     PullLoadMoreRecyclerView mCommentRecycleView;
     private Context mContext;
     private WeiboBean mWeiboBean;
-    private boolean isFirstTimeRequestComment = true;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -161,7 +160,7 @@ public class WeiboContentActivity extends BaseActivity {
                 initViews();
                 initCommentRecycleViews();
                 initData(mWeiboBean);
-                startRequestCommentData();
+                startRequestCommentData(true);
             }
         }
     }
@@ -215,7 +214,7 @@ public class WeiboContentActivity extends BaseActivity {
 
             @Override
             public void onLoadMore() {
-                startRequestCommentData();
+                startRequestCommentData(false);
             }
         });
         mCommentRecycleView.setFooterViewText("加载中...");
@@ -224,7 +223,7 @@ public class WeiboContentActivity extends BaseActivity {
     }
 
 
-    private void startRequestCommentData() {
+    private void startRequestCommentData(final boolean isFirstTimeRequestComment) {
         TaskManager.inst().commit(mHandler, new Callable() {
             @Override
             public Object call() throws Exception {
@@ -232,7 +231,6 @@ public class WeiboContentActivity extends BaseActivity {
                 builder.setEveryPageCount(20).setWeiboId(mWeiboBean.getId() + "");
                 List<WeiboCommontBean> list = FeedDataManager.getInstance().getWeiboCommentListByNet(ItemTab.WEIBO_COMMENT,
                         Constants.WEIBO_COMMENT_API, builder.build().getParaMap(), isFirstTimeRequestComment);
-                isFirstTimeRequestComment = false;
                 return list;
             }
         }, WHAT);
@@ -342,7 +340,10 @@ public class WeiboContentActivity extends BaseActivity {
         return ThemeDataManager.getInstance().getThemeColorInt();
     }
 
-
+    @Override
+    protected int provideToolbarColor() {
+        return ThemeDataManager.getInstance().getThemeColorInt();
+    }
 
     @Override
     protected View getResourceLayout() {

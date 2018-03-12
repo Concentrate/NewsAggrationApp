@@ -179,8 +179,7 @@ public class FeedDataManager {
     private synchronized <T extends FeedBaseBean> List<T> saveToListCache(int itemTabKey, List<T> weiboLists, boolean isReflash) {
         if (isReflash) {
             feedRamCacheData.put(itemTabKey, weiboLists);
-        }
-        if (feedRamCacheData.get(itemTabKey) == null) {
+        } else if (feedRamCacheData.get(itemTabKey) == null) {
             feedRamCacheData.put(itemTabKey, weiboLists);
         } else {
             List<T> ablist = (List<T>) feedRamCacheData.get(itemTabKey);
