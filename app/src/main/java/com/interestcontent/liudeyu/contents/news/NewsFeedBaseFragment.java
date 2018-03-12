@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.blankj.utilcode.util.SizeUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.example.commonlib.utils.Logger;
 import com.interestcontent.liudeyu.BuildConfig;
 import com.interestcontent.liudeyu.R;
@@ -120,8 +119,6 @@ public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<Li
     public void onQueryResult(List<NewsApiBean> result) {
         if (result != null && !result.isEmpty()) {
             mBaseAdapter.setData(getCells(result));
-        } else {
-            ToastUtils.showShort("没有更多数据了");
         }
         hideLoadMore();
         setRefreshing(false);

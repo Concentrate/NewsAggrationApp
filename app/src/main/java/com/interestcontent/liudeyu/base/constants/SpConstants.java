@@ -16,4 +16,6 @@ public class SpConstants {
     public static final String NEWS_SELECTED_CATEGORY_SP ="NEWS_SELECTED_CATEGORY_SP".toLowerCase(); //正在展示的新闻主题
     public static final String NEWS_CUSTOM_ADD_TAG_SP="NEWS_CUSTOM_ADD_TAG_SP".toLowerCase(); //用户自定义产生的标签set
     public static final String NEWS_CUSTOM_TAG_FIRST_SHOW_TIP="NEWS_CUSTOM_TAG_FIRST_SHOW_TIP".toLowerCase();//第一次产生tip
+    public static final String NEWS_SOURCE_IS_FILTER="NEWS_SOURCE_IS_FILTER"; //新闻来源网站是否过滤
+    public static final String NEWS_SOURCE_DIALOG_FIRST_SHOW="NEWS_SOURCE_DIALOG_FIRST_SHOW".toLowerCase(); // 第一次设置新闻来源，弹窗
 }

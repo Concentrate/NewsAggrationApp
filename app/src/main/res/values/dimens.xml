@@ -39,5 +39,6 @@
     <dimen name="news_share_icon_size">25dp</dimen>
     <dimen name="tool_bar_height">35dp</dimen>
     <dimen name="search_bar_height">@dimen/tool_bar_height</dimen>
+    <dimen name="setting_normal_switch_setting_height">70dp</dimen>
 
 </resources>

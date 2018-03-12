@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.commonlib.components.AbsFragment;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
+import com.interestcontent.liudeyu.settings.activitys.CustomSettingActivity;
 import com.interestcontent.liudeyu.settings.activitys.NewsTopicSettingActivity;
 import com.interestcontent.liudeyu.settings.activitys.ThemeSettingActivity;
 import com.zhy.adapter.abslistview.CommonAdapter;
@@ -125,7 +126,7 @@ public class SettingFragment extends AbsFragment {
     private List<SettingItem> provideNotAuthenSettings() {
         List<SettingItem> settingItems = new ArrayList<>();
         addCommonSettingItems(settingItems);
-        SettingItem settingItem = new SettingItem(R.drawable.login_user, "请登录微博,查看微博精彩") {
+        SettingItem settingItem = new SettingItem(R.drawable.vector_drawable_user_login, "请登录微博,查看微博精彩") {
             @Override
             public void onClick(View view) {
                 WeiboLoginManager.getInstance().startLoginAuthen(getActivity());
@@ -136,7 +137,7 @@ public class SettingFragment extends AbsFragment {
     }
 
     private void addCommonSettingItems(List<SettingItem> settingItems) {
-        SettingItem themeSetting = new SettingItem(R.drawable.theme_change_item, "改变主题颜色") {
+        SettingItem themeSetting = new SettingItem(R.drawable.vector_drawable_theme_change, "改变主题颜色") {
             @Override
             public void onClick(View view) {
                 ThemeSettingActivity.start(getActivity());
@@ -149,8 +150,16 @@ public class SettingFragment extends AbsFragment {
                 NewsTopicSettingActivity.start(getActivity());
             }
         };
+        SettingItem newsCustomSetting=new SettingItem(R.drawable.settings_custom_icon,"其他设置") {
+            @Override
+            public void onClick(View view) {
+                CustomSettingActivity.start(getActivity());
+            }
+        };
+
         settingItems.add(newsTopicSetting);
         settingItems.add(themeSetting);
+        settingItems.add(newsCustomSetting);
 
     }
 
