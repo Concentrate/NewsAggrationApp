@@ -31,7 +31,7 @@ import com.just.agentweb.ChromeClientCallbackManager;
 public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonitor, ObservableWebView.OnScrollChangedCallback {
 
     public static final String LOAD_URL = "LOAD_URL".toLowerCase();
-    private final String TAG = "webview_cache_path";
+    private final String TAG = "BaseWebBrowseFragment_web";
     protected AgentWeb mAgentWeb;
     private RelativeLayout mRelativeLayout;
     private boolean isWebInit = false;
@@ -115,6 +115,7 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
             requestUrl = passUrl;
         }
         if (!TextUtils.isEmpty(requestUrl) && !isWebInit) {
+            Logger.d(TAG, "url is :" + requestUrl);
             mAgentWeb.getLoader().loadUrl(requestUrl);
             isWebInit = true;
         }
