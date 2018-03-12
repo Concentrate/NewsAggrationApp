@@ -80,7 +80,8 @@ public class WebConstants {
             "\n";
 
     public static final String WEB_SINA_DOMAIN = "sina.cn";
-    public static final String REMOVE_SINA_WEB_AD = "var seleArr=[\"body > main > article:nth-child(2)\",\"body > section.module-top-bobo.module-top-bobo-app\",\"body > section.module-extend.module-hot\"]\n" +
+    public static final String REMOVE_SINA_WEB_AD = "var seleArr=[\"body > main > article:nth-child(2)\",\"body > section.module-top-bobo.module-top-bobo-app\",\"body > section.module-extend.module-hot\",\n" +
+            "\"body > div.visual_window > main > section.current_photo_window > footer > div.arrow_down\"]\n" +
             "for(const a1 of seleArr){\n" +
             "\ta2=document.querySelector(a1)\n" +
             "\tif(a2){\n" +
@@ -98,5 +99,14 @@ public class WebConstants {
             "\t\t}\n" +
             "\t}\n" +
             "}\n";
+    public static final String WEB_LEIFENG_DOMAIN = "m.leiphone.com";
+    public static final String LEIFENG_REMOVE_AD_TAG = "\n" +
+            "var seleArr=[\"body > footer\",\"body > div.article-list\"]\n" +
+            "for(const a1 of seleArr){\n" +
+            "\ta2=document.querySelector(a1)\n" +
+            "\tif(a2){\n" +
+            "\t\ta2.parentElement.removeChild(a2)\n" +
+            "\t}\n" +
+            "}";
 
 }

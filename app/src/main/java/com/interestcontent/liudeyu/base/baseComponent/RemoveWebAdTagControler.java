@@ -29,6 +29,7 @@ public class RemoveWebAdTagControler {
         matchUrlAndJsMethod.put(WebConstants.WEB_TOUTIAO_DOMAIN, WebConstants.REMOVE_TOUTIAO_WEB_AD_TAG);
         matchUrlAndJsMethod.put(WebConstants.WEB_163_DOMAIN, WebConstants.REMOVE_163_WEB_AD);
         matchUrlAndJsMethod.put(WebConstants.WEB_SINA_DOMAIN, WebConstants.REMOVE_SINA_WEB_AD);
+        matchUrlAndJsMethod.put(WebConstants.WEB_LEIFENG_DOMAIN, WebConstants.LEIFENG_REMOVE_AD_TAG);
 
     }
 
