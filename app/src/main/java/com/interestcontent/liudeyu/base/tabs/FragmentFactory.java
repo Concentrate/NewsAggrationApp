@@ -13,7 +13,7 @@ import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboMessageFragmen
 import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboProfileFragment;
 import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboSettingFragment;
 import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboFollowFragment;
-import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboHotFragment;
+import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboDiscovoryFragment;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.OpinionMainFragment;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuJournalListFragment;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuThemeFragment;
@@ -45,7 +45,7 @@ public class FragmentFactory {
             case ItemTab.WEIBO_SUB_FOLLOW:
                 return new WeiboFollowFragment();
             case ItemTab.WEIBO_SUB_HOT:
-                return new WeiboHotFragment();
+                return new WeiboDiscovoryFragment();
             case ItemTab.WEIBO_SUB_MESSAGE:
                 fragment = new MyWeiboMessageFragment();
                 return fragment;

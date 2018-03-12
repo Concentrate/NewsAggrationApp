@@ -8,7 +8,7 @@ import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
  * Created by liudeyu on 2018/1/26.
  */
 
-public class WeiboHotFragment extends WeiboBaseFeedFragment {
+public class WeiboDiscovoryFragment extends WeiboBaseFeedFragment {
 
     @Override
     protected String providedRequestDataUrl() {

@@ -199,9 +199,16 @@ public class BaseWebBrowseFragment extends AbsFragment implements LifeCycleMonit
         }
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        isWebInit = false;
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
         isWebInit = false;
     }
 }

@@ -33,7 +33,6 @@ public class NewsBestUrlSourceFilterUtil {
         if (cctvTopicSet.contains(topic)) {
         } else if (sinaSportSet.contains(topic)) {
         } else if (qihuSet.contains(topic)) {
-            return Constants.NEWS_360_DOMAIN;
         } else if (techNewsSet.contains(topic)) {
             return Constants.NEWS_LEIFENG_NET_BASE;
         }

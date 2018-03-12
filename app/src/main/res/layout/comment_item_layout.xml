@@ -28,7 +28,7 @@
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@id/avater_iv"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/avater_iv"
         tools:text="author" />
 
     <TextView

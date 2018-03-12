@@ -13,12 +13,14 @@ import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.contents.news.beans.NewsApiBean;
 import com.interestcontent.liudeyu.contents.news.beans.NewsTechoRequest;
+import com.interestcontent.liudeyu.contents.news.newsUtil.NewsUrlUtils;
 import com.interestcontent.liudeyu.contents.weibo.contents.comment.WeiboCommentRequet;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboBean;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboCommontBean;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboRequest;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,8 +37,8 @@ public class FeedDataManager {
     private SparseArray<List<? extends FeedBaseBean>> feedRamCacheData = new SparseArray<>();
     private ACache mACache;
     private SparseArray<Integer> feedTabCurrentPageMap = new SparseArray<>();
-    private volatile boolean isLoadingWeiboData;
     private SparseArray<BaseRequest> mfeedBaseRequestCacheData = new SparseArray<>(); // 由于feed流，有可能有过个array结构，缓存一个request结构是比较通用的
+    private SparseArray<Boolean> newsItemNoMoreDataSet = new SparseArray<>();
 
     private FeedDataManager() {
         mACache = ACache.get(MyApplication.sApplication);
@@ -106,16 +108,32 @@ public class FeedDataManager {
 
     public List<NewsApiBean> getNewsTechListByNet(int itemTabKey, String url, boolean reflash) {
         try {
+            // 这里用一些兼容逻辑，使得后台数据即使重复也能正常显示，这里逻辑有些乱了
             if (reflash) {
                 feedTabCurrentPageMap.put(itemTabKey, 0);
+                newsItemNoMoreDataSet.put(itemTabKey, false);
             }
-            NewsTechoRequest request = getFeedRequestByNet(itemTabKey, url, Constants.NEWS_TECH_PARAMETER.PAGE_COUNT,
-                    null, NewsTechoRequest.class);
+
+            NewsTechoRequest request = null;
+            if (newsItemNoMoreDataSet.get(itemTabKey) == null || !newsItemNoMoreDataSet.get(itemTabKey)) {
+                request = getFeedRequestByNet(itemTabKey, url, Constants.NEWS_TECH_PARAMETER.PAGE_COUNT,
+                        null, NewsTechoRequest.class);
+            }
             if (request != null) {
-                return saveToListCache(itemTabKey, request.getData(), reflash);
+                if (request.getPageToken() != null && request.isHasNext()) {
+                    Integer nextPager = Integer.parseInt(request.getPageToken());
+                    //因为下面又加了1，因为它每次返回了下一页的token值，下面逻辑又是自动加了1的
+                    if (nextPager > 1) {
+                        feedTabCurrentPageMap.put(itemTabKey, nextPager - 1);
+                    }
+                    return saveToListCache(itemTabKey, request.getData(), reflash);
+                } else {
+                    //这里说明没有数据了，为什么这样弄，也是因为后台请求返回的数据各种乱
+                    newsItemNoMoreDataSet.put(itemTabKey, true);
+                }
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return new ArrayList<NewsApiBean>();
     }
@@ -167,6 +185,8 @@ public class FeedDataManager {
         }
         String response;
         if (!map.keySet().isEmpty()) {
+            URL tmp = new URL(url);
+            Logger.d(TAG, "request url is :" + NewsUrlUtils.combineParaAndUrl(url, map));
             response = OkHttpUtils.get().url(url).params(map).build().execute().body().string();
         } else {
             response = OkHttpUtils.get().url(url).build().execute().body().string();

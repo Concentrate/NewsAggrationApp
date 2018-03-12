@@ -78,6 +78,7 @@ public class Constants {
     }
 
 
+    public static final String NEWS_360_PARAMETER_SITE="site";
 
     // zhihu 日报
     public static final String ZHIHU_JOURNAL_LIST_API = "https://news-at.zhihu.com/api/4/news/latest";

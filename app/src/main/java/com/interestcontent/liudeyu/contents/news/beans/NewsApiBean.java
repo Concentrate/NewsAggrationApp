@@ -171,4 +171,15 @@ public class NewsApiBean extends FeedBaseBean {
     public void setTags(List<String> tags) {
         this.tags = tags;
     }
+
+
+    @Override
+    public int hashCode() {
+        if (url != null) {
+            return url.hashCode();
+        } else if (title != null) {
+            return title.hashCode();
+        }
+        return super.hashCode();
+    }
 }
