@@ -5,15 +5,14 @@ import android.support.v4.app.Fragment;
 
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.contents.news.NewsMainFragment;
-import com.interestcontent.liudeyu.contents.news.NewsFeedBaseFragment;
 import com.interestcontent.liudeyu.contents.videos.components.VideoBaseFeedFragment;
 import com.interestcontent.liudeyu.contents.videos.components.VideoMainFragments;
 import com.interestcontent.liudeyu.contents.weibo.WeiboMainFragment;
 import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboMessageFragment;
 import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboProfileFragment;
 import com.interestcontent.liudeyu.contents.weibo.contents.MyWeiboSettingFragment;
-import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboFollowFragment;
 import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboDiscovoryFragment;
+import com.interestcontent.liudeyu.contents.weibo.feeds.WeiboFollowFragment;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.OpinionMainFragment;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuJournalListFragment;
 import com.interestcontent.liudeyu.contents.zhihu.fragments.ZhihuThemeFragment;
@@ -30,9 +29,7 @@ public class FragmentFactory {
         String url = "";
         Fragment fragment = null;
         if (NewsTopicManager.getInstance().isNewsItemKey(itemTab.getItemKey())) {
-            bundle = NewsFeedBaseFragment.getTopicBundle(itemTab);
-            fragment = new NewsFeedBaseFragment();
-            fragment.setArguments(bundle);
+            fragment=NewsTopicManager.getInstance().getNewsFragment(itemTab);
             return fragment;
         }
         switch (itemTab.getItemKey()) {

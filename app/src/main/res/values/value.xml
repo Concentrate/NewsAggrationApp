@@ -25,7 +25,10 @@
     </string-array>
 
 
-    <string-array name="news_360_news">
+    <string-array name="news_360news2">
+        <item>英国</item>
+        <item>外交</item>
+        <item>旅游</item>
         <item>热点</item>
         <item>民生</item>
         <item>生活</item>
@@ -37,9 +40,7 @@
         <item>网络</item>
         <item>互联网产业</item>
         <item>宅着</item>
-    </string-array>
-
-    <string-array name="news_360search_news">
+        <item>境外游</item>
         <item>体育</item>
         <item>篮球</item>
         <item>足球</item>
@@ -53,12 +54,6 @@
         <item>CBA</item>
         <item>湖人</item>
         <item>骑士</item>
-    </string-array>
-    <string-array name="news_360news2">
-        <item>英国</item>
-        <item>外交</item>
-        <item>旅游</item>
-        <item>境外游</item>
     </string-array>
     <string-array name="news_topic_default">
         <item>科技</item>
@@ -101,7 +96,6 @@
         <item>投资圈</item>
         <item>IT大佬</item>
         <item>美国</item>
-        <item>科技</item>
         <item>apple</item>
         <item>google</item>
         <item>facebook</item>

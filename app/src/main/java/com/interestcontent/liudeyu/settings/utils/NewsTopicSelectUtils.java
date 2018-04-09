@@ -15,53 +15,72 @@ import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * 根据新闻话题，筛选出最适应的新闻源,并提供新闻tab标题
  */
-public class NewsBestUrlSourceFilterUtil {
-    public static Set<String> cctvTopicSet;
-    public static Set<String> sinaSportSet;
+public class NewsTopicSelectUtils {
     public static Set<String> qihuSet;
     public static Set<String> techNewsSet;
+    public static Map<String, String> myServersTitileAndCategoriesMap = new HashMap<>();
 
-    public static String getBestUrlForTopic(String topic) {
+    static {
+        myServersTitileAndCategoriesMap.put("推荐", "all");
+        myServersTitileAndCategoriesMap.put("热点", "news_hot");
+        myServersTitileAndCategoriesMap.put("探索", "news_discovery");
+        myServersTitileAndCategoriesMap.put("美文", "news_essay");
+        myServersTitileAndCategoriesMap.put("科技", "news_tech");
+        myServersTitileAndCategoriesMap.put("社会", "news_society");
+    }
+
+    public static enum TOPIC_SOURCE {
+        NEWS_IDATA_API, NEWS_MYSERVER_API
+    }
+
+    public static String getIDataApiBestUrlForTopic(String topic) {
         initAllNeedSets();
-        if (cctvTopicSet.contains(topic)) {
-        } else if (sinaSportSet.contains(topic)) {
-        } else if (qihuSet.contains(topic)) {
-        } else if (techNewsSet.contains(topic)) {
+        if (techNewsSet.contains(topic)) {
             return Constants.NEWS_LEIFENG_NET_BASE;
         }
 
         return Constants.NEWS_360_DOMAIN;
     }
 
+
+    /**
+     * 自己服务器，话题对应的上传参数
+     */
+    public static String getTopicParameter(String topic) {
+        return myServersTitileAndCategoriesMap.get(topic);
+    }
+
     private static void initAllNeedSets() {
-        if (cctvTopicSet == null) {
-            cctvTopicSet = new HashSet<>();
-            String[] cctvArr = MyApplication.sApplication.getResources().getStringArray(R.array.news_360_news);
-            cctvTopicSet.addAll(Arrays.asList(cctvArr));
-        }
-        if (sinaSportSet == null) {
-            sinaSportSet = new HashSet<>();
-            String[] cctvArr = MyApplication.sApplication.getResources().getStringArray(R.array.news_360search_news);
-            sinaSportSet.addAll(Arrays.asList(cctvArr));
-        }
         if (qihuSet == null) {
             qihuSet = new HashSet<>();
             String[] cctvArr = MyApplication.sApplication.getResources().getStringArray(R.array.news_360news2);
             qihuSet.addAll(Arrays.asList(cctvArr));
         }
-
         if (techNewsSet == null) {
             techNewsSet = new HashSet<>();
             String[] cctvArr = MyApplication.sApplication.getResources().getStringArray(R.array.news_leifeng_techno);
             techNewsSet.addAll(Arrays.asList(cctvArr));
         }
+
+    }
+
+
+    public static TOPIC_SOURCE getTopicSourceFragmentTag(String topic) {
+        initAllNeedSets();
+        // TODO: 2018/4/9 这边还未加入 
+        if (false &&myServersTitileAndCategoriesMap.keySet().contains(topic)) {
+            return TOPIC_SOURCE.NEWS_MYSERVER_API;
+        }
+        return TOPIC_SOURCE.NEWS_IDATA_API;
     }
 
 
@@ -114,8 +133,6 @@ public class NewsBestUrlSourceFilterUtil {
         List<String> allNewsList = new ArrayList<>();
         Set<String> allTopicSet = new HashSet<>();
         allTopicSet.addAll(techNewsSet);
-        allTopicSet.addAll(cctvTopicSet);
-        allTopicSet.addAll(sinaSportSet);
         allTopicSet.addAll(qihuSet);
         allTopicSet.addAll(getCustomCreateTagSet());
         allNewsList.addAll(allTopicSet);

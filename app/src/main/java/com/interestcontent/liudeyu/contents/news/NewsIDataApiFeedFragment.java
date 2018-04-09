@@ -17,7 +17,7 @@ import com.interestcontent.liudeyu.contents.news.cells.MutilepleImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.cells.SingeImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.newsUtil.NewsUrlUtils;
 import com.interestcontent.liudeyu.contents.news.presenters.NewsPresenter;
-import com.interestcontent.liudeyu.settings.utils.NewsBestUrlSourceFilterUtil;
+import com.interestcontent.liudeyu.settings.utils.NewsTopicSelectUtils;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
 import com.zhouwei.rvadapterlib.fragment.AbsFeedFragment;
@@ -31,7 +31,10 @@ import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
  * Created by liudeyu on 2018/2/4.
  */
 
-public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<List<NewsApiBean>> {
+/**
+ * fragment跟api 返回数据格式相关，这个api是http://www.idataapi.com/ 返回的数据格式
+ */
+public class NewsIDataApiFeedFragment extends AbsFeedFragment implements IMvpView<List<NewsApiBean>> {
     public static final String SCIENCE = "科技";
     private NewsPresenter mNewsPresenter;
     public static final String ITEM_TAB = "ITEM_TAB".toLowerCase();
@@ -72,7 +75,7 @@ public class NewsFeedBaseFragment extends AbsFeedFragment implements IMvpView<Li
     private void startRequestData(FeedConstants.FEED_REQUEST_EMUM type) {
         //这里mItemTab不应该为null
         int itemTabKey = mItemTab == null ? 99 : mItemTab.getItemKey();
-        String url = NewsUrlUtils.getNewsTypeUrl(provideInterestTag(), NewsBestUrlSourceFilterUtil.getBestUrlForTopic(mItemTab.getTitle()));
+        String url = NewsUrlUtils.getNewsTypeUrl(provideInterestTag(), NewsTopicSelectUtils.getIDataApiBestUrlForTopic(mItemTab.getTitle()));
         mNewsPresenter.execute(url, itemTabKey, type);
     }
 

@@ -19,7 +19,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.baseComponent.BaseActivity;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
-import com.interestcontent.liudeyu.contents.news.NewsFeedBaseFragment;
+import com.interestcontent.liudeyu.contents.news.NewsIDataApiFeedFragment;
 import com.interestcontent.liudeyu.settings.ThemeDataManager;
 
 /**
@@ -98,9 +98,9 @@ public class SearchActivity extends BaseActivity {
             return;
         }
         mFrameLayout.removeAllViews();
-        Fragment fragment = new NewsFeedBaseFragment();
+        Fragment fragment = new NewsIDataApiFeedFragment();
         ItemTab itemTab = new ItemTab(text.hashCode() + 1, text);
-        Bundle bundle = NewsFeedBaseFragment.getTopicBundle(itemTab);
+        Bundle bundle = NewsIDataApiFeedFragment.getTopicBundle(itemTab);
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.parent_container,
                 fragment).commitAllowingStateLoss();

@@ -2,14 +2,19 @@ package com.interestcontent.liudeyu.settings.components;
 
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
+import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
-import com.interestcontent.liudeyu.settings.utils.NewsBestUrlSourceFilterUtil;
+import com.interestcontent.liudeyu.contents.news.MyServerNewsFragment;
+import com.interestcontent.liudeyu.contents.news.NewsIDataApiFeedFragment;
+import com.interestcontent.liudeyu.settings.utils.NewsTopicSelectUtils;
 import com.pchmn.materialchips.model.ChipInterface;
 
 import java.util.ArrayList;
@@ -33,6 +38,27 @@ public class NewsTopicManager {
         getNewsItemTabKeys();
     }
 
+
+    public Fragment getNewsFragment(@NonNull ItemTab itemTab) {
+        NewsTopicSelectUtils.TOPIC_SOURCE topic_source = NewsTopicSelectUtils.getTopicSourceFragmentTag(itemTab.getTitle());
+        Bundle bundle = null;
+        Fragment fragment = null;
+        switch (topic_source) {
+            case NEWS_IDATA_API:
+                bundle = NewsIDataApiFeedFragment.getTopicBundle(itemTab);
+                fragment = new NewsIDataApiFeedFragment();
+                fragment.setArguments(bundle);
+                return fragment;
+            case NEWS_MYSERVER_API:
+                bundle = MyServerNewsFragment.getBundle(NewsTopicSelectUtils.getTopicParameter(itemTab.getTitle()), itemTab);
+                fragment = new MyServerNewsFragment();
+                fragment.setArguments(bundle);
+                return fragment;
+            default:
+                throw new IllegalStateException("itemtab 模式不匹配,找不到合适的news Fragment");
+        }
+
+    }
 
     public boolean isNewsItemKey(int key) {
         return mNewsItemKeySets.contains(key);
@@ -111,7 +137,7 @@ public class NewsTopicManager {
      * 返回默认的新闻主题
      */
     public List<String> getDefaultCategories() {
-        List<String> aList = NewsBestUrlSourceFilterUtil.getDefaultNewsTopic();
+        List<String> aList = NewsTopicSelectUtils.getDefaultNewsTopic();
         return aList;
     }
 
@@ -120,10 +146,12 @@ public class NewsTopicManager {
      */
     public void addCustomCreateTopicTag(@NonNull List<String> custom) {
         addNewsCatetory(custom);
-        NewsBestUrlSourceFilterUtil.addCustomCreateTopic(custom);
+        NewsTopicSelectUtils.addCustomCreateTopic(custom);
     }
 
-    /**增加已有的新闻标签*/
+    /**
+     * 增加已有的新闻标签
+     */
     public void addNewsCatetory(@NonNull List<String> newsTopic) {
         List<String> oldCategory = getNewsCatetory();
         for (String tmp : newsTopic) {
@@ -154,7 +182,7 @@ public class NewsTopicManager {
      * 所有的默认主题
      */
     private List<String> getAllNewsTopicFilter() {
-        return NewsBestUrlSourceFilterUtil.getAllTopic();
+        return NewsTopicSelectUtils.getAllTopic();
     }
 
     /**

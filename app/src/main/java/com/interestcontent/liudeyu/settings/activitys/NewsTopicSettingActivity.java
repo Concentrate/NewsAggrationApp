@@ -26,7 +26,7 @@ import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.AppRestartUtil;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
 import com.interestcontent.liudeyu.settings.components.NewsTopicManager;
-import com.interestcontent.liudeyu.settings.utils.NewsBestUrlSourceFilterUtil;
+import com.interestcontent.liudeyu.settings.utils.NewsTopicSelectUtils;
 import com.pchmn.materialchips.ChipView;
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
@@ -171,11 +171,11 @@ public class NewsTopicSettingActivity extends BaseActivity {
                 }
             });
             chipView.setClickable(true);
-            chipView.setDeletable(NewsBestUrlSourceFilterUtil.isCustomCreateTopic(chipView.getLabel()));
+            chipView.setDeletable(NewsTopicSelectUtils.isCustomCreateTopic(chipView.getLabel()));
             chipView.setOnDeleteClicked(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    NewsBestUrlSourceFilterUtil.deleteCustomTopic(chipView.getLabel());
+                    NewsTopicSelectUtils.deleteCustomTopic(chipView.getLabel());
                     initTopicLableAndInputViews();
                 }
             });
