@@ -11,21 +11,22 @@
         android:id="@+id/news_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:ellipsize="end"
-        android:maxEms="10"
+        android:maxEms="15"
         android:maxLines="2"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="安居客垃圾坑垃圾啊看了就拉进来的静安立刻据了解阿拉基大家ldjkjdkjkdjkajkdjjdkjkjd" />
+
 
     <TextView
         android:id="@+id/news_publish_source_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:textColor="@color/md_grey_500"
         android:textSize="@dimen/news_small_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:textColor="@color/md_grey_500"
         android:textSize="@dimen/news_small_text_size"
         app:layout_constraintBottom_toBottomOf="@id/news_publish_source_tv"
         app:layout_constraintLeft_toRightOf="@id/news_publish_source_tv"
@@ -47,18 +49,33 @@
         android:id="@+id/news_comment_count_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/md_grey_500"
         android:textSize="@dimen/news_small_text_size"
         app:layout_constraintBottom_toBottomOf="@id/news_publish_time_tv"
         app:layout_constraintRight_toLeftOf="@id/news_display_image_iv"
         app:layout_constraintTop_toTopOf="@id/news_publish_time_tv"
         tools:text="评论数" />
 
+    <TextView
+        android:id="@+id/news_video_play_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/md_grey_500"
+        android:textSize="@dimen/news_small_text_size"
+        app:layout_constraintBottom_toTopOf="@id/news_comment_count_tv"
+        app:layout_constraintRight_toLeftOf="@id/news_display_image_iv"
+        app:layout_constraintTop_toBottomOf="@id/news_title_tv"
+        app:layout_goneMarginTop="0dp"
+        tools:text="播放次数:398398948948"
+        tools:visibility="visible" />
+
 
     <ImageView
         android:id="@+id/news_display_image_iv"
         android:layout_width="@dimen/news_single_pic_display_size"
-        android:layout_height="@dimen/news_single_pic_display_size"
+        android:layout_height="@dimen/news_single_celll_img_height"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

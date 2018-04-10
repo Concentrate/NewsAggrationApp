@@ -45,12 +45,16 @@ public class WebConstants {
     public static final String WEB_TOUTIAO_DOMAIN = "m.toutiao.com";
 
     public static final String REMOVE_TOUTIAO_WEB_AD_TAG = "var arraySele=[\"#main > div > div.news-banner-container-new-article.banner-top.new-style-test\",\"#main > div > div:nth-child(2)\",\n" +
-            "\"#main > div > article > div.unfold-field.unfold-field-download > a\",\"#main > div > article > div.article__header.new-style-test-article__header > div\"]\n" +
+            "\"#main > div > article > div.unfold-field.unfold-field-download > a\",'#main > div > div.share-card-container-test2.share-card-container-true']\n" +
             "for(var a1 of arraySele){\n" +
             "\tconst b1=document.querySelector(a1)\n" +
             "\tif(b1){\n" +
             "\t\tb1.parentElement.removeChild(b1)\n" +
             "\t}\n" +
+            "}\n" +
+            "var a1=document.getElementsByClassName(\"new-style-test-favor-btn\")\n" +
+            "if(a1&&a1[0]){\n" +
+            "    a1[0].parentElement.removeChild(a1[0])\n" +
             "}";
     public static final String WEB_163_DOMAIN = "3g.163.com";
     public static final String REMOVE_163_WEB_AD = "var bArray=[\"body > div.doc-footer-wrapper\", \"body > header\",\"#article-DCMN1GSG000380D0 > div.footer > div.wakeup_client.js-wakeupclient\",\"body > footer > div.foot_nav\",\"body > footer\"]\n" +
@@ -79,26 +83,7 @@ public class WebConstants {
             "}\n" +
             "\n";
 
-    public static final String WEB_SINA_DOMAIN = "sina.cn";
-    public static final String REMOVE_SINA_WEB_AD = "var seleArr=[\"body > main > article:nth-child(2)\",\"body > section.module-top-bobo.module-top-bobo-app\",\"body > section.module-extend.module-hot\",\n" +
-            "\"body > div.visual_window > main > section.current_photo_window > footer > div.arrow_down\"]\n" +
-            "for(const a1 of seleArr){\n" +
-            "\ta2=document.querySelector(a1)\n" +
-            "\tif(a2){\n" +
-            "\t\ta2.parentElement.removeChild(a2)\n" +
-            "\t}\n" +
-            "}\n" +
-            "var clasTagArr=[\"module-extend module-comments\",\"module-extend module-lecai\"]\n" +
-            "for(const b1 of clasTagArr){\n" +
-            "\tvar b2=document.getElementsByClassName(b1)\n" +
-            "\tif(b2){\n" +
-            "\t\tfor(const b3 of b2){\n" +
-            "\t\t\tif(b3){\n" +
-            "\t\t\t\tb3.parentElement.removeChild(b3)\n" +
-            "\t\t\t}\n" +
-            "\t\t}\n" +
-            "\t}\n" +
-            "}\n";
+
     public static final String WEB_LEIFENG_DOMAIN = "m.leiphone.com";
     public static final String LEIFENG_REMOVE_AD_TAG = "\n" +
             "var seleArr=[\"body > footer\",\"body > div.article-list\"]\n" +
@@ -107,6 +92,41 @@ public class WebConstants {
             "\tif(a2){\n" +
             "\t\ta2.parentElement.removeChild(a2)\n" +
             "\t}\n" +
+            "}";
+
+    public static final String WEB_TOUTIAO_VIDEO = "m.365yg.com";
+    public static final String TOUTIAO_VIDEO_REMOVE_AD = "var classNameArray=[\"news-banner-container-xigua-video banner-top\",\"video-download-new\",\"recommendation-container\",\n" +
+            "\"bottom-banner-container\",\"download\",\"share-card-container\",]\n" +
+            "for(let a1 of classNameArray){\n" +
+            "\tconst b1=document.getElementsByClassName(a1)\n" +
+            "\tif(b1&&b1[0]){\n" +
+            "\t\tb1[0].parentElement.removeChild(b1[0])\n" +
+            "\t}\n" +
+            "}\n";
+    public static final String WEI_TOUTIAO_BASE = "weitoutiao";
+    public static final String WEI_TOUTIAO_REMOVE_AD = "a=document.querySelector(\"body > div.wrapper.dynamic-list > div.comment_list > div.tips\")\n" +
+            "if(a){\n" +
+            "a.parentElement.removeChild(a)\t\n" +
+            "}\n" +
+            "var classNameArray=[\"focus_btn\",\"download\"]\n" +
+            "for(let a1 of classNameArray){\n" +
+            "\tconst b1=document.getElementsByClassName(a1)\n" +
+            "\tif(b1&&b1[0]){\n" +
+            "\t\tb1[0].parentElement.removeChild(b1[0])\n" +
+            "\t}\n" +
+            "}\n";
+
+    public static final String WUKONGWENDA_BASE = "wukong";
+    public static final String WUKONGWENDA_REMOVEAD = "var arraySele=[\"#body > div.m-feed-share-recommend.recommend-feed.recommend\",\"#body > div.answer-in-app.answer-in-wap\"]\n" +
+            "for(var a1 of arraySele){\n" +
+            "\tconst b1=document.querySelector(a1)\n" +
+            "\tif(b1){\n" +
+            "\t\tb1.parentElement.removeChild(b1)\n" +
+            "\t}\n" +
+            "}\n" +
+            "a=document.getElementsByClassName(\"top-bar\")\n" +
+            "if(a&&a[0]){\n" +
+            "    a[0].parentElement.removeChild(a[0]);\n" +
             "}";
 
 }

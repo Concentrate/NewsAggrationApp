@@ -8,7 +8,7 @@ import java.util.List;
  * Created by liudeyu on 2018/2/4.
  */
 
-public class NewsTechoRequest extends BaseRequest {
+public class NewsIDataRequest extends BaseRequest {
 
     /**
      * data:[]
@@ -24,7 +24,7 @@ public class NewsTechoRequest extends BaseRequest {
     private String retcode;
     private String pageToken;
     private String appCode;
-    private List<NewsApiBean> data;
+    private List<NewsIDataApiBean> data;
 
     public String getDataType() {
         return dataType;
@@ -66,11 +66,11 @@ public class NewsTechoRequest extends BaseRequest {
         this.appCode = appCode;
     }
 
-    public List<NewsApiBean> getData() {
+    public List<NewsIDataApiBean> getData() {
         return data;
     }
 
-    public void setData(List<NewsApiBean> data) {
+    public void setData(List<NewsIDataApiBean> data) {
         this.data = data;
     }
 

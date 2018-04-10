@@ -16,12 +16,18 @@ public class NewsUrlUtils {
 
     public static String getNewsTypeUrl(String type, String url) {
         Uri.Builder builder = Uri.parse(url).buildUpon();
-        builder.appendQueryParameter(Constants.NEWS_TECH_PARAMETER.APIKEY, Constants.NEWS_TECH_API_KEY)
-                .appendQueryParameter(Constants.NEWS_TECH_PARAMETER.THEME_PARA, type);
+        builder.appendQueryParameter(Constants.NEWS_IDATAAPI_PARAMETER.APIKEY, Constants.NEWS_TECH_API_KEY)
+                .appendQueryParameter(Constants.NEWS_IDATAAPI_PARAMETER.THEME_PARA, type);
         if (url.equals(Constants.NEWS_360_DOMAIN) && NewsSourceFilterManager.getInstance().isNewsOriginWebFilter()) {
             builder.appendQueryParameter(Constants.NEWS_360_PARAMETER_SITE, NewsSourceFilterManager.getInstance()
                     .getNewsWebSourceFIlter());
         }
+        return builder.build().toString();
+    }
+
+    public static String getMyServerNewsCategoriesUrl(String type, String url) {
+        Uri.Builder builder = Uri.parse(url).buildUpon();
+        builder.appendQueryParameter(Constants.NEWS_MYSERVER_PARAMETER.CATEGORY,type);
         return builder.build().toString();
     }
 

@@ -55,25 +55,10 @@
         <item>湖人</item>
         <item>骑士</item>
     </string-array>
-    <string-array name="news_topic_default">
-        <item>科技</item>
-        <item>AI+</item>
-        <item>区块链</item>
-        <item>网络安全</item>
-        <item>热点</item>
-        <item>科学</item>
-        <item>人工智能</item>
-        <item>民生</item>
-        <item>电影</item>
-        <item>体育</item>
-        <item>旅游</item>
-    </string-array>
 
     <string-array name="news_leifeng_techno">
         <item>人工智能</item>
-        <item>科技</item>
         <item>AI+</item>
-        <item>区块链</item>
         <item>网络安全</item>
         <item>AR/VR</item>
         <item>开发者</item>
@@ -81,27 +66,8 @@
         <item>智能硬件</item>
         <item>物联网</item>
         <item>评测</item>
-        <item>手机</item>
-        <item>编程</item>
         <item>比特币</item>
-        <item>大公司</item>
         <item>独角兽</item>
-        <item>腾讯</item>
-        <item>大疆</item>
-        <item>百度</item>
-        <item>python</item>
-        <item>阿里</item>
-        <item>tmd</item>
-        <item>红杉资本</item>
-        <item>投资圈</item>
-        <item>IT大佬</item>
-        <item>美国</item>
-        <item>apple</item>
-        <item>google</item>
-        <item>facebook</item>
-        <item>股价</item>
-        <item>微软</item>
-        <item>游戏</item>
     </string-array>
 
     <integer-array name="opinion_item_key">

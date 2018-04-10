@@ -24,11 +24,13 @@ public class RemoveWebAdTagControler {
     }
 
     private void baseRegistAllMethod() {
+        matchUrlAndJsMethod.put(WebConstants.WEB_TOUTIAO_DOMAIN, WebConstants.REMOVE_TOUTIAO_WEB_AD_TAG);
+        matchUrlAndJsMethod.put(WebConstants.WEB_TOUTIAO_VIDEO, WebConstants.TOUTIAO_VIDEO_REMOVE_AD);
+        matchUrlAndJsMethod.put(WebConstants.WEI_TOUTIAO_BASE, WebConstants.WEI_TOUTIAO_REMOVE_AD);
+        matchUrlAndJsMethod.put(WebConstants.WUKONGWENDA_BASE, WebConstants.WUKONGWENDA_REMOVEAD);
         matchUrlAndJsMethod.put(Constants.WEIBO_BASE_WEB_DOMAIN, WebConstants.DEPRECATED_WEIBO_AD_CLASS);
         matchUrlAndJsMethod.put(Constants.NEWS_36KR_BASE_WEB_DOMAIN, WebConstants.REMOVE_36KR_AD_TAG);
-        matchUrlAndJsMethod.put(WebConstants.WEB_TOUTIAO_DOMAIN, WebConstants.REMOVE_TOUTIAO_WEB_AD_TAG);
         matchUrlAndJsMethod.put(WebConstants.WEB_163_DOMAIN, WebConstants.REMOVE_163_WEB_AD);
-        matchUrlAndJsMethod.put(WebConstants.WEB_SINA_DOMAIN, WebConstants.REMOVE_SINA_WEB_AD);
         matchUrlAndJsMethod.put(WebConstants.WEB_LEIFENG_DOMAIN, WebConstants.LEIFENG_REMOVE_AD_TAG);
 
     }

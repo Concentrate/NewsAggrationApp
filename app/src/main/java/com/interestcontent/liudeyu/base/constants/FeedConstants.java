@@ -17,6 +17,7 @@ public class FeedConstants {
     public static final int OPINION_ZHIHU_THEME_CELL_TYPE=6;
 
 
+
 //    video
     public static final int VIDEO_CELL_TYPE=7;
 

@@ -15,7 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.interestcontent.liudeyu.R;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
-import com.interestcontent.liudeyu.contents.news.beans.NewsApiBean;
+import com.interestcontent.liudeyu.contents.news.beans.NewsIDataApiBean;
 import com.interestcontent.liudeyu.contents.weibo.contents.PictureBrowseActivity;
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
@@ -31,12 +31,12 @@ import java.util.Date;
  * Created by liudeyu on 2018/2/5.
  */
 
-public class MutilepleImageNewsCell extends RVBaseCell<NewsApiBean> {
+public class MutilepleImageNewsCell extends RVBaseCell<NewsIDataApiBean> {
 
     private Context mActivity;
     private Fragment mFragment;
 
-    public MutilepleImageNewsCell(Fragment fragment, NewsApiBean newsTechnoBean) {
+    public MutilepleImageNewsCell(Fragment fragment, NewsIDataApiBean newsTechnoBean) {
         super(newsTechnoBean);
         mFragment = fragment;
         mActivity = mFragment.getActivity();

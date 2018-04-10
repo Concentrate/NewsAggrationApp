@@ -12,11 +12,11 @@ import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.constants.LoggerConstants;
 import com.interestcontent.liudeyu.base.mvp.IMvpView;
 import com.interestcontent.liudeyu.base.tabs.ItemTab;
-import com.interestcontent.liudeyu.contents.news.beans.NewsApiBean;
+import com.interestcontent.liudeyu.contents.news.beans.NewsIDataApiBean;
 import com.interestcontent.liudeyu.contents.news.cells.MutilepleImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.cells.SingeImageNewsCell;
 import com.interestcontent.liudeyu.contents.news.newsUtil.NewsUrlUtils;
-import com.interestcontent.liudeyu.contents.news.presenters.NewsPresenter;
+import com.interestcontent.liudeyu.contents.news.presenters.NewsIDataApiPresenter;
 import com.interestcontent.liudeyu.settings.utils.NewsTopicSelectUtils;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zhouwei.rvadapterlib.base.Cell;
@@ -34,9 +34,9 @@ import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
 /**
  * fragment跟api 返回数据格式相关，这个api是http://www.idataapi.com/ 返回的数据格式
  */
-public class NewsIDataApiFeedFragment extends AbsFeedFragment implements IMvpView<List<NewsApiBean>> {
+public class NewsIDataApiFeedFragment extends AbsFeedFragment implements IMvpView<List<NewsIDataApiBean>> {
     public static final String SCIENCE = "科技";
-    private NewsPresenter mNewsPresenter;
+    private NewsIDataApiPresenter mNewsPresenter;
     public static final String ITEM_TAB = "ITEM_TAB".toLowerCase();
     private ItemTab mItemTab;
 
@@ -53,7 +53,7 @@ public class NewsIDataApiFeedFragment extends AbsFeedFragment implements IMvpVie
         if (bundle != null) {
             mItemTab = (ItemTab) bundle.getSerializable(ITEM_TAB);
         }
-        mNewsPresenter = new NewsPresenter();
+        mNewsPresenter = new NewsIDataApiPresenter();
         mNewsPresenter.attachView(this);
     }
 
@@ -75,7 +75,7 @@ public class NewsIDataApiFeedFragment extends AbsFeedFragment implements IMvpVie
     private void startRequestData(FeedConstants.FEED_REQUEST_EMUM type) {
         //这里mItemTab不应该为null
         int itemTabKey = mItemTab == null ? 99 : mItemTab.getItemKey();
-        String url = NewsUrlUtils.getNewsTypeUrl(provideInterestTag(), NewsTopicSelectUtils.getIDataApiBestUrlForTopic(mItemTab.getTitle()));
+        String url = NewsUrlUtils.getNewsTypeUrl(provideInterestTag(), NewsTopicSelectUtils.getNewsApiBestUrlForTopic(mItemTab.getTitle()));
         mNewsPresenter.execute(url, itemTabKey, type);
     }
 
@@ -95,11 +95,10 @@ public class NewsIDataApiFeedFragment extends AbsFeedFragment implements IMvpVie
             return new ArrayList<>();
         }
         List<Cell> cellList = new ArrayList<>();
-        List<NewsApiBean> mList = list;
-        for (NewsApiBean bean : mList) {
+        List<NewsIDataApiBean> mList = list;
+        for (NewsIDataApiBean bean : mList) {
             Cell cell = null;
             if (bean.getImageUrls() != null && bean.getImageUrls().size() >= 3) {
-                loggerImageUrls(bean.getImageUrls());
                 cell = new MutilepleImageNewsCell(this, bean);
             } else {
                 cell = new SingeImageNewsCell(bean, this);
@@ -119,7 +118,7 @@ public class NewsIDataApiFeedFragment extends AbsFeedFragment implements IMvpVie
 
 
     @Override
-    public void onQueryResult(List<NewsApiBean> result) {
+    public void onQueryResult(List<NewsIDataApiBean> result) {
         if (result != null && !result.isEmpty()) {
             mBaseAdapter.setData(getCells(result));
         }

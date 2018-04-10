@@ -28,23 +28,35 @@ public class NewsTopicSelectUtils {
     public static Set<String> qihuSet;
     public static Set<String> techNewsSet;
     public static Map<String, String> myServersTitileAndCategoriesMap = new HashMap<>();
+    public static String[] defaultTopics = new String[]{
+            "推荐",  "科技", "社会","电影","音乐","旅行","经济"
+    };
 
     static {
         myServersTitileAndCategoriesMap.put("推荐", "all");
-        myServersTitileAndCategoriesMap.put("热点", "news_hot");
-        myServersTitileAndCategoriesMap.put("探索", "news_discovery");
         myServersTitileAndCategoriesMap.put("美文", "news_essay");
         myServersTitileAndCategoriesMap.put("科技", "news_tech");
         myServersTitileAndCategoriesMap.put("社会", "news_society");
+        myServersTitileAndCategoriesMap.put("电影", "video_movie");
+        myServersTitileAndCategoriesMap.put("音乐", "video_music");
+        myServersTitileAndCategoriesMap.put("旅行","news_travel");
+        myServersTitileAndCategoriesMap.put("经济","news_finance");
+
     }
 
     public static enum TOPIC_SOURCE {
         NEWS_IDATA_API, NEWS_MYSERVER_API
     }
 
-    public static String getIDataApiBestUrlForTopic(String topic) {
+    public static String getNewsApiBestUrlForTopic(String topic) {
         initAllNeedSets();
-        if (techNewsSet.contains(topic)) {
+        if (myServersTitileAndCategoriesMap.keySet().contains(topic)) {
+            if ("推荐".equals(topic)) {
+                return Constants.NEWS_MYSERVER_RECOMMEND_BASE;
+            }
+            return Constants.NEWS_MYSERVER_CATEGORIES_BASE;
+
+        } else if (techNewsSet.contains(topic)) {
             return Constants.NEWS_LEIFENG_NET_BASE;
         }
 
@@ -76,8 +88,7 @@ public class NewsTopicSelectUtils {
 
     public static TOPIC_SOURCE getTopicSourceFragmentTag(String topic) {
         initAllNeedSets();
-        // TODO: 2018/4/9 这边还未加入 
-        if (false &&myServersTitileAndCategoriesMap.keySet().contains(topic)) {
+        if (myServersTitileAndCategoriesMap.keySet().contains(topic)) {
             return TOPIC_SOURCE.NEWS_MYSERVER_API;
         }
         return TOPIC_SOURCE.NEWS_IDATA_API;
@@ -140,8 +151,18 @@ public class NewsTopicSelectUtils {
     }
 
     public static List<String> getDefaultNewsTopic() {
-        String[] array = MyApplication.sApplication.getResources().getStringArray(R.array.news_topic_default);
-        return new ArrayList<>(Arrays.asList(array));
+        initAllNeedSets();
+        // todo 这里默认标签需要改进下
+        List<String> deTopicSet = new ArrayList<>();
+        for (String t : defaultTopics) {
+            deTopicSet.add(t);
+        }
+        String[] tmp = new String[techNewsSet.size()];
+        techNewsSet.toArray(tmp);
+        for (int i = 0; i < 5; i++) {
+            deTopicSet.add(tmp[i]);
+        }
+        return deTopicSet;
     }
 
 }

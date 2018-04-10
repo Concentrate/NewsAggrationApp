@@ -11,8 +11,10 @@ import com.interestcontent.liudeyu.base.baseComponent.MyApplication;
 import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.SpConstants;
 import com.interestcontent.liudeyu.base.utils.SharePreferenceUtil;
-import com.interestcontent.liudeyu.contents.news.beans.NewsApiBean;
-import com.interestcontent.liudeyu.contents.news.beans.NewsTechoRequest;
+import com.interestcontent.liudeyu.contents.news.beans.NewsIDataApiBean;
+import com.interestcontent.liudeyu.contents.news.beans.NewsIDataRequest;
+import com.interestcontent.liudeyu.contents.news.beans.NewsMyServerRequest;
+import com.interestcontent.liudeyu.contents.news.beans.NewsMyserverDataBean;
 import com.interestcontent.liudeyu.contents.news.newsUtil.NewsUrlUtils;
 import com.interestcontent.liudeyu.contents.weibo.contents.comment.WeiboCommentRequet;
 import com.interestcontent.liudeyu.contents.weibo.data.bean.WeiboBean;
@@ -99,14 +101,38 @@ public class FeedDataManager {
     }
 
     /****** news */
-    public List<NewsApiBean> getNewsTechListAtFirst(int itemTabKey, String url) {
+
+    public List<NewsMyserverDataBean> getMyServerDataNewsAtFirst(int itemTabKey, String url) {
         if (feedRamCacheData.get(itemTabKey) != null && !feedRamCacheData.get(itemTabKey).isEmpty()) {
-            return (List<NewsApiBean>) feedRamCacheData.get(itemTabKey);
+            return (List<NewsMyserverDataBean>) feedRamCacheData.get(itemTabKey);
         }
-        return getNewsTechListByNet(itemTabKey, url, true);
+        return getMyServerNewsByNet(itemTabKey, url, true);
     }
 
-    public List<NewsApiBean> getNewsTechListByNet(int itemTabKey, String url, boolean reflash) {
+    public List<NewsMyserverDataBean> getMyServerNewsByNet(int itemTabKey, String url, boolean reflash) {
+        if (reflash) {
+            feedTabCurrentPageMap.put(itemTabKey, -1); // 服务器那边从0开始算，这里赋值-1，下面加了1
+        }
+        int page = feedTabCurrentPageMap.get(itemTabKey);
+        try {
+            NewsMyServerRequest request = getFeedRequestByNet(itemTabKey, url, Constants.NEWS_MYSERVER_PARAMETER.PAGE,
+                    null, NewsMyServerRequest.class);
+            return saveToListCache(itemTabKey, request.getData(), reflash);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+
+    public List<NewsIDataApiBean> getIDataNewsListAtFirst(int itemTabKey, String url) {
+        if (feedRamCacheData.get(itemTabKey) != null && !feedRamCacheData.get(itemTabKey).isEmpty()) {
+            return (List<NewsIDataApiBean>) feedRamCacheData.get(itemTabKey);
+        }
+        return getIDataNewsListByNet(itemTabKey, url, true);
+    }
+
+    public List<NewsIDataApiBean> getIDataNewsListByNet(int itemTabKey, String url, boolean reflash) {
         try {
             // 这里用一些兼容逻辑，使得后台数据即使重复也能正常显示，这里逻辑有些乱了
             if (reflash) {
@@ -114,10 +140,10 @@ public class FeedDataManager {
                 newsItemNoMoreDataSet.put(itemTabKey, false);
             }
 
-            NewsTechoRequest request = null;
+            NewsIDataRequest request = null;
             if (newsItemNoMoreDataSet.get(itemTabKey) == null || !newsItemNoMoreDataSet.get(itemTabKey)) {
-                request = getFeedRequestByNet(itemTabKey, url, Constants.NEWS_TECH_PARAMETER.PAGE_COUNT,
-                        null, NewsTechoRequest.class);
+                request = getFeedRequestByNet(itemTabKey, url, Constants.NEWS_IDATAAPI_PARAMETER.PAGE_COUNT,
+                        null, NewsIDataRequest.class);
             }
             if (request != null) {
                 if (request.getPageToken() != null && request.isHasNext()) {
@@ -135,7 +161,7 @@ public class FeedDataManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ArrayList<NewsApiBean>();
+        return new ArrayList<NewsIDataApiBean>();
     }
 
 

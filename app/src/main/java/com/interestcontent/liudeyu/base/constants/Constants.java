@@ -68,7 +68,7 @@ public class Constants {
     public static final @Deprecated
     String NEWS_SOUGO_DOMAIN = "http://api01.bitspaceman.com:8000/news/sogou"; //搜狗新闻,没图片,不好看
 
-    public static class NEWS_TECH_PARAMETER {
+    public static class NEWS_IDATAAPI_PARAMETER {
         public static final String THEME_PARA = "kw";
         public static final String PAGE_COUNT = "pageToken";
         public static final String UID = "uid";
@@ -77,8 +77,16 @@ public class Constants {
 
     }
 
+    public static class NEWS_MYSERVER_PARAMETER {
+        public static final String PAGE = "page";
+        public static final String CATEGORY = "category";
+    }
 
-    public static final String NEWS_360_PARAMETER_SITE="site";
+    public static final String MYSERVER_DOMAIN =  "http://193.112.31.184:2400";
+    public static final String NEWS_MYSERVER_RECOMMEND_BASE = MYSERVER_DOMAIN + "/feed/all_news";
+    public static final String NEWS_MYSERVER_CATEGORIES_BASE = MYSERVER_DOMAIN + "/feed/category_news";
+
+    public static final String NEWS_360_PARAMETER_SITE = "site";
 
     // zhihu 日报
     public static final String ZHIHU_JOURNAL_LIST_API = "https://news-at.zhihu.com/api/4/news/latest";
