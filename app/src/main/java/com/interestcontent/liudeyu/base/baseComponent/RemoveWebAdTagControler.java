@@ -42,7 +42,7 @@ public class RemoveWebAdTagControler {
 
     public void removeFrontEndAd(WebView view, final String url) {
         for (String tmp : matchUrlAndJsMethod.keySet()) {
-            if (url.contains(tmp)) {
+            if (url!=null&&url.contains(tmp)) {
                 Logger.d(TAG, "execute on url: " + url + " and js execute is " + "javascript:" + matchUrlAndJsMethod.get(tmp));
                 if (Build.VERSION.SDK_INT < 19) {
                     view.loadUrl("javaScript:" + matchUrlAndJsMethod.get(tmp));

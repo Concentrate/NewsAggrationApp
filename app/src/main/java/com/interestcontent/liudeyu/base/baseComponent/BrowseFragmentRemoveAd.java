@@ -17,6 +17,7 @@ public class BrowseFragmentRemoveAd extends BaseWebBrowseFragment {
 
     private RemoveWebAdTagControler mRemoveWebAdTagControler;
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -26,10 +27,15 @@ public class BrowseFragmentRemoveAd extends BaseWebBrowseFragment {
     private void deprecatedWebTag() {
         mAgentWeb.getWebCreator().get().setWebChromeClient(new WebChromeClient() {
             @Override
-            public void onProgressChanged(WebView view, int newProgress) {
+            public void onProgressChanged(final WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
                 if (newProgress >= 100) {
-                    depracatedSomeClassTag(view, view.getUrl());
+                    mAgentWeb.getWebCreator().get().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            depracatedSomeClassTag(view, view.getUrl());
+                        }
+                    },500);
                 }
             }
         });

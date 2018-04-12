@@ -80,11 +80,14 @@ public class Constants {
     public static class NEWS_MYSERVER_PARAMETER {
         public static final String PAGE = "page";
         public static final String CATEGORY = "category";
+        public static final String ACCOUNT_ID="account_id";
+        public static final String NEWS_ID="news_id";
     }
 
     public static final String MYSERVER_DOMAIN =  "http://193.112.31.184:2400";
     public static final String NEWS_MYSERVER_RECOMMEND_BASE = MYSERVER_DOMAIN + "/feed/all_news";
     public static final String NEWS_MYSERVER_CATEGORIES_BASE = MYSERVER_DOMAIN + "/feed/category_news";
+    public static final String NEWS_MYSERVER_RECOMMEND_DATA=MYSERVER_DOMAIN+"/news/recommend_status";
 
     public static final String NEWS_360_PARAMETER_SITE = "site";
 

@@ -9,15 +9,20 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.interestcontent.liudeyu.R;
+import com.interestcontent.liudeyu.base.constants.Constants;
 import com.interestcontent.liudeyu.base.constants.FeedConstants;
 import com.interestcontent.liudeyu.base.specificComponent.BrowseActivity;
 import com.interestcontent.liudeyu.contents.news.beans.NewsMyserverDataBean;
+import com.interestcontent.liudeyu.contents.news.newsUtil.NewsUrlUtils;
 import com.interestcontent.liudeyu.util.NumberUtils;
 import com.zhouwei.rvadapterlib.base.RVBaseCell;
 import com.zhouwei.rvadapterlib.base.RVBaseViewHolder;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by liudeyu on 2018/4/9.
@@ -71,6 +76,12 @@ public class MyServerSingleNewsCell extends RVBaseCell<NewsMyserverDataBean> {
         holder.getItemView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //统计数据
+                Map<String, String> map = new HashMap<>();
+                //post group_id是故意的
+                map.put(Constants.NEWS_MYSERVER_PARAMETER.NEWS_ID, mData.getGroup_id() + "");
+                map.put(Constants.NEWS_MYSERVER_PARAMETER.ACCOUNT_ID, NewsUrlUtils.getRecomendAccountId());
+                OkHttpUtils.get().url(Constants.NEWS_MYSERVER_RECOMMEND_DATA).params(map).build().execute(null);
                 Intent intent = BrowseActivity.getIntent(mData.getSource_url(), true);
                 intent.setClass(mActivity, BrowseActivity.class);
                 mActivity.startActivity(intent);

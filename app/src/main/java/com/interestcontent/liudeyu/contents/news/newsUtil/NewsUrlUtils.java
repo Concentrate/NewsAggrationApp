@@ -1,8 +1,11 @@
 package com.interestcontent.liudeyu.contents.news.newsUtil;
 
 import android.net.Uri;
+import android.text.TextUtils;
 
+import com.blankj.utilcode.util.DeviceUtils;
 import com.interestcontent.liudeyu.base.constants.Constants;
+import com.interestcontent.liudeyu.contents.weibo.data.WeiboLoginManager;
 import com.interestcontent.liudeyu.settings.components.NewsSourceFilterManager;
 
 import java.util.Map;
@@ -25,9 +28,20 @@ public class NewsUrlUtils {
         return builder.build().toString();
     }
 
+    public static String getRecomendAccountId(){
+        String accountId = "";
+        if (!TextUtils.isEmpty(WeiboLoginManager.getInstance().getUid())) {
+            accountId = WeiboLoginManager.getInstance().getUid();
+        } else {
+            accountId = DeviceUtils.getAndroidID();
+        }
+        return accountId;
+    }
     public static String getMyServerNewsCategoriesUrl(String type, String url) {
         Uri.Builder builder = Uri.parse(url).buildUpon();
-        builder.appendQueryParameter(Constants.NEWS_MYSERVER_PARAMETER.CATEGORY,type);
+        builder.appendQueryParameter(Constants.NEWS_MYSERVER_PARAMETER.CATEGORY, type);
+        String accountId = getRecomendAccountId();
+        builder.appendQueryParameter(Constants.NEWS_MYSERVER_PARAMETER.ACCOUNT_ID, accountId);
         return builder.build().toString();
     }
 

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,18 +30,18 @@ public class NewsTopicSelectUtils {
     public static Set<String> techNewsSet;
     public static Map<String, String> myServersTitileAndCategoriesMap = new HashMap<>();
     public static String[] defaultTopics = new String[]{
-            "推荐",  "科技", "社会","电影","音乐","旅行","经济"
+            "推荐", "科技", "社会", "经济", "电影", "音乐", "旅行"
     };
 
     static {
         myServersTitileAndCategoriesMap.put("推荐", "all");
-        myServersTitileAndCategoriesMap.put("美文", "news_essay");
         myServersTitileAndCategoriesMap.put("科技", "news_tech");
+        myServersTitileAndCategoriesMap.put("美文", "news_essay");
         myServersTitileAndCategoriesMap.put("社会", "news_society");
         myServersTitileAndCategoriesMap.put("电影", "video_movie");
         myServersTitileAndCategoriesMap.put("音乐", "video_music");
-        myServersTitileAndCategoriesMap.put("旅行","news_travel");
-        myServersTitileAndCategoriesMap.put("经济","news_finance");
+        myServersTitileAndCategoriesMap.put("旅行", "news_travel");
+        myServersTitileAndCategoriesMap.put("经济", "news_finance");
 
     }
 
@@ -153,16 +154,20 @@ public class NewsTopicSelectUtils {
     public static List<String> getDefaultNewsTopic() {
         initAllNeedSets();
         // todo 这里默认标签需要改进下
-        List<String> deTopicSet = new ArrayList<>();
+        List<String> deTopicArray = new ArrayList<>();
         for (String t : defaultTopics) {
-            deTopicSet.add(t);
+            deTopicArray.add(t);
         }
         String[] tmp = new String[techNewsSet.size()];
         techNewsSet.toArray(tmp);
-        for (int i = 0; i < 5; i++) {
-            deTopicSet.add(tmp[i]);
+        for (int i = 0; i < 3; i++) {
+            deTopicArray.add(tmp[i]);
         }
-        return deTopicSet;
+        Iterator<String> iterable = qihuSet.iterator();
+        for (int i = 0; i < 3; i++) {
+            deTopicArray.add(iterable.next());
+        }
+        return deTopicArray;
     }
 
 }
