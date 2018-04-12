@@ -17,4 +17,10 @@
         <item name="textAllCaps">false</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="SplashTheme" parent="BaseAppTheme">
+        <item name="android:windowBackground">@drawable/laucher_theme</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

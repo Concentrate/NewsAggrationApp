@@ -5,11 +5,12 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/search_tip_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="暂时没有搜索"
+        android:text="搜索你想看的新闻"
         android:textColor="@color/Grey_700"
         android:textSize="18sp" />
 

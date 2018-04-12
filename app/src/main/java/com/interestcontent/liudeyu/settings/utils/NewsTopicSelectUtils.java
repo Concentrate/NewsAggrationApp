@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -158,15 +157,10 @@ public class NewsTopicSelectUtils {
         for (String t : defaultTopics) {
             deTopicArray.add(t);
         }
-        String[] tmp = new String[techNewsSet.size()];
-        techNewsSet.toArray(tmp);
-        for (int i = 0; i < 3; i++) {
-            deTopicArray.add(tmp[i]);
-        }
-        Iterator<String> iterable = qihuSet.iterator();
-        for (int i = 0; i < 3; i++) {
-            deTopicArray.add(iterable.next());
-        }
+        String[] lifeAbout = {"简书","搞笑", "趣图", "微博","故事"};
+        String[] tech = {"互联网", "程序员","google"};
+        deTopicArray.addAll(Arrays.asList(lifeAbout));
+        deTopicArray.addAll(Arrays.asList(tech));
         return deTopicArray;
     }
 

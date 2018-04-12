@@ -8,53 +8,53 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
-
-
 
 
     <application
         android:name=".base.baseComponent.MyApplication"
         android:allowBackup="true"
-        android:largeHeap="true"
         android:icon="@drawable/interest_logo"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@drawable/interest_logo"
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme"
-        tools:replace="@android:allowBackup"
-        >
+        tools:replace="@android:allowBackup">
         <activity
-            android:name=".MainActivity"
-            >
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
+
+        </activity>
+        <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".base.specificComponent.BrowseActivity"
-            android:hardwareAccelerated="true"
-            android:configChanges="orientation|screenSize"></activity>
-        <activity android:name=".contents.weibo.contents.PictureBrowseActivity"
-            />
-        <activity android:name=".contents.weibo.contents.WeiboContentActivity"
-            />
-        <activity android:name=".contents.weibo.contents.WeiboContentBrowseActivity"/>
-        <activity android:name=".contents.zhihu.contents.ZhihuContentActivity"/>
-        <activity android:name=".contents.zhihu.contents.ZhihuThemeGarallyActivity"/>
-        <activity android:name=".settings.activitys.ThemeSettingActivity"/>
-        <activity android:name=".contents.videos.components.VideoDisplayActivity"
+        <activity
+            android:name=".base.specificComponent.BrowseActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true"></activity>
+        <activity android:name=".contents.weibo.contents.PictureBrowseActivity" />
+        <activity android:name=".contents.weibo.contents.WeiboContentActivity" />
+        <activity android:name=".contents.weibo.contents.WeiboContentBrowseActivity" />
+        <activity android:name=".contents.zhihu.contents.ZhihuContentActivity" />
+        <activity android:name=".contents.zhihu.contents.ZhihuThemeGarallyActivity" />
+        <activity android:name=".settings.activitys.ThemeSettingActivity" />
+        <activity
+            android:name=".contents.videos.components.VideoDisplayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".settings.activitys.NewsTopicSettingActivity"/>
-        <activity android:name=".contents.search.SearchActivity"/>
-        <activity android:name=".settings.activitys.CustomSettingActivity"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".settings.activitys.NewsTopicSettingActivity" />
+        <activity android:name=".contents.search.SearchActivity" />
+        <activity android:name=".settings.activitys.CustomSettingActivity" />
     </application>
 
 </manifest>

@@ -40,8 +40,8 @@ public class RemoveWebAdTagControler {
     }
 
 
-    public void removeFrontEndAd(WebView view, final String url) {
-        for (String tmp : matchUrlAndJsMethod.keySet()) {
+    public void removeFrontEndAd(final WebView view, final String url) {
+        for (final String tmp : matchUrlAndJsMethod.keySet()) {
             if (url!=null&&url.contains(tmp)) {
                 Logger.d(TAG, "execute on url: " + url + " and js execute is " + "javascript:" + matchUrlAndJsMethod.get(tmp));
                 if (Build.VERSION.SDK_INT < 19) {
@@ -52,6 +52,7 @@ public class RemoveWebAdTagControler {
                         public void onReceiveValue(String value) {
                             //此处为 js 返回的结果
                             Logger.d(TAG, "url " + url + " execute result is : " + value);
+
                         }
                     });
                 }

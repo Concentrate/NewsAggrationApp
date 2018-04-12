@@ -22,6 +22,9 @@ import com.interestcontent.liudeyu.base.tabs.ItemTab;
 import com.interestcontent.liudeyu.contents.news.NewsIDataApiFeedFragment;
 import com.interestcontent.liudeyu.settings.ThemeDataManager;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by liudeyu on 2018/3/11.
  */
@@ -34,6 +37,8 @@ public class SearchActivity extends BaseActivity {
     private EditText mSearchEditText;
     private TextView mSearchTv;
     private ImageView mBackIv;
+    @BindView(R.id.search_tip_text)
+    TextView mSearchTipTextView;
 
 
     public static void start(Context context) {
@@ -45,6 +50,7 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
         mFrameLayout = findViewById(R.id.parent_container);
         initToolbars();
 
@@ -104,6 +110,7 @@ public class SearchActivity extends BaseActivity {
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.parent_container,
                 fragment).commitAllowingStateLoss();
+        mSearchTipTextView.setVisibility(View.GONE);
         mSearchEditText.setText("");
         mSearchEditText.clearFocus();
         KeyboardUtils.hideSoftInput(this);

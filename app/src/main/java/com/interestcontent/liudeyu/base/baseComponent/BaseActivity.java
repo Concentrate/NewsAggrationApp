@@ -37,7 +37,9 @@ public abstract class BaseActivity extends AbsActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_activity_layout);
         initBaseUiData();
-        mFrameLayout.addView(getResourceLayout());
+        if (getResourceLayout() != null) {
+            mFrameLayout.addView(getResourceLayout());
+        }
         if (!isUseToolBar()) {
             mToolbar.setVisibility(View.GONE);
         }

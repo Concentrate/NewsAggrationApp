@@ -94,7 +94,7 @@ public class BrowseActivity extends BaseActivity implements ChromeClientCallback
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
-                    String des = "这有个新闻，我想让你看看, ";
+                    String des = "看看这个新闻 ";
                     intent.putExtra(Intent.EXTRA_SUBJECT, des);//添加分享内容标题
                     intent.putExtra(Intent.EXTRA_TEXT, des + mUrl);//添加分享内容
                     Intent shareIntent = Intent.createChooser(intent, "选择分享方式");

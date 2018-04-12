@@ -37,13 +37,11 @@ public class FeedDataManager {
     private static int WB_REQUEST_EVERY_PAGE_NUM = 15;
     private static int WB_MEMORY_STORGE_SAVE_TIME = 60 * 60 * 1000;
     private SparseArray<List<? extends FeedBaseBean>> feedRamCacheData = new SparseArray<>();
-    private ACache mACache;
     private SparseArray<Integer> feedTabCurrentPageMap = new SparseArray<>();
     private SparseArray<BaseRequest> mfeedBaseRequestCacheData = new SparseArray<>(); // 由于feed流，有可能有过个array结构，缓存一个request结构是比较通用的
     private SparseArray<Boolean> newsItemNoMoreDataSet = new SparseArray<>();
 
     private FeedDataManager() {
-        mACache = ACache.get(MyApplication.sApplication);
     }
 
 
