@@ -1,2 +1,2 @@
-include ':app', ':rvadapterlib', ':sample-okhttp', ':okhttputils', ':autolinklibrary', ':commonlib','ojPratise'
+include ':app', ':rvadapterlib', ':sample-okhttp', ':okhttputils', ':autolinklibrary', ':commonlib'
 project(':autolinklibrary').projectDir = new File('AutoLinkTextView/autolinklibrary')
